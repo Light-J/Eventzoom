@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import NavBar from '../components/NavBar';
 
 class App extends Component {
 	static propTypes = {
@@ -9,6 +10,7 @@ class App extends Component {
 	}
 
 	render = () => <div>
+		<NavBar />
 		<Route exact path="/" >
 				Hello World! { this.isLoggedIn ? 'yes' : 'no'}
 		</Route>
