@@ -2,16 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Event extends Component {
-	render = () => <div>
-		<p>{this.props.title}</p>
-		<p>{this.props.description}</p>
-		<img src={this.props.image} alt={'Event image'} />
-		<p>{this.props.datetime.toDateString()}</p>
-		<p>{this.props.speaker}</p>
-		<p>{this.props.vagueLocation}</p>
-		<p>{this.props.disabilityAccess}</p>
-		<p>{this.props.organiser}</p>
-		<p>{this.props.curAttending} out of {this.props.capacity}</p>
+	render = () => <div className={'container'}>
+		<div className={'row'}>
+			<div className={'col'}>
+				<h1>{this.props.title}</h1>
+				<p>{this.props.curAttending} out of {this.props.capacity}</p>
+			</div>
+			<div className={'col'}>
+				<div className={'card'}>
+					<h2>Event details</h2>
+					<p>Date: {this.props.datetime.toDateString()}</p>
+					<p>Speaker: {this.props.speaker}</p>
+					<p>Location: {this.props.vagueLocation}</p>
+					<p>Disability access: {this.props.disabilityAccess.toString()}</p>
+					<p>Organiser: {this.props.organiser}</p>
+				</div>
+			</div>
+		</div>
+		<div className={'row'}>
+			<div className={'col'}>
+				<p>{this.props.description}</p>
+			</div>
+			<div className={'col'}>
+				<img src={this.props.image} alt={'Event image'} />
+			</div>
+		</div>
 	</div>
 }
 

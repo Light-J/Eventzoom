@@ -19,13 +19,13 @@ class App extends Component {
 
 			<Event
 				title={'Cat-a-Burger?'}
-				description={'Cats like burgers?? Come to this talk where we talk all about the different wonders of a cats diet'}
+				description={'Cats like burgers?? Come to this talk where we talk all about the different wonders of a cats diet. Some cats love to eat burgers like this little one below, other hate them however. With a specialist speaker from cardiff who is well trained'}
 				image={'https://i.imgur.com/vgZrB5U.jpg'}
 				datetime={new Date('03-01-2020')}
 				speaker={'John Smith'}
 				organiser={'Smith John'}
 				vagueLocation={'Cardiff'}
-				disabilityAccess={false}
+				disabilityAccess={true}
 				curAttending={50} capacity={55}
 			/>
 		</Route>
