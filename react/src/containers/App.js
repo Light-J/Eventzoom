@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NavBar from '../components/NavBar';
 import Event from '../components/Event';
+import Search from '../components/Search';
 
 class App extends Component {
 	static propTypes = {
@@ -13,7 +14,7 @@ class App extends Component {
 	render = () => <div>
 		<NavBar />
 		<Route exact path="/" >
-				Hello World! { this.isLoggedIn ? 'yes' : 'no'}
+			<Search />
 		</Route>
 		<Route exact path="/event" >
 
