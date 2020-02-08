@@ -10,12 +10,14 @@ class Event extends Component {
 			</div>
 			<div className={'col'}>
 				<div className={'card'}>
-					<h2>Event details</h2>
-					<p>Date: {this.props.datetime.toDateString()}</p>
-					<p>Speaker: {this.props.speaker}</p>
-					<p>Location: {this.props.vagueLocation}</p>
-					<p>Disability access: {this.props.disabilityAccess.toString()}</p>
-					<p>Organiser: {this.props.organiser}</p>
+					<div className={'card-body'}>
+						<h5 className={'card-title'}>Event details</h5>
+						<p>Date: {this.props.datetime.toDateString()}</p>
+						<p>Speaker: {this.props.speaker}</p>
+						<p>Location: {this.props.vagueLocation}</p>
+						<p>Disability access: {this.props.disabilityAccess.toString()}</p>
+						<p>Organiser: {this.props.organiser}</p>
+					</div>
 				</div>
 			</div>
 		</div>
