@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DisabilityAccess from './DisabilityAccess';
+import AttendButton from './AttendButton';
 
 
 class Event extends Component {
@@ -26,6 +27,7 @@ class Event extends Component {
 									<p>Organiser: {this.props.organiser}</p>
 								</div>
 							</div>
+							<AttendButton userAttending={true}/>
 						</div>
 					</div>
 					<p className="lead">Discussion board</p>
