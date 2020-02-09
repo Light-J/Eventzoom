@@ -17,7 +17,7 @@ class Event extends Component {
 					<h1 className="font-weight-light">{this.props.title}</h1>
 					<div className={'row'}>
 						<div className={'col'}>
-							<p>{this.props.curAttending} out of {this.props.capacity}</p>
+							<p>{this.props.curAttending} out of {this.props.capacity} attending</p>
 							<p className="lead">{this.props.description}</p>
 							<img src={this.props.image} alt={'Event image'} />
 						</div>
