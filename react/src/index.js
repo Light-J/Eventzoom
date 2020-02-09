@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import App from './containers/App';
 import configureStore from './store/store';
 
 const store = configureStore();
-
 ReactDOM.render(
 	<Router>
 		<Provider store={store}>
