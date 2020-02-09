@@ -10,11 +10,11 @@ class SearchBar extends Component {
 
 	render = () => <div>
 		<div className="input-group">
-			<span className="input-group-btn">
+			<span className="input-group-prepend">
 				<button onClick={this.props.toggle} className="btn btn-info" type="button"><FontAwesomeIcon icon={faFilter}/></button>
 			</span>
 			<input type="text" className="form-control" />
-			<span className="input-group-btn">
+			<span className="input-group-append">
 				<button className="btn btn-success" type="button">Go!</button>
 			</span>
 		</div>
