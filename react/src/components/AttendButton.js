@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 class AttendButton extends Component {
-    static propTypes = { userAttending: PropTypes.bool.isRequired };
+	state = { userAttending: true };
 
-    render = () => <button>{this.props.userAttending ? 'Attend' : 'Cancel reservation'}</button>;
+	onAttendChange = () => {
+		// Logic for updating users attendance to go here
+		this.setState({ userAttending: !this.state.userAttending });
+	}
+
+	render = () => <button onClick={this.onAttendChange}>{this.state.userAttending ? 'Attend' : 'Cancel reservation'}</button>;
 }
 
 export default AttendButton;
