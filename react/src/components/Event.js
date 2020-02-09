@@ -29,7 +29,6 @@ class Event extends Component {
 									<p>Date: {this.props.datetime.toDateString()}</p>
 									<p>Speaker: {this.props.speaker}</p>
 									<p>Location: {this.props.vagueLocation}</p>
-									<p>Disability access: {this.props.disabilityAccess.toString()}</p>
 									<p>Organiser: {this.props.organiser}</p>
 								</div>
 							</div>
