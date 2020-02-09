@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DisabilityAccess from './DisabilityAccess';
+import AttendButton from './AttendButton';
 
 
 class Event extends Component {
@@ -24,6 +25,9 @@ class Event extends Component {
 									<p>Speaker: {this.props.speaker}</p>
 									<p>Location: {this.props.vagueLocation}</p>
 									<p>Organiser: {this.props.organiser}</p>
+								</div>
+								<div className="card-footer text-center">
+									<AttendButton />
 								</div>
 							</div>
 						</div>
