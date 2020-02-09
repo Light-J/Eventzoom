@@ -4,21 +4,21 @@ import DisabilityAccess from './DisabilityAccess';
 
 
 class Event extends Component {
-	render = () => <div className={'container'}>
+	render = () => <div className='container'>
 		<div className="container">
 			<div className="card border-0 shadow my-5">
 				<div className="card-body p-5">
 					<h1 className="font-weight-light">{this.props.title}</h1>
-					<div className={'row'}>
-						<div className={'col'}>
+					<div className='row'>
+						<div className='col'>
 							<p>{this.props.curAttending} out of {this.props.capacity} attending</p>
 							<p className="lead">{this.props.description}</p>
-							<img src={this.props.image} alt={'Event image'} />
+							<img src={this.props.image} alt='Event image' />
 						</div>
-						<div className={'col'}>
-							<div className={'card'}>
-								<div className={'card-body'}>
-									<h5 className={'card-title'}>Event details</h5>
+						<div className='col'>
+							<div className='card'>
+								<div className='card-body'>
+									<h5 className='card-title'>Event details</h5>
 									<DisabilityAccess disabilityAccess={this.props.disabilityAccess} />
 									<p>Date: {this.props.datetime.toDateString()}</p>
 									<p>Speaker: {this.props.speaker}</p>
