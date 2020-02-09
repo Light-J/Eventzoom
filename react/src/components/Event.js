@@ -26,8 +26,10 @@ class Event extends Component {
 									<p>Location: {this.props.vagueLocation}</p>
 									<p>Organiser: {this.props.organiser}</p>
 								</div>
+								<div className="card-footer text-center">
+									<AttendButton userAttending={true}/>
+								</div>
 							</div>
-							<AttendButton userAttending={true}/>
 						</div>
 					</div>
 					<p className="lead">Discussion board</p>

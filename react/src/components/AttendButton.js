@@ -8,7 +8,7 @@ class AttendButton extends Component {
 		this.setState({ userAttending: !this.state.userAttending });
 	}
 
-	render = () => <button onClick={this.onAttendChange}>{this.state.userAttending ? 'Attend' : 'Cancel reservation'}</button>;
+	render = () => <button className={this.state.userAttending ? 'btn btn-success btn-lg btn-block' : 'btn btn-danger btn-lg btn-block' } onClick={this.onAttendChange}>{this.state.userAttending ? 'Attend' : 'Cancel reservation'}</button>;
 }
 
 export default AttendButton;
