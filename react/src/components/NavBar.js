@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class NavBar extends Component {
 	// taken off of the basic bootstrap template https://getbootstrap.com/docs/4.0/components/navbar/
@@ -12,8 +13,8 @@ class NavBar extends Component {
 				<li className="nav-item active">
 					<a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
 				</li>
-				<li className="nav-item active">
-					<a className="nav-link" href="/event">Event <span className="sr-only">(current)</span></a>
+				<li className="nav-item">
+					<Link className="nav-link" to="/event">Event <span className="sr-only">(current)</span></Link>
 				</li>
 			</ul>
 		</div>
