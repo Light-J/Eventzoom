@@ -4,7 +4,7 @@ import SearchSidebar from './SearchSidebar';
 import Conditional from './Conditional';
 import SearchResults from './SearchResults';
 
-class NavBar extends Component {
+class Search extends Component {
 	state = {
 		showSidebar: false,
 	};
@@ -28,4 +28,4 @@ class NavBar extends Component {
 	</div>
 }
 
-export default NavBar;
+export default Search;
