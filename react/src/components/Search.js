@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SearchBar from './SearchBar';
 import SearchSidebar from './SearchSidebar';
 import Conditional from './Conditional';
+import SearchResults from './SearchResults';
 
 class NavBar extends Component {
 	state = {
@@ -21,7 +22,7 @@ class NavBar extends Component {
 				</div>
 			</Conditional>
 			<div className={this.state.showSidebar ? 'col-md-9' : 'col-md-12'}>
-				Yeet!
+				<SearchResults />
 			</div>
 		</div>
 	</div>
