@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+
+function DisabilityAccess(props) {
+	if (props.disabilityAccess) {
+		return <div className="alert alert-success" role="alert">This event has disability access</div>;
+	}
+	return <div className="alert alert-danger" role="alert">This event unfortunatly does not have disability access</div>;
+}
+
 class Event extends Component {
 	render = () => <div className={'container'}>
 		<div className="container">
@@ -17,6 +25,7 @@ class Event extends Component {
 							<div className={'card'}>
 								<div className={'card-body'}>
 									<h5 className={'card-title'}>Event details</h5>
+									<DisabilityAccess disabilityAccess={this.props.disabilityAccess} />
 									<p>Date: {this.props.datetime.toDateString()}</p>
 									<p>Speaker: {this.props.speaker}</p>
 									<p>Location: {this.props.vagueLocation}</p>
@@ -45,6 +54,10 @@ Event.propTypes = {
 	organiser: PropTypes.string,
 	curAttending: PropTypes.number,
 	capacity: PropTypes.number,
+};
+
+DisabilityAccess.propTypes = {
+	disabilityAccess: PropTypes.bool,
 };
 
 export default Event;
