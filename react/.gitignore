@@ -390,4 +390,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+build/
+
 # End of https://www.gitignore.io/api/node,react,linux,macos,windows,intellij,webstorm,jetbrains

@@ -7,6 +7,7 @@ cache:
 
 stages:
   - test
+  - deploy_staging
 
 node-test:
   stage: test
@@ -23,3 +24,35 @@ react-test:
    - npm i
    - npm test
    - npm run lint
+
+
+react-deploy:
+  only:
+    - develop
+  stage: deploy_staging
+  script:
+   - apt-get update
+   - apt-get install python-setuptools -y
+   - easy_install pip
+   - pip install awscli
+   - cd react/
+   - npm i
+   - CI="" npm run build
+   - cd build/
+   - aws s3 sync ./ s3://eventzoom/
+
+
+
+node-deploy:
+  only:
+    - develop
+  stage: deploy_staging
+  cache: {}
+  script:
+    - rm -rf .git
+    - rm -rf react/node_nodules
+    - rm -rf node/node_modules
+    - chmod 400 "$NODE_DEPLOY_KEY"
+    - ssh -i "$NODE_DEPLOY_KEY" $DEPLOY_HOST -o StrictHostKeyChecking=no 'sudo systemctl stop my-webapp'
+    - scp -i "$NODE_DEPLOY_KEY" -rp -o StrictHostKeyChecking=no "$(pwd)" $DEPLOY_DIRECTORY
+    - ssh -i "$NODE_DEPLOY_KEY" $DEPLOY_HOST -o StrictHostKeyChecking=no 'cd final-client-project/node && npm i --only=prod && npm run build && sudo systemctl start my-webapp'
