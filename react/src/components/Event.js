@@ -27,7 +27,7 @@ class Event extends Component {
 									<p>Organiser: {this.props.organiser}</p>
 								</div>
 								<div className="card-footer text-center">
-									<AttendButton userAttending={true}/>
+									<AttendButton />
 								</div>
 							</div>
 						</div>
