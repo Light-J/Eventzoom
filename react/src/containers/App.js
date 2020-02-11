@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import NavBar from '../components/NavBar';
 import Event from '../components/Event';
 import Search from '../components/Search';
+import Registration from '../components/Registration';
+import Login from '../components/Login';
 
 class App extends Component {
 	static propTypes = {
@@ -30,6 +32,8 @@ class App extends Component {
 				curAttending={50} capacity={55}
 			/>
 		</Route>
+		<Route exact path="/Registration" render={(props) => <Registration {...props} />} />
+		<Route exact path="/Login" render={(props) => <Login {...props} />} /> 
 	</div>
 }
 
