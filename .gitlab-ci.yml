@@ -27,8 +27,6 @@ react-test:
 
 
 react-deploy:
-  only:
-    - develop
   stage: deploy_staging
   script:
    - apt-get update
@@ -44,8 +42,6 @@ react-deploy:
 
 
 node-deploy:
-  only:
-    - develop
   stage: deploy_staging
   cache: {}
   script:
