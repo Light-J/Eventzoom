@@ -12,16 +12,16 @@ export default class Login extends React.Component {
 	}
 
 	render() {
-		return (<form className="container" onSubmit={this.handleSubmit}>
+		return (<form className="container">
 			<div className="card border-0 shadow my-5">
 				<div className="form-group">
-					<label HtmlFor="staticEmail" className="col-sm-2 col-form-label">Username</label>
+					<label HtmlFor="staticUsername" className="col-sm-2 col-form-label">Username</label>
 					<div className="col-sm-10">
 						<input className="form-control" type="username" name="username" placeholder="username" value={this.state.username} onChange={this.handleChange} required />
 					</div>
 				</div>
 				<div className="form-group">
-					<label HtmlFor="inputPassword" className="col-sm-2 col-form-label">Password</label>
+					<label HtmlFor="InputPassword" className="col-sm-2 col-form-label">Password</label>
 					<div className="col-sm-10">
 						<input className="form-control" type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required />
 					</div>
