@@ -1,15 +1,16 @@
 import express from 'express';
 import http from 'http';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import Mongoose from 'mongoose';
+import winston from 'winston';
 import serverConfig from '../config/server';
 import clientConfig from '../config/client';
 import hello from './controllers/hello';
 import './helpers/connectToDatabase';
 import './helpers/winston';
 
-dotenv.config();
+winston.info(`Client project URL is ${clientConfig.url}`);
+
 const app = express();
 const server = http.createServer(app);
 

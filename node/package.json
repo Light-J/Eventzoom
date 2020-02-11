@@ -6,9 +6,9 @@
   "homepage": ".",
   "scripts": {
     "test": "jest",
-    "start": "nodemon src/index.js --exec babel-node",
+    "start": "nodemon -r dotenv/config src/index.js --exec babel-node",
     "build": "node \"node_modules/@babel/cli/bin/babel.js\" src/ -d dist/src/ && node \"node_modules/@babel/cli/bin/babel.js\" config/ -d dist/config",
-    "prod": "npm run build && node dist/src/index.js",
+    "prod": "node -r dotenv/config dist/src/index.js dotenv_config_path=.env.prod",
     "lint": "eslint ./"
   },
   "repository": {
