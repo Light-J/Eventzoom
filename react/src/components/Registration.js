@@ -26,7 +26,7 @@ onSubmit = () => {
 render() {
 	return (<form className="container" onSubmit={this.handleSubmit}>
 		<div className="form-group">
-			<label HtmlFor="InputUsername"> Username</label>
+			<label htmlFor="InputUsername"> Username</label>
 			<div className="col-sm-10">
 				<input id='InputUsername' className="form-control" type="username" name="username" placeholder="Username"
 					value={this.state.username} onChange={this.handleChange} required />

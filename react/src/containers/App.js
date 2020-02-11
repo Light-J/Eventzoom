@@ -8,6 +8,7 @@ import Search from '../components/Search';
 import Registration from '../components/Registration';
 import Login from '../components/Login';
 
+
 class App extends Component {
 	static propTypes = {
 		isLoggedIn: PropTypes.bool.isRequired,
@@ -33,7 +34,7 @@ class App extends Component {
 			/>
 		</Route>
 		<Route exact path="/Registration" render={(props) => <Registration {...props} />} />
-		<Route exact path="/Login" render={(props) => <Login {...props} />} /> 
+		<Route exact path="/Login" render={(props) => <Login {...props} />} />
 	</div>
 }
 
