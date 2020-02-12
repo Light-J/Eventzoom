@@ -8,7 +8,7 @@ router.get(
 	async (req, res) => {
 		try {
 			const events = await EventService.getEvents({});
-			return res.status(200).json({ status: 200, data: events });
+			return res.send(events);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
@@ -20,7 +20,7 @@ router.get(
 	async (req, res) => {
 		try {
 			const event = await EventService.getEventById(req.params.id);
-			return res.status(200).json({ status: 200, data: event });
+			return res.send(event);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
