@@ -9,7 +9,7 @@ exports.getEvents = async (query) => {
 	}
 };
 
-exports.getEventDetails = async (id) => {
+exports.getEventById = async (id) => {
 	try {
 		return await Event.findById(id);
 	} catch (e) {

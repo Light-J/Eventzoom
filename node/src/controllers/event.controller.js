@@ -15,4 +15,16 @@ router.get(
 	},
 );
 
+router.get(
+	'/:id',
+	async (req, res) => {
+		try {
+			const event = await EventService.getEventById(req.params.id);
+			return res.status(200).json({ status: 200, data: event });
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
 export default router;

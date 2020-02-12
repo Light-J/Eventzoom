@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // TODO: probably don't need this
 app.use('/hello', hello);
 app.use('/events', event);
+app.use('/events', event);
 
 
 server.listen(serverConfig.port);
