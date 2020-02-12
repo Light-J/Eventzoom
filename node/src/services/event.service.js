@@ -8,3 +8,11 @@ exports.getEvents = async (query) => {
 		throw Error('Error while getting events');
 	}
 };
+
+exports.getEventDetails = async (id) => {
+	try {
+		return await Event.findById(id);
+	} catch (e) {
+		throw Error('Error while getting single event');
+	}
+};
