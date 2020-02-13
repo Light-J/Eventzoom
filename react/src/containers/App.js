@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NavBar from '../components/NavBar';
 import Event from './Event';
-import Search from '../components/Search';
+import Search from './Search';
 import Registration from '../components/Registration';
 import Login from '../components/Login';
 

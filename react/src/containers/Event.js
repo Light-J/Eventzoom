@@ -15,7 +15,7 @@ class Event extends Component {
 	};
 
 	componentDidMount() {
-		axios.get(`${serverConfig.url}events/${this.props.eventid}`)
+		return axios.get(`${serverConfig.url}events/${this.props.eventid}`)
 			.then((res) => {
 				this.setState({ isLoaded: true, ...res.data });
 			}).catch(() => {
@@ -30,7 +30,7 @@ class Event extends Component {
 					<div className="card-body p-5">
 
 						<div className="d-flex align-items-center">
-							<img src={'https://pluspng.com/img-png/kitten-png--243.png'} height={250} alt={'Sad kitten'}/>
+							<img src={'https://pluspng.com/img-png/kitten-png--243.png'} height="250px" alt='Sad kitten'/>
 							<h1>Sorry this event could not be found</h1>
 						</div>
 					</div>

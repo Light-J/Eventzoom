@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import SearchBar from './SearchBar';
-import SearchSidebar from './SearchSidebar';
-import Conditional from './Conditional';
-import SearchResults from './SearchResults';
+import SearchBar from '../components/SearchBar';
+import SearchSidebar from '../components/SearchSidebar';
+import Conditional from '../components/Conditional';
+import SearchResults from '../components/SearchResults';
 import serverConfig from '../config/server';
 
 class Search extends Component {
