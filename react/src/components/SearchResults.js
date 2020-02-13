@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import SearchResult from './SearchResult';
+import Conditional from './Conditional';
+
 
 class SearchResults extends Component {
-	render = () => <div>
-		<SearchResult image="https://i.imgur.com/Ka4mk2q.jpg" title="Should we feed cats?" author="James"/>
-		<SearchResult image="https://i.imgur.com/Jyr2QUc.jpg" title="Are cats evil?" author="Not-a-cat"/>
-		<SearchResult image="https://i.imgur.com/xw4GsA6.jpg" title="What is a cat, really?" author="Catty McCattyson" />
-		<SearchResult image="https://i.imgur.com/G5pfP.jpg" title="Cats in space?" author="Captain Cat"/>
+	static propTypes = {
+		isLoading: PropTypes.bool,
+		results: PropTypes.array,
+	};
 
+	render = () => <div>
+		<Conditional if={this.props.isLoading}>
+			<div>
+				<h1>Events are loading</h1>
+			</div>
+		</Conditional>
+		{this.props.results.map((result) => {
+			const {
+				image, title, speaker, _id,
+			} = result;
+			return (
+				<SearchResult key={_id} image={image} title={title} author={speaker} id={_id}/>
+			);
+		})}
 	</div>;
 }
 
