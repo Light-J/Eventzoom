@@ -11,6 +11,8 @@
     "prod": "node -r dotenv/config dist/src/index.js dotenv_config_path=.env.prod",
     "lint": "eslint ./",
     "migrate": "npx db-migrate up",
+    "seed": "npx db-migrate up:all",
+    "create-seeder": "npx db-migrate create:seed",
     "create-migration": "npx db-migrate create"
   },
   "repository": {

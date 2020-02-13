@@ -58,4 +58,4 @@ node-deploy:
     # IMPORTANT IMPORTANT IMPORTANT IMPORTANT
     # ENSURE THAT WHEN DEPLOYING TO PRODUCTION THE db:drop COMMAND IS REMOVED
     # THIS IS PURELY FOR TESTING PURPOSES
-    - ssh -i "$NODE_DEPLOY_KEY" $DEPLOY_HOST -o StrictHostKeyChecking=no 'cd final-client-project/node && npm i --only=prod && npx db-migrate db:drop eventzoom && npm run migrate && npm run build && sudo systemctl start my-webapp'
+    - ssh -i "$NODE_DEPLOY_KEY" $DEPLOY_HOST -o StrictHostKeyChecking=no 'cd final-client-project/node && npm i --only=prod && npx db-migrate db:drop eventzoom && npm run seed && npm run build && sudo systemctl start my-webapp'
