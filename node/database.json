@@ -1,0 +1,4 @@
+{
+    "defaultEnv": "dev",
+    "dev": { "ENV": "MONGO_URL" }
+}
