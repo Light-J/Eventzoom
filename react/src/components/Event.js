@@ -15,8 +15,7 @@ class Event extends Component {
 	componentDidMount() {
 		axios.get(`${serverConfig.url}events/${this.props.eventid}`)
 			.then((res) => {
-				res.data.isLoaded = true;
-				this.setState(res.data);
+				this.setState({ isLoaded: true, ...res.data });
 			});
 	}
 
