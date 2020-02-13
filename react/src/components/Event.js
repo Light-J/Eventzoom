@@ -37,7 +37,7 @@ class Event extends Component {
 									<DisabilityAccess disabilityAccess={this.state.disabilityAccess} />
 									<p>Date: {new Date(this.state.date).toLocaleDateString()}</p>
 									<p>Speaker: {this.state.speaker}</p>
-									<p>Location: {this.state.vagueLocation}</p>
+									<p>Location: {this.state.vaguelocation}</p>
 									<p>Organiser: {this.state.organiser}</p>
 								</div>
 								<div className="card-footer text-center">
