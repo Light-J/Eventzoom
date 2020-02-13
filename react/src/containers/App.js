@@ -21,7 +21,7 @@ class App extends Component {
 		</Route>
 		<Route exact path="/events/:eventid" component={(props) => <Event {...props.match.params} /> } />
 		<Route exact path="/Registration" render={(props) => <Registration {...props} />} />
-<Route exact path="/Login" render={(props) => <Login {...props} />} />
+		<Route exact path="/Login" render={(props) => <Login {...props} />} />
 	</div>
 }
 
