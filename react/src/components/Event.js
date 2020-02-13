@@ -1,30 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import DisabilityAccess from './DisabilityAccess';
 import AttendButton from './AttendButton';
 
 
 class Event extends Component {
+	state = {
+		isLoaded: false,
+		date: '1970-01-01',
+	};
+
+	componentDidMount() {
+		axios.get(`http://localhost:3001/events/${this.props.eventid}`)
+			.then((res) => {
+				res.data.isLoaded = true;
+				this.setState(res.data);
+			});
+	}
+
 	render = () => <div className='container'>
 		<div className="container">
 			<div className="card border-0 shadow my-5">
 				<div className="card-body p-5">
-					<h1 className="font-weight-light">{this.props.title}</h1>
+					<h1 className="font-weight-light">{this.state.title}</h1>
 					<div className='row'>
 						<div className='col'>
-							<p>{this.props.curAttending} out of {this.props.capacity} attending</p>
-							<p className="lead">{this.props.description}</p>
-							<img src={this.props.image} alt='Event image' />
+							<p>0 out of {this.state.capacity} attending</p>
+							<p className="lead">{this.state.description}</p>
+							<img src={this.state.image} alt='Event' />
 						</div>
 						<div className='col'>
 							<div className='card'>
 								<div className='card-body'>
 									<h5 className='card-title'>Event details</h5>
-									<DisabilityAccess disabilityAccess={this.props.disabilityAccess} />
-									<p>Date: {this.props.datetime.toDateString()}</p>
-									<p>Speaker: {this.props.speaker}</p>
-									<p>Location: {this.props.vagueLocation}</p>
-									<p>Organiser: {this.props.organiser}</p>
+									<DisabilityAccess disabilityAccess={this.state.disabilityAccess} />
+									<p>Date: {new Date(this.state.date).toLocaleDateString()}</p>
+									<p>Speaker: {this.state.speaker}</p>
+									<p>Location: {this.state.vagueLocation}</p>
+									<p>Organiser: {this.state.organiser}</p>
 								</div>
 								<div className="card-footer text-center">
 									<AttendButton />
@@ -41,16 +55,7 @@ class Event extends Component {
 }
 
 Event.propTypes = {
-	title: PropTypes.string,
-	description: PropTypes.string,
-	image: PropTypes.string,
-	datetime: PropTypes.instanceOf(Date),
-	speaker: PropTypes.string,
-	vagueLocation: PropTypes.string,
-	disabilityAccess: PropTypes.bool,
-	organiser: PropTypes.string,
-	curAttending: PropTypes.number,
-	capacity: PropTypes.number,
+	eventid: PropTypes.string.isRequired,
 };
 
 export default Event;
