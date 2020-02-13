@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import DisabilityAccess from './DisabilityAccess';
 import AttendButton from './AttendButton';
+import serverConfig from '../config/server';
 
 
 class Event extends Component {
@@ -12,7 +13,7 @@ class Event extends Component {
 	};
 
 	componentDidMount() {
-		axios.get(`http://localhost:3001/events/${this.props.eventid}`)
+		axios.get(`${serverConfig.url}events/${this.props.eventid}`)
 			.then((res) => {
 				res.data.isLoaded = true;
 				this.setState(res.data);

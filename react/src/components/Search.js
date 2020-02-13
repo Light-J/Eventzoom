@@ -4,6 +4,7 @@ import SearchBar from './SearchBar';
 import SearchSidebar from './SearchSidebar';
 import Conditional from './Conditional';
 import SearchResults from './SearchResults';
+import serverConfig from '../config/server';
 
 class Search extends Component {
 	state = {
@@ -13,7 +14,7 @@ class Search extends Component {
 	};
 
 	componentDidMount() {
-		axios.get('http://localhost:3001/events/')
+		axios.get(`${serverConfig.url}events/`)
 			.then((res) => {
 				this.setState({ searchResults: res.data, isLoading: false });
 			});
@@ -21,7 +22,7 @@ class Search extends Component {
 
 	onToggle = () => {
 		this.setState({ showSidebar: !this.state.showSidebar });
-	}
+	};
 
 	render = () => <div className="container mt-3">
 		<SearchBar toggle={this.onToggle} />
