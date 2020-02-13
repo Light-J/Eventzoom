@@ -21,7 +21,7 @@ class SearchResults extends Component {
 				image, title, speaker, _id,
 			} = result;
 			return (
-				<SearchResult key={_id} image={image} title={title} author={speaker} />
+				<SearchResult key={_id} image={image} title={title} author={speaker} id={_id}/>
 			);
 		})}
 	</div>;

@@ -16,7 +16,7 @@ class App extends Component {
 		<Route exact path="/" >
 			<Search />
 		</Route>
-		<Route exact path="/event/:eventid" component={(props) => <Event {...props.match.params} /> } />
+		<Route exact path="/events/:eventid" component={(props) => <Event {...props.match.params} /> } />
 
 	</div>
 }
