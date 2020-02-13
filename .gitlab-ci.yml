@@ -44,8 +44,6 @@ react-deploy:
 
 
 node-deploy:
-  only:
-    - develop
   stage: deploy_staging
   cache: {}
   script:
@@ -55,4 +53,7 @@ node-deploy:
     - chmod 400 "$NODE_DEPLOY_KEY"
     - ssh -i "$NODE_DEPLOY_KEY" $DEPLOY_HOST -o StrictHostKeyChecking=no 'sudo systemctl stop my-webapp'
     - scp -i "$NODE_DEPLOY_KEY" -rp -o StrictHostKeyChecking=no "$(pwd)" $DEPLOY_DIRECTORY
-    - ssh -i "$NODE_DEPLOY_KEY" $DEPLOY_HOST -o StrictHostKeyChecking=no 'cd final-client-project/node && npm i --only=prod && npm run build && sudo systemctl start my-webapp'
+    # IMPORTANT IMPORTANT IMPORTANT IMPORTANT
+    # ENSURE THAT WHEN DEPLOYING TO PRODUCTION THE db:drop COMMAND IS REMOVED
+    # THIS IS PURELY FOR TESTING PURPOSES
+    - ssh -i "$NODE_DEPLOY_KEY" $DEPLOY_HOST -o StrictHostKeyChecking=no 'cd final-client-project/node && npm i --only=prod && npx db-migrate db:drop eventzoom && npm run migrate && npm run build && sudo systemctl start my-webapp'
