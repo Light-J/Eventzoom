@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import DisabilityAccess from './DisabilityAccess';
-import AttendButton from './AttendButton';
+import DisabilityAccess from '../components/DisabilityAccess';
+import AttendButton from '../components/AttendButton';
 import serverConfig from '../config/server';
 
 
