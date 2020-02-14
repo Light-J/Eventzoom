@@ -6,7 +6,8 @@ import winston from 'winston';
 import serverConfig from '../config/server';
 import clientConfig from '../config/client';
 import hello from './controllers/hello';
-import event from './controllers/event.controller';
+import events from './controllers/event.controller';
+import users from './controllers/users.controller';
 import './helpers/connectToDatabase';
 import './helpers/winston';
 
@@ -19,7 +20,8 @@ app.use(cors({ origin: clientConfig.url }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // TODO: probably don't need this
 app.use('/hello', hello);
-app.use('/events', event);
+app.use('/events', events);
+app.use('/users', users);
 
 
 server.listen(serverConfig.port);
