@@ -32,6 +32,7 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/runtime": "^7.7.2",
     "babel-loader": "^8.0.6",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "db-migrate": "^0.11.6",
     "db-migrate-mongodb": "^1.5.0",
