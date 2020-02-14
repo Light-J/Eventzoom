@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing required should fail if required does not exist 1`] = `
+Array [
+  400,
+]
+`;
+
+exports[`testing required should fail if required does not exist 2`] = `
+Array [
+  Object {
+    "error": "required",
+    "success": false,
+  },
+]
+`;

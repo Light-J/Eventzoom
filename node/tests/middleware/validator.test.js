@@ -6,7 +6,7 @@ describe('testing required', () => {
 		const req = { body: { username: '' } };
 		const res = { status: jest.fn(), json: jest.fn() };
 		const next = jest.fn();
-		validator('required', { field: 'username' })(req, res, next);
+		await validator('required', { field: 'username' })(req, res, next);
 		expect(res.status.mock.calls[0]).toMatchSnapshot();
 		expect(res.json.mock.calls[0]).toMatchSnapshot();
 		expect(next.mock.calls.length).toEqual(0);
