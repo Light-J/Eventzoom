@@ -7,7 +7,7 @@ import Event from './Event';
 import Search from './Search';
 import Registration from '../components/Registration';
 import Login from '../components/Login';
-
+import Series from '../components/Series';
 
 class App extends Component {
 	static propTypes = {
@@ -22,6 +22,10 @@ class App extends Component {
 		<Route exact path="/events/:eventid" component={(props) => <Event {...props.match.params} /> } />
 		<Route exact path="/Registration" render={(props) => <Registration {...props} />} />
 		<Route exact path="/Login" render={(props) => <Login {...props} />} />
+		<Route exact path="/series/:seriesId" >
+			<Series />
+		</Route>
+
 	</div>
 }
 
