@@ -16,7 +16,7 @@ class SearchResult extends Component {
 		<div className="card-body">
 			<h4 className="card-title">{this.props.title} by <a href="#">{this.props.author}</a></h4>
 			<p className="card-text">{this.props.description}</p>
-			<div class="btn btn-outline-success"><FontAwesomeIcon icon={faRss} /> Follow</div>
+			<div className="btn btn-outline-success"><FontAwesomeIcon icon={faRss} /> Follow</div>
 		</div>
 	</div>
 }
