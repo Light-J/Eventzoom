@@ -3,6 +3,7 @@ module.exports = {
     "plugins": [
       "prefer-import"
     ],
+    "parser": "babel-eslint",
     rules: {
       "indent": ["error", "tab"],
       "no-tabs": 0,
@@ -14,4 +15,3 @@ module.exports = {
       "no-undef": 0,
     }
   };
-  

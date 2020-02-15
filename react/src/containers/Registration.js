@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import Conditional from './Conditional';
+import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 
 export default class Registration extends React.Component {

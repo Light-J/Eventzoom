@@ -14,3 +14,33 @@ Array [
   },
 ]
 `;
+
+exports[`testing sameAs should fail if fields are the same 1`] = `
+Array [
+  400,
+]
+`;
+
+exports[`testing sameAs should fail if fields are the same 2`] = `
+Array [
+  Object {
+    "error": "sameAs",
+    "success": false,
+  },
+]
+`;
+
+exports[`testing validModel should fail if fields are the same 1`] = `
+Array [
+  400,
+]
+`;
+
+exports[`testing validModel should fail if fields are the same 2`] = `
+Array [
+  Object {
+    "error": "validModel",
+    "success": false,
+  },
+]
+`;
