@@ -11,7 +11,7 @@
 // }
 const validators = {
 	required: async ({ field }, req) => ({
-		success: req.body[field].length !== 0,
+		success: req.body[field] && req.body[field].length !== 0,
 		fieldName: field,
 		fieldValue: req.body[field],
 	}),

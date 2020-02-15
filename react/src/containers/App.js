@@ -6,6 +6,7 @@ import NavBar from '../components/NavBar';
 import Event from './Event';
 import Search from './Search';
 import Registration from './Registration';
+import AddSeries from './AddSeries';
 import Login from '../components/Login';
 
 
@@ -22,6 +23,8 @@ class App extends Component {
 		<Route exact path="/events/:eventid" component={(props) => <Event {...props.match.params} /> } />
 		<Route exact path="/Registration" render={(props) => <Registration {...props} />} />
 		<Route exact path="/Login" render={(props) => <Login {...props} />} />
+		<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
+
 	</div>
 }
 
