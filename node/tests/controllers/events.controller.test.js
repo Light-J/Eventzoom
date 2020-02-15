@@ -44,6 +44,6 @@ describe('testing events/1', () => {
 });
 
 
-afterAll(async () => {
-	await index.server.close();
+afterEach(async () => {
+	return index.server.close();
 });
