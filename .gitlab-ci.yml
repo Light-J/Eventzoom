@@ -18,7 +18,7 @@ node-test:
   script:
    - cd node/
    - npm i
-   - npx jest --detectOpenHandles
+   - npm run test
    - npm run lint
    - npm run seed
 
