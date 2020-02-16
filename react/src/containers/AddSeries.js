@@ -42,11 +42,6 @@ export default class Registration extends React.Component {
 				this.setState({ imageError: true });
 			}
 		}
-		axios.post(`${serverConfig.url}series`, data, {
-			headers: {
-				'Content-type': 'multipart/form-data',
-			},
-		});
 	};
 
 	render() {
