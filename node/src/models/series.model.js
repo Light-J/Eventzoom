@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 
 const SeriesSchema = new mongoose.Schema({
 	title: {
-		type: String, requred: true,
+		type: String, required: true,
 	},
 	description: {
-		type: String, requred: true,
+		type: String, required: true,
 	},
 	image: {
-		type: String, requred: true,
+		type: String, required: true,
 	},
 
 });

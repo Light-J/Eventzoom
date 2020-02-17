@@ -50,7 +50,7 @@ export default class Registration extends React.Component {
 				<div className="card border-0 shadow my-5 p-5">
 					<Conditional if={this.state.success}>
 						<div className="alert alert-success">
-							Series added successfully successfully
+							Series added successfully.
 						</div>
 					</Conditional>
 					<Conditional if={this.state.imageError}>
@@ -72,7 +72,7 @@ export default class Registration extends React.Component {
 					<label htmlFor="description" className="col-form-label">Description </label>
 					<textarea id="description" className="form-control" name="description" placeholder="Description"
 						onChange={this.handleChange} required value={this.state.description} />
-					<label htmlFor="image" className="col-form-label">Password</label>
+					<label htmlFor="image" className="col-form-label">Image</label>
 					<input id="passwordConfirmation" className="form-control" type="file" onChange={this.uploadFile} accept="image/*"/>
 					<button className={`btn btn-success ${this.state.success ? 'disabled' : ''} mt-5`} onClick={this.submitForm} type="submit">Add series</button>
 				</div>
