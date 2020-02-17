@@ -6,6 +6,7 @@ import NavBar from '../components/NavBar';
 import Event from './Event';
 import Search from './Search';
 import Registration from './Registration';
+import AddSeries from './AddSeries';
 import Login from '../components/Login';
 import Series from '../components/Series';
 
@@ -25,6 +26,7 @@ class App extends Component {
 		<Route exact path="/series/:seriesId" >
 			<Series />
 		</Route>
+		<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
 
 	</div>
 }

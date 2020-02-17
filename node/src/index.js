@@ -8,6 +8,7 @@ import clientConfig from '../config/client';
 import hello from './controllers/hello';
 import events from './controllers/event.controller';
 import users from './controllers/users.controller';
+import series from './controllers/series.controller';
 import './helpers/connectToDatabase';
 import './helpers/winston';
 
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true })); // TODO: probably don't need th
 app.use('/hello', hello);
 app.use('/events', events);
 app.use('/users', users);
+app.use('/series', series);
 
 
 server.listen(serverConfig.port);
