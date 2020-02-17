@@ -24,7 +24,7 @@ class Event extends Component {
 		})
 
 	getDisqusConfig = () => ({
-		url: `${disqusConfig.shortname}/events/${this.props.eventid}`,
+		url: `${disqusConfig.domain}events/${this.props.eventid}`,
 		identifier: this.props.eventid,
 		title: this.state.title,
 	});
