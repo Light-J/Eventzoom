@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import NavBar from '../components/NavBar';
 import Event from './Event';
 import Search from './Search';
-import Registration from '../components/Registration';
+import Registration from './Registration';
 import Login from '../components/Login';
 import Series from '../components/Series';
 

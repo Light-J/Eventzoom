@@ -1,4 +1,8 @@
-image: node:8.10.0
+image: node:10.17.0
+services:
+  - mongo
+variables:
+  MONGO_URL: 'mongodb://mongo/eventzoom'
 
 cache:
   paths:
@@ -14,8 +18,9 @@ node-test:
   script:
    - cd node/
    - npm i
-   - npm test
+   - npm run test
    - npm run lint
+   - npm run seed
 
 react-test:
   stage: test
