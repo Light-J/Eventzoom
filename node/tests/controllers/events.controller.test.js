@@ -44,6 +44,7 @@ describe('testing events/1', () => {
 });
 
 
-afterAll(async () => {
-	await index.server.close();
-});
+afterEach(async () => index.server.close());
+
+
+afterAll(() => setTimeout(() => process.exit(), 1000));

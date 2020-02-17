@@ -7,13 +7,13 @@ jest.mock('../../src/models/event.model');
 describe('testing getEvents', () => {
 	it('should getMessages successfully', async () => {
 		eventModel.find = jest.fn().mockImplementation(async () => 'test result');
-		expect(await eventService.getEvents({})).toEqual('test result');
-		expect(eventModel.find.mock.calls[0]).toEqual([{}]);
+		await expect(await eventService.getEvents({})).toEqual('test result');
+		await expect(eventModel.find.mock.calls[0]).toEqual([{}]);
 	});
 	it('should throw error successfully', async () => {
 		eventModel.find = jest.fn().mockImplementation(async () => { throw Error('irrelevant'); });
-		expect(eventService.getEvents({})).rejects.toEqual(new Error('Error while getting events'));
-		expect(eventModel.find.mock.calls[0]).toEqual([{}]);
+		await expect(eventService.getEvents({})).rejects.toEqual(new Error('Error while getting events'));
+		await expect(eventModel.find.mock.calls[0]).toEqual([{}]);
 	});
 });
 
@@ -21,12 +21,12 @@ describe('testing getEvents', () => {
 describe('testing getEventByid', () => {
 	it('should getMessages successfully', async () => {
 		eventModel.findById = jest.fn().mockImplementation(async () => 'test result');
-		expect(await eventService.getEventById(1)).toEqual('test result');
-		expect(eventModel.findById.mock.calls[0]).toEqual([1]);
+		await expect(await eventService.getEventById(1)).toEqual('test result');
+		await expect(eventModel.findById.mock.calls[0]).toEqual([1]);
 	});
 	it('should throw error successfully', async () => {
 		eventModel.findById = jest.fn().mockImplementation(async () => { throw Error('irrelevant'); });
-		expect(eventService.getEventById(1)).rejects.toEqual(new Error('Error while getting events'));
-		expect(eventModel.findById.mock.calls[0]).toEqual([1]);
+		await expect(eventService.getEventById(1)).rejects.toEqual(new Error('Error while getting single event'));
+		return expect(eventModel.findById.mock.calls[0]).toEqual([1]);
 	});
 });
