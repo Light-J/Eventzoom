@@ -35,6 +35,26 @@ describe('testing sameAs', () => {
 	});
 });
 
+describe('testing regex', () => {
+	it('should succeed if regex is matched', async () => {
+		const req = { body: { email: '123@gmail.com' } };
+		const res = {};
+		const next = jest.fn();
+		await validator('regex', { field: 'email', regex: /[^@]+@[^.]+\..+/ })(req, res, next);
+		expect(req.validated.email).toEqual('123@gmail.com');
+		expect(next.mock.calls.length).toEqual(1);
+	});
+	it('should fail if regex is wrong', async () => {
+		const req = { body: { email: '123' } };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		await validator('regex', { field: 'email', regex: /[^@]+@[^.]+\..+/ })(req, res, next);
+		expect(res.status.mock.calls[0]).toMatchSnapshot();
+		expect(res.json.mock.calls[0]).toMatchSnapshot();
+		expect(next.mock.calls.length).toEqual(0);
+	});
+});
+
 describe('testing validModel', () => {
 	it('should succeed if valid', async () => {
 		const req = { validated: {} };

@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`testing regex should fail if regex is wrong 1`] = `
+Array [
+  400,
+]
+`;
+
+exports[`testing regex should fail if regex is wrong 2`] = `
+Array [
+  Object {
+    "error": "regex",
+    "success": false,
+  },
+]
+`;
+
 exports[`testing required should fail if required does not exist 1`] = `
 Array [
   400,

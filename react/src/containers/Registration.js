@@ -10,6 +10,7 @@ export default class Registration extends React.Component {
 		passwordConfirmation: '',
 		success: false,
 		userExists: false,
+		emailError: false,
 	};
 
 	handleChange = (e) => {
@@ -21,12 +22,16 @@ export default class Registration extends React.Component {
 
 	submitForm = async () => {
 		this.setState({ userExists: false });
+		this.setState({ emailError: false });
 		try {
 			await axios.post(`${serverConfig.url}users`, this.state);
 			this.setState({ success: true });
 		} catch (e) {
 			if (e.response.data.error === 'validModel') {
 				this.setState({ userExists: true });
+			}
+			if (e.response.data.error === 'regex') {
+				this.setState({ emailError: true });
 			}
 		}
 	};
@@ -45,6 +50,12 @@ export default class Registration extends React.Component {
 							This email is already used!
 						</div>
 					</Conditional>
+					<Conditional if={this.state.emailError}>
+						<div className="alert alert-danger">
+							Please provide a valid email!
+						</div>
+					</Conditional>
+
 
 					<h1>Register</h1>
 					<label htmlFor="email" className="col-form-label"> Email</label>

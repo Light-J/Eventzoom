@@ -35,6 +35,11 @@ const validators = {
 		fieldName: field,
 		fieldValue: req.body[field],
 	}),
+	regex: async ({ field, regex }, req) => ({
+		success: regex.test(req.body[field]),
+		fieldName: field,
+		fieldValue: req.body[field],
+	}),
 	validModel: async ({ model }, req) => {
 		// eslint-disable-next-line new-cap
 		const instance = new model({ ...req.validated });
