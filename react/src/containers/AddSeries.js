@@ -3,7 +3,7 @@ import axios from 'axios';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 
-export default class Registration extends React.Component {
+export default class AddSeries extends React.Component {
 	state = {
 		title: '',
 		description: '',
