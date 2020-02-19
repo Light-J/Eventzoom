@@ -15,7 +15,7 @@ export default class Registration extends React.Component {
 
 	handleChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
-	}
+	};
 
 	// eslint-disable-next-line max-len
 	showPasswordError = () => this.state.password.length && this.state.passwordConfirmation !== this.state.password && this.state.passwordConfirmation.length

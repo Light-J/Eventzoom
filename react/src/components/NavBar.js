@@ -14,9 +14,6 @@ class NavBar extends Component {
 					<Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
 				</li>
 				<li className="nav-item">
-					<Link className="nav-link" to="/Login">Login <span className="sr-only">(current)</span></Link>
-				</li>
-				<li className="nav-item">
 					<Link className="nav-link" to="/Registration">Registration <span className="sr-only">(current)</span></Link>
 				</li>
 				<li className="nav-item">
@@ -25,7 +22,11 @@ class NavBar extends Component {
 				<li>
 					<Link className="nav-link" to="/add-series">Add Series</Link>
 				</li>
-
+			</ul>
+			<ul className="navbar-nav">
+				<li className="nav-item">
+					<Link className="nav-link" to="/Login">Login <span className="sr-only">(current)</span></Link>
+				</li>
 			</ul>
 		</div>
 	</nav>
