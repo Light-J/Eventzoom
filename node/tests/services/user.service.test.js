@@ -5,8 +5,8 @@ jest.mock('../../src/models/user.model');
 
 describe('testing createUser', () => {
 	it('should run successfully', async () => {
-		bcryptjs.hashSync = jest.fn().mockReturnValue('qweasd');
+		bcryptjs.hash = jest.fn().mockImplementation( async () => 'qweasd');
 		await expect(await userService.createUser({ password: 'qweasd' })).toEqual(true);
-		expect(bcryptjs.hashSync.mock.calls[0]).toEqual(['qweasd', 8]);
+		expect(bcryptjs.hash.mock.calls[0]).toEqual(['qweasd', 8]);
 	});
 });

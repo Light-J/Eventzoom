@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Conditional from "./Conditional";
 
 class NavBar extends Component {
 	// taken off of the basic bootstrap template https://getbootstrap.com/docs/4.0/components/navbar/
@@ -25,11 +27,17 @@ class NavBar extends Component {
 			</ul>
 			<ul className="navbar-nav">
 				<li className="nav-item">
-					<Link className="nav-link" to="/Login">Login <span className="sr-only">(current)</span></Link>
+					{
+						this.props.user ? <Link className="nav-link" to=""> { this.props.user.email } <span className="sr-only">(current)</span></Link> : <Link className="nav-link" to="/Login">Login <span className="sr-only">(current)</span></Link>
+					}
 				</li>
 			</ul>
 		</div>
 	</nav>
 }
 
-export default NavBar;
+const mapStateToProps = (state) => ({
+	user: state.userReducer.user,
+});
+
+export default connect(mapStateToProps)(NavBar);

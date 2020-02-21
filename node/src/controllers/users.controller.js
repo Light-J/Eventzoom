@@ -1,4 +1,5 @@
 import express from 'express';
+import passport from 'passport';
 import validator from '../middleware/validator';
 import User from '../models/user.model';
 import isAuthenticated from '../middleware/isAuthenticated';
@@ -14,13 +15,13 @@ router.post(
 	validator('sameAs', { field: 'password', otherField: 'passwordConfirmation' }),
 	validator('validModel', { model: User }),
 	async (req, res) => {
-		await UserService.createUser(req.validated);
+		await userService.createUser(req.validated);
 		res.json({ success: true });
 	},
 );
 
 router.get('/me', isAuthenticated, async (req, res) => {
-	res.json({ name: req.user.name });
+	res.json({ email: req.user.email });
 });
 
 router.post(
@@ -30,6 +31,7 @@ router.post(
 		res.json({
 			success: true,
 			token: userService.getJwtToken(),
+			user: req.user,
 		});
 	},
 );
