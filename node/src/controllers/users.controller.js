@@ -4,6 +4,7 @@ import validator from '../middleware/validator';
 import User from '../models/user.model';
 import isAuthenticated from '../middleware/isAuthenticated';
 import userService from '../services/user.service';
+import passportJs from './auth/passport';
 
 const router = express.Router();
 
@@ -20,8 +21,10 @@ router.post(
 	},
 );
 
-router.get('/me', isAuthenticated, async (req, res) => {
-	res.json({ email: req.user.email });
+router.get('/me', passport.authenticate('jwt'), isAuthenticated, async (req, res) => {
+	const user = req.user;
+	delete user.password;
+	res.json({ user });
 });
 
 router.post(
@@ -30,7 +33,7 @@ router.post(
 	async (req, res) => {
 		res.json({
 			success: true,
-			token: userService.getJwtToken(),
+			token: await passportJs.getJwtToken(req.user.id),
 			user: req.user,
 		});
 	},

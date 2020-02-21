@@ -30,6 +30,7 @@ const Login = class Login extends React.Component {
 			const result = await axios.post(`${serverConfig.url}users/login`, this.state);
 			if (result.data.success) {
 				this.props.setUser(result.data.user);
+				console.log(result);
 				localStorage.setItem('JWT', result.data.token);
 			} else {
 				this.setState({ authenticationFailure: true });

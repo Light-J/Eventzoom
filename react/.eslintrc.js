@@ -13,6 +13,7 @@ module.exports = {
       "linebreak-style": 0,
       "no-underscore-dangle": 0,
       "no-undef": 0,
+      "prefer-destructuring": 0,
     }
   };
   

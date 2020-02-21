@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-class NavBar extends Component {
+export class NavBar extends Component {
 	static propTypes = {
 		user: PropTypes.object,
 	};
