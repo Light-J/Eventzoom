@@ -7,7 +7,7 @@ const EventSchema = new mongoose.Schema({
 	speaker: String,
 	vaguelocation: String,
 	specificlocation: String,
-	disabilityaccess: Boolean,
+	disabilityAccess: Boolean,
 	organiser: String,
 	capacity: Number,
 	date: { type: Date },
