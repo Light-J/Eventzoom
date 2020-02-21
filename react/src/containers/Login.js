@@ -2,11 +2,17 @@ import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 import { setUser } from '../store/actions/actions';
 
 const Login = class Login extends React.Component {
+	static propTypes = {
+		user: PropTypes.object,
+		setUser: PropTypes.func.isRequired,
+	};
+
 	state = {
 		username: '',
 		password: '',

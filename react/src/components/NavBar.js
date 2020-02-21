@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Conditional from "./Conditional";
+import PropTypes from 'prop-types';
 
 class NavBar extends Component {
+	static propTypes = {
+		user: PropTypes.object,
+	};
+
 	// taken off of the basic bootstrap template https://getbootstrap.com/docs/4.0/components/navbar/
 	render = () => <nav className="navbar navbar-expand-lg navbar-light bg-light">
 		<Link className="navbar-brand" to="/">EventZoom</Link>
