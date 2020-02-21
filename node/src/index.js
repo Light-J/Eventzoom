@@ -26,6 +26,7 @@ app.use('/users', users);
 app.use('/series', series);
 
 
-server.listen(serverConfig.port);
+// server.listen(serverConfig.port);
+export default app;
 
-export default { app, server, db: Mongoose.connection };
+// export default { app, server, db: Mongoose.connection };
