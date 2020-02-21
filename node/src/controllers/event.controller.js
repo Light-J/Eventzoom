@@ -7,7 +7,8 @@ router.get(
 	'/',
 	async (req, res) => {
 		try {
-			const events = await EventService.getEvents({});
+			const { query } = req.query;
+			const events = await EventService.getEvents(query);
 			return res.send(events);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });

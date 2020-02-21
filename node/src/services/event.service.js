@@ -2,7 +2,11 @@ import Event from '../models/event.model';
 
 const getEvents = async (query) => {
 	try {
-		return await Event.find(query);
+		if (query) {
+			const regSearch = new RegExp(`${query}`, 'i');
+			return await Event.find({ title: regSearch });
+		}
+		return await Event.find({});
 	} catch (e) {
 		// Log Errors
 		throw Error('Error while getting events');
