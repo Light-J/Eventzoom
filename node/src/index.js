@@ -24,9 +24,9 @@ app.use('/hello', hello);
 app.use('/events', events);
 app.use('/users', users);
 app.use('/series', series);
-
-
-// server.listen(serverConfig.port);
-export default app;
-
+app.get('/', (req, res) => {
+    console.log('lambda is fucking itself');
+    res.send('fuck yourself lambda');
+})
+module.exports = app;
 // export default { app, server, db: Mongoose.connection };
