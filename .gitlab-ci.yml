@@ -50,7 +50,7 @@ node-deploy:
   stage: deploy_staging
   cache: {}
   script:
-    - cd final-client-project/node
+    - cd node
     - npm i
     - mv .env .env.dev
     - mv .env.serverless .env
@@ -58,3 +58,4 @@ node-deploy:
     - npm run seed
     - mv .env .env.serverless
     - mv .env.dev .env
+    - npm run update-lambda
