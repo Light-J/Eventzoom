@@ -2,7 +2,10 @@
   "name": "final-client-project-node",
   "version": "1.0.0",
   "description": "",
-  "files": [ "dist", ".env" ],
+  "files": [
+    "dist",
+    ".env"
+  ],
   "main": "lambda.js",
   "homepage": ".",
   "scripts": {
