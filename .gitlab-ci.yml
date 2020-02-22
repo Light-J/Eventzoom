@@ -1,4 +1,4 @@
-image: node:10.17.0
+image: buhala/eventzoom-aws:latest
 services:
   - mongo
 
@@ -35,10 +35,6 @@ react-test:
 react-deploy:
   stage: deploy_staging
   script:
-   - apt-get update
-   - apt-get install python-setuptools -y
-   - easy_install pip
-   - pip install awscli
    - cd react/
    - npm i
    - CI="" npm run build
@@ -50,10 +46,6 @@ react-deploy:
 node-deploy:
   stage: deploy_staging
   script:
-    - apt-get update
-    - apt-get install python-setuptools -y
-    - easy_install pip
-    - pip install awscli
     - cd node
     - npm i
     - mv .env .env.dev
