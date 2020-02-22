@@ -48,8 +48,11 @@ react-deploy:
 
 node-deploy:
   stage: deploy_staging
-  cache: {}
   script:
+    - apt-get update
+    - apt-get install python-setuptools -y
+    - easy_install pip
+    - pip install awscli
     - cd node
     - npm i
     - mv .env .env.dev
