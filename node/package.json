@@ -11,7 +11,7 @@
     "build": "node \"node_modules/@babel/cli/bin/babel.js\" src/ -d dist/src/ && node \"node_modules/@babel/cli/bin/babel.js\" config/ -d dist/config",
     "prod": "node -r dotenv/config dist/src/index.js dotenv_config_path=.env.prod",
     "lint": "eslint ./",
-    "create-lambda": "mv .env .env.dev && mv .env.server.ess .env && npx lamclaudia create --handler lambda.handler --deploy-proxy-api --region eu-west-3 && mv .env .env.serverless && mv mv .env.dev .env",
+    "create-lambda": "mv .env .env.dev && mv .env.serverless .env && npx claudia create --handler lambda.handler --deploy-proxy-api --region eu-west-3 && mv .env .env.serverless && mv mv .env.dev .env",
     "migrate": "npx db-migrate up",
     "seed": "npx db-migrate up:all",
     "create-seeder": "npx db-migrate create:seed",
