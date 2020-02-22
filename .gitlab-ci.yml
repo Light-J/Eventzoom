@@ -10,8 +10,8 @@ cache:
   - react/node_modules/
 
 stages:
-  - test
   - deploy_staging
+  - test
 
 node-test:
   stage: test
