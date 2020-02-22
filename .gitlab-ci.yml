@@ -1,8 +1,7 @@
 image: node:10.17.0
 services:
   - mongo
-variables:
-  MONGO_URL: 'mongodb://mongo/eventzoom'
+
 
 cache:
   paths:
@@ -14,6 +13,8 @@ stages:
   - test
 
 node-test:
+  variables:
+    MONGO_URL: 'mongodb://mongo/eventzoom'
   stage: test
   script:
    - cd node/
