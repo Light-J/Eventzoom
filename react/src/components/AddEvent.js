@@ -19,6 +19,21 @@ export default class AddEvent extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
+    submitData(e) {
+        e.preventDefault();
+        axios.post('http://localhost:3001/events/addEvent', {
+            data: this.state,
+            headers: {
+                'content-type': 'application/json',
+            },
+        })
+            .then((res) => {
+                console.log('res', res);
+            }).catch((err) => {
+                console.log('err', err);
+            });
+    }
+
     render = () => (<form className="container" onSubmit={(e) => this.submitData(e)}>
 	<div className="card border-0 shadow my-5">
 		<div className="form-group">
