@@ -9,8 +9,8 @@ cache:
   - react/node_modules/
 
 stages:
-  - deploy_staging
   - test
+  - deploy_staging
 
 node-test:
   variables:
@@ -33,6 +33,8 @@ react-test:
 
 
 react-deploy:
+  only:
+    - develop
   stage: deploy_staging
   script:
    - cd react/
@@ -44,6 +46,8 @@ react-deploy:
 
 
 node-deploy:
+  only:
+    - develop
   stage: deploy_staging
   script:
     - cd node
