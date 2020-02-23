@@ -17,4 +17,13 @@ const getEventById = async (id) => {
 	}
 };
 
-export default { getEvents, getEventById };
+const postEvents = async (query) => {
+	try {
+		return await ((new Event(query)).save());
+	} catch (e) {
+		console.log(e);
+		throw Error('Error while posting event');
+	}
+};
+
+export default { getEvents, getEventById, postEvents };

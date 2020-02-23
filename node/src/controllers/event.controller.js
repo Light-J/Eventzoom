@@ -27,4 +27,15 @@ router.get(
 	},
 );
 
+router.post(
+	'/addEvent', async (req, res) => {
+		try {
+			const event = await EventService.postEvents(req.body.data);
+			return res.send(event);
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	}, 
+);
+
 export default router;
