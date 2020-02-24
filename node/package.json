@@ -9,7 +9,7 @@
   "main": "lambda.js",
   "homepage": ".",
   "scripts": {
-    "test": "jest --forceExit --detectOpenHandles",
+    "test": "jest --forceExit --detectOpenHandles --setupFiles dotenv/config",
     "start": "nodemon -r dotenv/config src/index.js --exec babel-node",
     "build": "node \"node_modules/@babel/cli/bin/babel.js\" src/ -d dist/src/ && node \"node_modules/@babel/cli/bin/babel.js\" config/ -d dist/config",
     "prod": "node -r dotenv/config dist/src/index.js dotenv_config_path=.env.prod",

@@ -8,18 +8,26 @@ describe('testing events/', () => {
 	it('should fetch all event', async () => {
 		eventService.getEvents = jest.fn().mockImplementation(async () => ['example1', 'example2']);
 		const res = await request(index.app)
-			.get('/events')
+			.get('/events/')
 			.send();
 		await expect(res.body).toEqual(['example1', 'example2']);
-		return expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+		return expect(eventService.getEvents.mock.calls[0]).toEqual([undefined]);
 	});
 	it('should fail if service returns error', async () => {
 		eventService.getEvents = jest.fn().mockImplementation(() => Promise.reject(Error('test')));
 		const res = await request(index.app)
-			.get('/events')
+			.get('/events/')
 			.send();
 		await expect(res.body).toEqual({ status: 400, message: 'test' });
-		return expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+		return expect(eventService.getEvents.mock.calls[0]).toEqual([undefined]);
+	});
+	it('should fetch an event with query param', async () => {
+		eventService.getEvents = jest.fn().mockImplementation(async () => ['example1', 'example2']);
+		const res = await request(index.app)
+			.get('/events/?query=example')
+			.send();
+		await expect(res.body).toEqual(['example1', 'example2']);
+		return expect(eventService.getEvents.mock.calls[0]).toEqual(['example']);
 	});
 });
 
@@ -27,10 +35,9 @@ describe('testing events/advanced', () => {
 	it('should fetch an event', async () => {
 		eventService.getEventsAdvanced = jest.fn().mockImplementation(async () => ['example1']);
 		const res = await request(index.app)
-			.get('/events/advanced?title=title')
+			.get('/events/advanced?title=test')
 			.send();
-		await expect(res.body).toEqual(['example1']);
-		return expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+		return expect(res.body).toEqual(['example1']);
 	});
 	it('should fail if service returns error', async () => {
 		eventService.getEventsAdvanced = jest.fn().mockImplementation(() => Promise.reject(Error('test')));
@@ -38,7 +45,7 @@ describe('testing events/advanced', () => {
 			.get('/events/advanced')
 			.send();
 		await expect(res.body).toEqual({ status: 400, message: 'test' });
-		return expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+		return expect(eventService.getEventsAdvanced.mock.calls[0]).toEqual([undefined]);
 	});
 });
 
