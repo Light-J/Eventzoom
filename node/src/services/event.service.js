@@ -22,16 +22,14 @@ const getEvents = async (query) => {
 
 const getEventsAdvanced = async (fields) => {
 	try {
-		// eslint-disable-next-line array-callback-return
-		Object.keys(fields).map((field) => {
-			const fieldValue = fields[field];
-			// eslint-disable-next-line no-param-reassign
-			fields[field] = new RegExp(`${fieldValue}`, 'i');
+		const searchQuery = {};
+		Object.keys(fields).forEach((key) => {
+			searchQuery[key] = new RegExp(`${fields[key]}`, 'i');
 		});
-		return await Event.find(fields);
+		return await Event.find(searchQuery);
 	} catch (e) {
 		// Log Errors
-		throw Error('Error while getting events');
+		throw Error(e.stack);
 	}
 };
 
