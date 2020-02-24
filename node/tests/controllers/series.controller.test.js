@@ -1,5 +1,5 @@
 import request from 'supertest';
-import index from '../../src/index';
+import index from '../../src/root';
 import seriesService from '../../src/services/series.service';
 import fileService from '../../src/services/file.service';
 
@@ -21,7 +21,5 @@ describe('/', () => {
 	});
 });
 
-
-afterEach(async () => index.server.close());
 
 afterAll(() => setTimeout(() => process.exit(), 1000));
