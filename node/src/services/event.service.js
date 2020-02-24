@@ -4,7 +4,14 @@ const getEvents = async (query) => {
 	try {
 		if (query) {
 			const regSearch = new RegExp(`${query}`, 'i');
-			return await Event.find({ title: regSearch });
+			return await Event.find({
+				$or: [
+					{ title: regSearch },
+					{ description: regSearch },
+					{ speaker: regSearch },
+					{ organiser: regSearch },
+				],
+			});
 		}
 		return await Event.find({});
 	} catch (e) {
