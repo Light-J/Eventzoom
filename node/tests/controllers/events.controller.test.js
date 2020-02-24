@@ -61,4 +61,3 @@ describe('testing events/1', () => {
 		return expect(eventService.getEventById.mock.calls[0]).toEqual(['1']);
 	});
 });
-afterAll(() => setTimeout(() => process.exit(), 1000));
