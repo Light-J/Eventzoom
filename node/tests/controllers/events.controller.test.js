@@ -23,6 +23,25 @@ describe('testing events/', () => {
 	});
 });
 
+describe('testing events/advanced', () => {
+	it('should fetch an event', async () => {
+		eventService.getEventsAdvanced = jest.fn().mockImplementation(async () => ['example1']);
+		const res = await request(index.app)
+			.get('/events/advanced?title=title')
+			.send();
+		expect(res.body).toEqual(['example1']);
+		expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+	});
+	it('should fail if service returns error', async () => {
+		eventService.getEventsAdvanced = jest.fn().mockImplementation(() => Promise.reject(Error('test')));
+		const res = await request(index.app)
+			.get('/events/advanced')
+			.send();
+		expect(res.body).toEqual({ status: 400, message: 'test' });
+		expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+	});
+});
+
 
 describe('testing events/1', () => {
 	it('should fetch successfully', async () => {
