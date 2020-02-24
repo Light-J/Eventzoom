@@ -31,7 +31,7 @@ const getEventsAdvanced = async (fields) => {
 		return await Event.find(fields);
 	} catch (e) {
 		// Log Errors
-		throw Error(e.stack);
+		throw Error('Error while getting events');
 	}
 };
 
