@@ -2,7 +2,11 @@
   "name": "final-client-project-node",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "files": [
+    "dist",
+    ".env"
+  ],
+  "main": "lambda.js",
   "homepage": ".",
   "scripts": {
     "test": "jest",
@@ -10,6 +14,9 @@
     "build": "node \"node_modules/@babel/cli/bin/babel.js\" src/ -d dist/src/ && node \"node_modules/@babel/cli/bin/babel.js\" config/ -d dist/config",
     "prod": "node -r dotenv/config dist/src/index.js dotenv_config_path=.env.prod",
     "lint": "eslint ./",
+    "destroy-lambda": "aws lambda delete-function --function-name final-client-project-node --region eu-west-3 && aws iam delete-role-policy --role-name final-client-project-node-executor --policy-name log-writer --region eu-west-3 && aws iam delete-role --role-name final-client-project-node-executor --region eu-west-3 && rm claudia.json",
+    "create-lambda": "npm run build && mv .env .env.dev && mv .env.serverless .env && npx claudia create --handler lambda.handler --deploy-proxy-api --region eu-west-3 --runtime nodejs10.x --timeout 10 && mv .env .env.serverless && mv .env.dev .env",
+    "update-lambda": "npm run build && mv .env .env.dev && mv .env.serverless .env && npx claudia update && mv .env .env.serverless && mv .env.dev .env",
     "migrate": "npx db-migrate up",
     "seed": "npx db-migrate up:all",
     "create-seeder": "npx db-migrate create:seed",
@@ -33,6 +40,7 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/runtime": "^7.7.2",
     "aws-sdk": "^2.619.0",
+    "aws-serverless-express": "^3.3.6",
     "babel-loader": "^8.0.6",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -50,6 +58,7 @@
   "devDependencies": {
     "@babel/node": "^7.7.0",
     "babel-eslint": "^10.0.3",
+    "claudia": "^5.12.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
