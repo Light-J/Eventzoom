@@ -1,5 +1,5 @@
 import request from 'supertest';
-import index from '../../src/index';
+import index from '../../src/root';
 import seriesService from '../../src/services/series.service';
 import fileService from '../../src/services/file.service';
 
@@ -20,8 +20,3 @@ describe('/', () => {
 		await expect(fileService.uploadFile.mock.calls[0]).toMatchSnapshot();
 	});
 });
-
-
-afterEach(async () => index.server.close());
-
-afterAll(() => setTimeout(() => process.exit(), 1000));

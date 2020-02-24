@@ -1,5 +1,5 @@
 import request from 'supertest';
-import index from '../../src/index';
+import index from '../../src/root';
 import eventService from '../../src/services/event.service';
 
 jest.mock('../../src/services/event.service');
@@ -42,9 +42,3 @@ describe('testing events/1', () => {
 		expect(eventService.getEventById.mock.calls[0]).toEqual(['1']);
 	});
 });
-
-
-afterEach(async () => index.server.close());
-
-
-afterAll(() => setTimeout(() => process.exit(), 1000));
