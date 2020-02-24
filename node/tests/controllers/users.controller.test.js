@@ -20,4 +20,3 @@ describe('/', () => {
 		await expect(userService.createUser.mock.calls[0]).toEqual([undefined]);
 	});
 });
-afterAll(() => setTimeout(() => process.exit(), 1000));

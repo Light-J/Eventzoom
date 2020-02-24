@@ -20,4 +20,3 @@ describe('/', () => {
 		await expect(fileService.uploadFile.mock.calls[0]).toMatchSnapshot();
 	});
 });
-afterAll(() => setTimeout(() => process.exit(), 1000));
