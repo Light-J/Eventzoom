@@ -30,7 +30,11 @@ const getEventsAdvanced = async (fields) => {
 			if (key !== 'date') {
 				searchQuery[key] = new RegExp(`${escapedString}`, 'i');
 			} else {
-				searchQuery[key] = new Date(escapedString);
+				const startDate = new Date(escapedString);
+				const endDate = new Date(startDate);
+				endDate.setDate(startDate.getDate() + 1);
+
+				searchQuery[key] = { $gte: startDate, $lt: endDate };
 			}
 		});
 		return await Event.find(searchQuery);
