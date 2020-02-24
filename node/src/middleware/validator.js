@@ -55,10 +55,28 @@ const validators = {
 			fieldValue: true,
 		};
 	},
+	allowedQueryParams: async ({ fields }, req) => {
+		const validatedFields = {};
+		fields.forEach((field) => {
+			if (req.body[field] != null) {
+				validatedFields[field] = req.body[field];
+			}
+		});
+		return {
+			success: true,
+			fieldName: 'validated',
+			fieldValue: validatedFields,
+		};
+	},
 };
 
 const validate = (validator, params) => async (req, res, next) => {
 	let result = false;
+
+	if (req.method === 'GET') {
+		req.body = req.query;
+	}
+
 	result = await validators[validator](params, req);
 
 	// bail if unsuccessful
