@@ -20,7 +20,6 @@ router.get(
 router.get(
 	'/advanced',
 	validator('optional', { field: 'title' }),
-	validator('optional', { field: 'description' }),
 	validator('optional', { field: 'speaker' }),
 	validator('optional', { field: 'date' }),
 	validator('optional', { field: 'organiser' }),
