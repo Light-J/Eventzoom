@@ -10,16 +10,16 @@ describe('testing events/', () => {
 		const res = await request(index.app)
 			.get('/events')
 			.send();
-		expect(res.body).toEqual(['example1', 'example2']);
-		expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+		await expect(res.body).toEqual(['example1', 'example2']);
+		await expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
 	});
 	it('should fail if service returns error', async () => {
 		eventService.getEvents = jest.fn().mockImplementation(() => Promise.reject(Error('test')));
 		const res = await request(index.app)
 			.get('/events')
 			.send();
-		expect(res.body).toEqual({ status: 400, message: 'test' });
-		expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+		await expect(res.body).toEqual({ status: 400, message: 'test' });
+		await expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
 	});
 });
 
@@ -29,16 +29,16 @@ describe('testing events/advanced', () => {
 		const res = await request(index.app)
 			.get('/events/advanced?title=title')
 			.send();
-		expect(res.body).toEqual(['example1']);
-		expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+		await expect(res.body).toEqual(['example1']);
+		await expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
 	});
 	it('should fail if service returns error', async () => {
 		eventService.getEventsAdvanced = jest.fn().mockImplementation(() => Promise.reject(Error('test')));
 		const res = await request(index.app)
 			.get('/events/advanced')
 			.send();
-		expect(res.body).toEqual({ status: 400, message: 'test' });
-		expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
+		await expect(res.body).toEqual({ status: 400, message: 'test' });
+		await expect(eventService.getEvents.mock.calls[0]).toEqual([{}]);
 	});
 });
 
@@ -49,16 +49,16 @@ describe('testing events/1', () => {
 		const res = await request(index.app)
 			.get('/events/1')
 			.send();
-		expect(res.body).toEqual({ test: 'test' });
-		expect(eventService.getEventById.mock.calls[0]).toEqual(['1']);
+		await expect(res.body).toEqual({ test: 'test' });
+		await expect(eventService.getEventById.mock.calls[0]).toEqual(['1']);
 	});
 	it('should fail if service returns error', async () => {
 		eventService.getEventById = jest.fn().mockImplementation(() => Promise.reject(Error('test')));
 		const res = await request(index.app)
 			.get('/events/1')
 			.send();
-		expect(res.body).toEqual({ status: 400, message: 'test' });
-		expect(eventService.getEventById.mock.calls[0]).toEqual(['1']);
+		await expect(res.body).toEqual({ status: 400, message: 'test' });
+		await expect(eventService.getEventById.mock.calls[0]).toEqual(['1']);
 	});
 });
 afterAll(() => setTimeout(() => process.exit(), 1000));
