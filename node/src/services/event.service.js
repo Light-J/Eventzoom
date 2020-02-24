@@ -1,9 +1,11 @@
+import escapeStringRegexp from 'escape-string-regexp';
 import Event from '../models/event.model';
 
 const getEvents = async (query) => {
 	try {
 		if (query) {
-			const regSearch = new RegExp(`${query}`, 'i');
+			const escapedQuery = escapeStringRegexp(query);
+			const regSearch = new RegExp(`${escapedQuery}`, 'i');
 			return await Event.find({
 				$or: [
 					{ title: regSearch },
@@ -24,10 +26,11 @@ const getEventsAdvanced = async (fields) => {
 	try {
 		const searchQuery = {};
 		Object.keys(fields).forEach((key) => {
+			const escapedString = fields[key];
 			if (key !== 'date') {
-				searchQuery[key] = new RegExp(`${fields[key]}`, 'i');
+				searchQuery[key] = new RegExp(`${escapedString}`, 'i');
 			} else {
-				searchQuery[key] = new Date(fields[key]);
+				searchQuery[key] = new Date(escapedString);
 			}
 		});
 		return await Event.find(searchQuery);
