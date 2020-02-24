@@ -20,6 +20,25 @@ const getEvents = async (query) => {
 	}
 };
 
+const getEventsAdvanced = async (fields) => {
+	try {
+		// eslint-disable-next-line array-callback-return
+		fields.map((field) => { console.log(field); });
+		const regSearch = new RegExp(`${query}`, 'i');
+		return await Event.find({
+			$or: [
+				{ title: regSearch },
+				{ description: regSearch },
+				{ speaker: regSearch },
+				{ organiser: regSearch },
+			],
+		});
+	} catch (e) {
+		// Log Errors
+		throw Error('Error while getting events');
+	}
+};
+
 const getEventById = async (id) => {
 	try {
 		return await Event.findById(id);
@@ -28,4 +47,4 @@ const getEventById = async (id) => {
 	}
 };
 
-export default { getEvents, getEventById };
+export default { getEvents, getEventById, getEventsAdvanced };

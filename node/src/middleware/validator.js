@@ -64,7 +64,7 @@ const validators = {
 		});
 		return {
 			success: true,
-			fieldName: 'validated',
+			fieldName: 'fields',
 			fieldValue: validatedFields,
 		};
 	},
