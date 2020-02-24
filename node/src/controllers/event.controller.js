@@ -19,10 +19,9 @@ router.get(
 
 router.get(
 	'/advanced',
-	validator('allowedQueryParams', { fields: ['field 1', 'field 2'] }),
+	validator('allowedQueryParams', { fields: ['title', 'description', 'speaker', 'date', 'organiser'] }),
 	async (req, res) => {
 		try {
-			console.log(req.validated.fields);
 			const events = await EventService.getEventsAdvanced(req.validated.fields);
 			return res.send(events);
 		} catch (e) {
