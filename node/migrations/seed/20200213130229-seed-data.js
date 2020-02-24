@@ -25,7 +25,7 @@ exports.up = async function (db) {
     disabilityAccess: true,
     organiser: "Catty Catty cat",
     capacity: 90,
-    date: "2020-03-03T00:00:00.000Z",
+    date: new Date("2020-03-03T00:00:00.000Z"),
   });
   await db.insert('events', {
     title: "Cat Test Event 2",
@@ -37,7 +37,7 @@ exports.up = async function (db) {
     disabilityAccess: false,
     organiser: "Catty Catty cat",
     capacity: 46,
-    date: "2020-03-03T00:00:00.000Z",
+    date: new Date("2020-03-03T00:00:00.000Z"),
   });
 
   await db.insert('events', {
@@ -50,7 +50,7 @@ exports.up = async function (db) {
     disabilityAccess: false,
     organiser: "A dog",
     capacity: 10,
-    date: "2020-03-03T00:00:00.000Z",
+    date: new Date("2020-03-03T00:00:00.000Z"),
   });
 
   await db.insert('events', {
@@ -63,7 +63,7 @@ exports.up = async function (db) {
     disabilityAccess: true,
     organiser: "Catty",
     capacity: 34,
-    date: "2020-03-03T00:00:00.000Z",
+    date: new Date("2020-03-03T00:00:00.000Z"),
   });
 
   return null;

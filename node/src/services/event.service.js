@@ -24,12 +24,16 @@ const getEventsAdvanced = async (fields) => {
 	try {
 		const searchQuery = {};
 		Object.keys(fields).forEach((key) => {
-			searchQuery[key] = new RegExp(`${fields[key]}`, 'i');
+			if (key !== 'date') {
+				searchQuery[key] = new RegExp(`${fields[key]}`, 'i');
+			} else {
+				searchQuery[key] = new Date(fields[key]);
+			}
 		});
 		return await Event.find(searchQuery);
 	} catch (e) {
 		// Log Errors
-		throw Error('Error while getting events');
+		throw Error(e.stack);
 	}
 };
 
