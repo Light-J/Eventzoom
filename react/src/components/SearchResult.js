@@ -19,14 +19,18 @@ class SearchResult extends Component {
 		this.setState({ showSidebar: !this.state.showSidebar });
 	};
 
-	render = () => <Link to={`/events/${this.props.id}`}><div className="card card-default m-5">
-		<div className={`card-body ${classes.cardBody}`} style={this.backgroundColor()}>
-			<div className={classes.cardText}>
-				<h3>{this.props.title}</h3>
-				<h4>{this.props.author}</h4>
+	render = () => <div className="col-md-4 mb-1">
+		<Link to={`/events/${this.props.id}`}>
+			<div className="card card-default">
+				<div className={`card-body ${classes.cardBody}`} style={this.backgroundColor()}>
+					<div className={classes.cardText}>
+						<h3>{this.props.title}</h3>
+						<h4>{this.props.author}</h4>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div></Link>
+		</Link>
+	</div>
 }
 
 export default SearchResult;

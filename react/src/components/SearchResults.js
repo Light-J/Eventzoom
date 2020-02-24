@@ -16,14 +16,16 @@ class SearchResults extends Component {
 				<h1>Events are loading</h1>
 			</div>
 		</Conditional>
-		{this.props.results.map((result) => {
-			const {
-				image, title, speaker, _id,
-			} = result;
-			return (
-				<SearchResult key={_id} image={image} title={title} author={speaker} id={_id}/>
-			);
-		})}
+		<div className="row">
+			{this.props.results.map((result) => {
+				const {
+					image, title, speaker, _id,
+				} = result;
+				return (
+					<SearchResult key={_id} image={image} title={title} author={speaker} id={_id}/>
+				);
+			})}
+		</div>
 	</div>;
 }
 
