@@ -1,8 +1,7 @@
-image: node:10.17.0
+image: buhala/eventzoom-aws:latest
 services:
   - mongo
-variables:
-  MONGO_URL: 'mongodb://mongo/eventzoom'
+
 
 cache:
   paths:
@@ -14,6 +13,8 @@ stages:
   - deploy_staging
 
 node-test:
+  variables:
+    MONGO_URL: 'mongodb://mongo/eventzoom'
   stage: test
   script:
    - cd node/
@@ -36,10 +37,6 @@ react-deploy:
     - develop
   stage: deploy_staging
   script:
-   - apt-get update
-   - apt-get install python-setuptools -y
-   - easy_install pip
-   - pip install awscli
    - cd react/
    - npm i
    - CI="" npm run build
@@ -52,15 +49,13 @@ node-deploy:
   only:
     - develop
   stage: deploy_staging
-  cache: {}
   script:
-    - rm -rf .git
-    - rm -rf react/node_nodules
-    - rm -rf node/node_modules
-    - chmod 400 "$NODE_DEPLOY_KEY"
-    - ssh -i "$NODE_DEPLOY_KEY" $DEPLOY_HOST -o StrictHostKeyChecking=no 'sudo systemctl stop my-webapp'
-    - scp -i "$NODE_DEPLOY_KEY" -rp -o StrictHostKeyChecking=no "$(pwd)" $DEPLOY_DIRECTORY
-    # IMPORTANT IMPORTANT IMPORTANT IMPORTANT
-    # ENSURE THAT WHEN DEPLOYING TO PRODUCTION THE db:drop COMMAND IS REMOVED
-    # THIS IS PURELY FOR TESTING PURPOSES
-    - ssh -i "$NODE_DEPLOY_KEY" $DEPLOY_HOST -o StrictHostKeyChecking=no 'cd final-client-project/node && npm i --only=prod && npx db-migrate db:drop eventzoom && npm run seed && npm run build && sudo systemctl start my-webapp'
+    - cd node
+    - npm i
+    - mv .env .env.dev
+    - mv .env.serverless .env
+    - npx db-migrate db:drop test
+    - npm run seed
+    - mv .env .env.serverless
+    - mv .env.dev .env
+    - npm run update-lambda
