@@ -17,7 +17,7 @@ describe('/', () => {
 			.field('description', 'Cats');
 		await expect(res.body).toEqual({ success: true });
 		await expect(seriesService.createSeries.mock.calls[0]).toMatchSnapshot();
-		await expect(fileService.uploadFile.mock.calls[0]).toMatchSnapshot();
+		return expect(fileService.uploadFile.mock.calls[0]).toMatchSnapshot();
 	});
 });
 
