@@ -11,6 +11,7 @@ class Search extends Component {
 		isLoading: true,
 		showSidebar: false,
 		searchResults: [],
+		searchQuery: '',
 	};
 
 	componentDidMount() {
@@ -24,8 +25,19 @@ class Search extends Component {
 		this.setState({ showSidebar: !this.state.showSidebar });
 	};
 
+	updateResults = () => {
+		axios.get(`${serverConfig.url}events/?query=${this.state.searchQuery}`)
+			.then((res) => {
+				this.setState({ searchResults: res.data, isLoading: false });
+			});
+	};
+
+	updateQuery = (event) => {
+		this.setState({ searchQuery: event.target.value });
+	};
+
 	render = () => <div className="container mt-3">
-		<SearchBar toggle={this.onToggle} />
+		<SearchBar toggle={this.onToggle} search={this.updateResults} updateQuery={this.updateQuery} />
 		<div className="row mt-3">
 			<Conditional if={this.state.showSidebar}>
 				<div className="col-md-3">
