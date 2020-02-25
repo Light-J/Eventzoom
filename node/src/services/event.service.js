@@ -27,14 +27,15 @@ const getEventsAdvanced = async (fields) => {
 		const searchQuery = {};
 		Object.keys(fields).forEach((key) => {
 			const escapedString = fields[key];
-			if (key !== 'date') {
+			if (key !== 'startDate' && key !== 'endDate') {
 				searchQuery[key] = new RegExp(`${escapedString}`, 'i');
 			} else {
-				const startDate = new Date(escapedString);
-				const endDate = new Date(startDate);
-				endDate.setDate(startDate.getDate() + 1);
-
-				searchQuery[key] = { $gte: startDate, $lt: endDate };
+				// minimum and maximum JS dates
+				// https://stackoverflow.com/questions/11526504/minimum-and-maximum-date
+				// 25 Feb 2020
+				const startDate = fields.startDate || new Date(-8640000000000000);
+				const endDate = fields.endDate || new Date(8640000000000000);
+				searchQuery.date = { $gte: startDate, $lt: endDate };
 			}
 		});
 		return await Event.find(searchQuery);

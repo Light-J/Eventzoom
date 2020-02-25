@@ -16,8 +16,11 @@ class SearchSidebar extends Component {
 			<input type="text" className="form-control" placeholder="Horsey McHorseman" id="speaker" onChange={(event) => this.props.updateQuery(event)} />
 			Organiser:
 			<input type="text" className="form-control" placeholder="My new horse" id="organiser" onChange={(event) => this.props.updateQuery(event)} />
-			Date:
-			<input type="date" className="form-control" id="date" onChange={(event) => this.props.updateQuery(event)} />
+			Earliest date:
+			<input type="date" className="form-control" id="startDate" onChange={(event) => this.props.updateQuery(event)} />
+			Latest date:
+			<input type="date" className="form-control" id="endDate" onChange={(event) => this.props.updateQuery(event)} />
+
 			<button className="btn btn-success mt-2" onClick={this.props.search}>Search</button>
 		</div>
 	</div>
