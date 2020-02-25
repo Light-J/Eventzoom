@@ -7,16 +7,34 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe('tests typing in search sidebar', () => {
 	it('calls parent method if field changes', async () => {
-		const updateQuery = jest.fn();
+		const updateInput = jest.fn();
+		const updateDate = jest.fn();
+		const date = new Date();
 		const search = jest.fn();
-		const wrapper = Enzyme.shallow(<SearchSidebar updateQuery={updateQuery} search={search}/>);
+		const wrapper = Enzyme.shallow(
+			<SearchSidebar
+				updateInput={updateInput}
+				search={search}
+				updateDates={updateDate}
+				startDate={date}
+				endDate={date}/>,
+		);
 		wrapper.find('input').first().simulate('change', { target: { value: 'test' } });
-		expect(updateQuery.mock.calls.length).toBe(1);
+		expect(updateInput.mock.calls.length).toBe(1);
 	});
 	it('calls parent method if button is clicked', async () => {
-		const updateQuery = jest.fn();
+		const updateInput = jest.fn();
+		const updateDate = jest.fn();
+		const date = new Date();
 		const search = jest.fn();
-		const wrapper = Enzyme.shallow(<SearchSidebar updateQuery={updateQuery} search={search}/>);
+		const wrapper = Enzyme.shallow(
+			<SearchSidebar
+				updateInput={updateInput}
+				search={search}
+				updateDates={updateDate}
+				startDate={date}
+				endDate={date}/>,
+		);
 		wrapper.find('button').first().simulate('click');
 		expect(search.mock.calls.length).toBe(1);
 	});

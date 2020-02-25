@@ -8,12 +8,10 @@ describe('testing getEvents', () => {
 	it('should getMessages successfully', async () => {
 		eventModel.find = jest.fn().mockImplementation(async () => 'test result');
 		await expect(await eventService.getEvents()).toEqual('test result');
-		await expect(eventModel.find.mock.calls[0]).toEqual([{}]);
 	});
 	it('should throw error successfully', async () => {
 		eventModel.find = jest.fn().mockImplementation(async () => { throw Error('irrelevant'); });
 		await expect(eventService.getEvents()).rejects.toEqual(new Error('Error while getting events'));
-		await expect(eventModel.find.mock.calls[0]).toEqual([{}]);
 	});
 });
 
@@ -21,12 +19,12 @@ describe('testing getEvents for the advanced search', () => {
 	it('should getMessages successfully', async () => {
 		eventModel.find = jest.fn().mockImplementation(async () => 'test result');
 		await expect(await eventService.getEventsAdvanced({ title: 'test' })).toEqual('test result');
-		await expect(eventModel.find.mock.calls[0]).toEqual([{ title: /test/i }]);
+		await expect(eventModel.find.mock.calls[0][0].title).toEqual(/test/i);
 	});
 	it('should throw error successfully', async () => {
 		eventModel.find = jest.fn().mockImplementation(async () => { throw Error('irrelevant'); });
 		await expect(eventService.getEventsAdvanced({ title: 'test' })).rejects.toThrow();
-		await expect(eventModel.find.mock.calls[0]).toEqual([{ title: /test/i }]);
+		await expect(eventModel.find.mock.calls[0][0].title).toEqual(/test/i);
 	});
 });
 

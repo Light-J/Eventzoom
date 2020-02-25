@@ -21,7 +21,8 @@ router.get(
 	'/advanced',
 	validator('optional', { field: 'title' }),
 	validator('optional', { field: 'speaker' }),
-	validator('optional', { field: 'date' }),
+	validator('optional', { field: 'startDate' }),
+	validator('optional', { field: 'endDate' }),
 	validator('optional', { field: 'organiser' }),
 	async (req, res) => {
 		try {
