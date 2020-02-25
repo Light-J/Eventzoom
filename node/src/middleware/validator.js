@@ -60,6 +60,8 @@ const validators = {
 const validate = (validator, params) => async (req, res, next) => {
 	let result = false;
 
+	// potentially instantiate req.validated
+	req.validated = req.validated || [];
 	if (req.method === 'GET') {
 		req.body = req.query;
 	}
@@ -77,7 +79,6 @@ const validate = (validator, params) => async (req, res, next) => {
 	if (result.fieldName && result.fieldValue) {
 		// the reason these are reattached
 		// is so that non-validated fields don't accidentally make it into the DB
-		req.validated = req.validated || [];
 		req.validated[result.fieldName] = result.fieldValue;
 	}
 	next();
