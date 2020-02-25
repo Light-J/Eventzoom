@@ -7,15 +7,21 @@ const getEvents = async (query) => {
 			const escapedQuery = escapeStringRegexp(query);
 			const regSearch = new RegExp(`${escapedQuery}`, 'i');
 			return await Event.find({
-				$or: [
-					{ title: regSearch },
-					{ description: regSearch },
-					{ speaker: regSearch },
-					{ organiser: regSearch },
+				$and: [
+					{
+						$or: [
+							{ title: regSearch },
+							{ description: regSearch },
+							{ speaker: regSearch },
+							{ organiser: regSearch },
+						],
+					},
+					{ date: { $gte: Date.now() } },
+
 				],
 			});
 		}
-		return await Event.find({});
+		return await Event.find({ date: { $gte: Date.now() } });
 	} catch (e) {
 		// Log Errors
 		throw Error('Error while getting events');
@@ -38,6 +44,10 @@ const getEventsAdvanced = async (fields) => {
 				searchQuery.date = { $gte: startDate, $lt: endDate };
 			}
 		});
+		// so events from the past aren't shown unless explicitly searched for
+		if (!searchQuery.date) {
+			searchQuery.date = { $gte: Date.now() };
+		}
 		return await Event.find(searchQuery);
 	} catch (e) {
 		// Log Errors

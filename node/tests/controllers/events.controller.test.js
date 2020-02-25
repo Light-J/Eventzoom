@@ -45,7 +45,7 @@ describe('testing events/advanced', () => {
 			.get('/events/advanced')
 			.send();
 		await expect(res.body).toEqual({ status: 400, message: 'test' });
-		return expect(eventService.getEventsAdvanced.mock.calls[0]).toEqual([undefined]);
+		return expect(eventService.getEventsAdvanced.mock.calls[0]).toEqual([[]]);
 	});
 });
 
