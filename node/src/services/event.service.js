@@ -40,8 +40,8 @@ const getEventsAdvanced = async (fields) => {
 				// https://stackoverflow.com/questions/11526504/minimum-and-maximum-date
 				// 25 Feb 2020
 				const startDate = fields.startDate || new Date(-8640000000000000);
-				const endDate = fields.endDate || new Date(8640000000000000);
-				searchQuery.date = { $gte: startDate, $lt: endDate };
+				const endDate = new Date(fields.endDate) || new Date(8640000000000000);
+				searchQuery.date = { $gte: startDate, $lt: endDate.setDate(endDate.getDate() + 1) };
 			}
 		});
 		// so events from the past aren't shown unless explicitly searched for
