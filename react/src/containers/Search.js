@@ -12,7 +12,10 @@ class Search extends Component {
 		showSidebar: false,
 		searchResults: [],
 		searchQuery: '',
-		advancedSearchQuery: {},
+		advancedSearchQuery: {
+			startDate: new Date(),
+			endDate: new Date(),
+		},
 	};
 
 	componentDidMount() {
@@ -41,9 +44,14 @@ class Search extends Component {
 		this.setState({ searchQuery: event.target.value });
 	};
 
-	updateAdvancedSearch = (event) => {
+	updateAdvancedSearchInput = (event) => {
 		const { advancedSearchQuery } = this.state;
 		advancedSearchQuery[event.target.id] = event.target.value;
+		this.setState({ advancedSearchQuery });
+	};
+
+	updateAdvancedSearchDates = (ranges) => {
+		const advancedSearchQuery = { ...this.state.advancedSearchQuery, ...ranges.selection };
 		this.setState({ advancedSearchQuery });
 	};
 
@@ -60,13 +68,16 @@ class Search extends Component {
 		<SearchBar toggle={this.onToggle} search={this.updateResults} updateQuery={this.updateQuery} />
 		<div className="row mt-3">
 			<Conditional if={this.state.showSidebar}>
-				<div className="col-md-3">
+				<div className="col-md-4">
 					<SearchSidebar
-						updateQuery={this.updateAdvancedSearch}
+						updateInput={this.updateAdvancedSearchInput}
+						updateDates={this.updateAdvancedSearchDates}
+						startDate={this.state.advancedSearchQuery.startDate}
+						endDate={this.state.advancedSearchQuery.endDate}
 						search={this.updateAdvancedResults} />
 				</div>
 			</Conditional>
-			<div className={this.state.showSidebar ? 'col-md-9' : 'col-md-12'}>
+			<div className={this.state.showSidebar ? 'col-md-8' : 'col-md-12'}>
 				<SearchResults results={this.state.searchResults} isLoading={this.state.isLoading}/>
 			</div>
 		</div>
