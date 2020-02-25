@@ -9,7 +9,7 @@
   "main": "lambda.js",
   "homepage": ".",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit --detectOpenHandles --setupFiles dotenv/config",
     "start": "nodemon -r dotenv/config src/index.js --exec babel-node",
     "build": "node \"node_modules/@babel/cli/bin/babel.js\" src/ -d dist/src/ && node \"node_modules/@babel/cli/bin/babel.js\" config/ -d dist/config",
     "prod": "node -r dotenv/config dist/src/index.js dotenv_config_path=.env.prod",
@@ -47,6 +47,7 @@
     "db-migrate": "^0.11.6",
     "db-migrate-mongodb": "^1.5.0",
     "dotenv": "^8.2.0",
+    "escape-string-regexp": "^2.0.0",
     "express": "^4.17.1",
     "mongoose": "^5.7.10",
     "mongoose-unique-validator": "^2.0.3",

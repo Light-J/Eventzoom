@@ -59,6 +59,11 @@ const validators = {
 
 const validate = (validator, params) => async (req, res, next) => {
 	let result = false;
+
+	if (req.method === 'GET') {
+		req.body = req.query;
+	}
+
 	result = await validators[validator](params, req);
 
 	// bail if unsuccessful

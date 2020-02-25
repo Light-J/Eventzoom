@@ -26,6 +26,9 @@ class SearchResults extends Component {
 				);
 			})}
 		</div>
+		<Conditional if={Object.keys(this.props.results).length === 0}>
+			<h2>No Results found :(</h2>
+		</Conditional>
 	</div>;
 }
 
