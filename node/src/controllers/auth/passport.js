@@ -2,14 +2,20 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import authConfig from '../../../config/auth';
 import userService from '../../services/user.service';
 
 const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
 	if (!user) { return done(null, false); }
-	if (!await userService.verifyPassword(password, user.password)) { return done(null, false); }
-	return done(null, user);
+
+	bcrypt.compare(password, user.password).then((result) => {
+		if (result) {
+			return done(null, user);
+		}
+		return done(null, false);
+	}).catch(() => done(null, false));
 };
 
 const JwtOptions = {

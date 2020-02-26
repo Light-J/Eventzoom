@@ -23,16 +23,6 @@ const getUserById = async (id) => {
 	}
 };
 
-const verifyPassword = async (password, userPassword) => {
-	let result;
-	try {
-		result = await bcrypt.compare(password, userPassword);
-	} catch (e) {
-		return false;
-	}
-	return result;
-};
-
 export default {
-	createUser, getUserByEmail, getUserById, verifyPassword,
+	createUser, getUserByEmail, getUserById,
 };
