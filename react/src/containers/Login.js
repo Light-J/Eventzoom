@@ -70,7 +70,7 @@ export class Login extends React.Component {
 		}
 		return <Redirect to={'/'} />;
 	}
-};
+}
 
 const mapStateToProps = (state) => ({
 	user: state.userReducer.user,

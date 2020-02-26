@@ -10,7 +10,7 @@ const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
 	if (!user) { return done(null, false); }
 
-	bcrypt.compare(password, user.password).then((result) => {
+	return bcrypt.compare(password, user.password).then((result) => {
 		if (result) {
 			return done(null, user);
 		}

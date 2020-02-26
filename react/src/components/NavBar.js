@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Conditional from "./Conditional";
+import Conditional from './Conditional';
 
 export class NavBar extends Component {
 	static propTypes = {
