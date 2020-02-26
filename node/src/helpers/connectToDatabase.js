@@ -8,6 +8,7 @@ winston.debug(`Mongoo config URL is ${databaseConfig.uri}`);
 Mongoose.connect(
 	databaseConfig.uri, {
 		useNewUrlParser: true,
+		useUnifiedTopology: true,
 		serverSelectionTimeoutMS: 3000,
 		connectTimeoutMS: 3000,
 	},
