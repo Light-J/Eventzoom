@@ -1,8 +1,11 @@
 import express from 'express';
+import multer from 'multer';
 import EventService from '../services/event.service';
 import validator from '../middleware/validator';
 
+
 const router = express.Router();
+const upload = multer();
 
 router.get(
 	'/',
@@ -47,14 +50,40 @@ router.get(
 );
 
 router.post(
-	'/addEvent', async (req, res) => {
+	'/addEvent',
+	upload.single('image'),
+	validator('required', { field: 'title' }),
+	validator('required', { field: 'description' }),
+	validator('required', { field: 'image' }),
+	validator('required', { field: 'speaker' }),
+	validator('required', { field: 'vaguelocation' }),
+	validator('required', { field: 'specificlocation' }),
+	validator('required', { field: 'disabilityaccess' }),
+	validator('required', { field: 'organiser' }),
+	validator('required', { field: 'capacity' }),
+	validator('required', { field: 'date' }),
+	async (req, res) => {
 		try {
-			const event = await EventService.postEvents(req.body.data);
+			const location = await fileService.uploadFile(req.validated.file);
+			const event = await EventService.addEvents(
+				{
+					title: req.validated.title,
+					description: req.validated.description,
+					image: location,
+					speaker: req.validated.speaker,
+					vaguelocation: req.validated.vaguelocation,
+					specificlocation: req.validated.specificlocation,
+					disabilityaccess: req.validated.disabilityaccess,
+					organiser: req.validated.organiser,
+					capacity: req.validated.capacity,
+					date: req.validated.date,
+				},
+			);
 			return res.send(event);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
-	}, 
+	},
 );
 
 export default router;

@@ -17,9 +17,7 @@ export default class AddEvent extends React.Component {
 		requiredError: false,
 		imageError: false,
 		success: false,
-
 	}
-
 
 handleChange = (e) => {
 	this.setState({ [e.target.name]: e.target.value });
@@ -62,7 +60,6 @@ submitForm = async () => {
 render = () => (<form className="container">
 	<div className="card border-0 shadow my-5">
 		<div className="form-group">
-
 			<h1> Create a Event</h1>
 			<label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
 			<div className="col-sm-10">
