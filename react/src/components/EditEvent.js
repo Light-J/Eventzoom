@@ -57,7 +57,6 @@ submitForm = async () => {
 		}
 	}
 };
-}
 
 render = () => (<form className="container">
 	<div className="card border-0 shadow my-5">
@@ -149,3 +148,4 @@ render = () => (<form className="container">
 	</div>
 </form>
 );
+}

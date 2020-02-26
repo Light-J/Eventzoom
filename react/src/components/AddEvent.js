@@ -55,7 +55,7 @@ submitForm = async () => {
 		}
 	}
 };
-}
+
 
 render = () => (<form className="container">
 	<div className="card border-0 shadow my-5">
@@ -141,8 +141,9 @@ render = () => (<form className="container">
 		</div>
 
 		<div>
-			<button onClick={this.submitForm} type="submit" className="btn btn-outline-primary btn-block"> Add Event </button>
+			<button className="btn btn-outline-primary btn-block"  type="submit" onClick={this.submitForm}> Add Event </button>
 		</div>
 	</div>
 </form>
 );
+}
