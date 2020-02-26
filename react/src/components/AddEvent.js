@@ -17,6 +17,10 @@ export default class AddEvent extends React.Component {
 		requiredError: false,
 		imageError: false,
 		success: false,
+<<<<<<< HEAD
+=======
+
+>>>>>>> c8e727a9fd4ece682889155c80f40f903882d8df
 	}
 
 handleChange = (e) => {
@@ -55,11 +59,19 @@ submitForm = async () => {
 		}
 	}
 };
+<<<<<<< HEAD
 
+=======
+}
+>>>>>>> c8e727a9fd4ece682889155c80f40f903882d8df
 
 render = () => (<form className="container">
 	<div className="card border-0 shadow my-5">
 		<div className="form-group">
+<<<<<<< HEAD
+=======
+
+>>>>>>> c8e727a9fd4ece682889155c80f40f903882d8df
 			<h1> Create a Event</h1>
 			<label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
 			<div className="col-sm-10">
@@ -141,9 +153,17 @@ render = () => (<form className="container">
 		</div>
 
 		<div>
+<<<<<<< HEAD
 			<button className="btn btn-outline-primary btn-block"  type="submit" onClick={this.submitForm}> Add Event </button>
 		</div>
 	</div>
 </form>
 );
 }
+=======
+			<button onClick={this.submitForm} type="submit" className="btn btn-outline-primary btn-block"> Add Event </button>
+		</div>
+	</div>
+</form>
+);
+>>>>>>> c8e727a9fd4ece682889155c80f40f903882d8df

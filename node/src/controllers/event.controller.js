@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import EventService from '../services/event.service';
 import validator from '../middleware/validator';
+import fileService from '../services/file.service';
 
 
 const router = express.Router();
@@ -63,6 +64,7 @@ router.post(
 	validator('required', { field: 'capacity' }),
 	validator('required', { field: 'date' }),
 	async (req, res) => {
+<<<<<<< HEAD
 		try {
 			const location = await fileService.uploadFile(req.validated.file);
 			const event = await EventService.addEvents(
@@ -83,6 +85,25 @@ router.post(
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
+=======
+		const location = await fileService.uploadFile(req.validated.file);
+		const event = await EventService.addEvents(
+			{
+				title: req.validated.title,
+				description: req.validated.description,
+				image: location,
+				speaker: req.validated.speaker,
+				vaguelocation: req.validated.vaguelocation,
+				specificlocation: req.validated.specificlocation,
+				disabilityaccess: req.validated.disabilityaccess,
+				organiser: req.validated.organiser,
+				capacity: req.validated.capacity,
+				date: req.validated.date,
+			},
+		);
+		res.send(event);
+		res.status(400).json({ status: 400, message: e.message });
+>>>>>>> c8e727a9fd4ece682889155c80f40f903882d8df
 	},
 );
 

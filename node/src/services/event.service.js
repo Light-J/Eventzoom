@@ -72,5 +72,4 @@ const addEvents = async (query) => {
 };
 
 export default {
-	getEvents, getEventById, getEventsAdvanced, addEvents,
-};
+	getEvents, getEventById, getEventsAdvanced, addEvents };
