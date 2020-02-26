@@ -29,8 +29,8 @@ class App extends Component {
 			<Series />
 		</Route>
 		<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
-		<Route exact path="/addEvent" render={(props) => <AddEvent {...props} />} />
-		<Route exact path="/editEvent" render={(props) => <EditEvent {...props} />} />
+		<Route exact path="/add-event" render={(props) => <AddEvent {...props} />} />
+		<Route exact path="/edit-event" render={(props) => <EditEvent {...props} />} />
 
 	</div>
 }

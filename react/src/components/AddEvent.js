@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 
 export default class AddEvent extends React.Component {
@@ -31,7 +32,7 @@ submitForm = async () => {
 	const data = new FormData();
 	data.append('title', this.state.title);
 	data.append('description', this.state.description);
-	data.append('image', this.state.file);
+	data.append('file', this.state.file);
 	data.append('speaker', this.state.speaker);
 	data.append('vaguelocation', this.state.vaguelocation);
 	data.append('specificlocation', this.state.specificlocation);
@@ -41,7 +42,7 @@ submitForm = async () => {
 	data.append('date', this.state.date);
 	this.setState({ requiredError: false, imageError: false });
 	try {
-		await axios.post(`${serverConfig.url}addevent`, data, {
+		await axios.post(`${serverConfig.url}events/add-event`, data, {
 			headers: {
 				'Content-type': 'multipart/form-data',
 			},
@@ -56,9 +57,25 @@ submitForm = async () => {
 	}
 };
 
-render = () => (<form className="container" onSubmit={this.submitForm}>
+render = () => (<form className="container">
 	<div className="card border-0 shadow my-5">
 		<div className="form-group">
+			<Conditional if={this.state.success}>
+				<div className="alert alert-success">
+					Event added successfully.
+				</div>
+			</Conditional>
+			<Conditional if={this.state.imageError}>
+				<div className="alert alert-danger">
+					Selected file must be an image!
+				</div>
+			</Conditional>
+			<Conditional if={this.state.requiredError}>
+				<div className="alert alert-danger">
+					All fields are required!
+				</div>
+			</Conditional>
+
 			<h1> Create a Event</h1>
 			<label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
 			<div className="col-sm-10">
@@ -140,7 +157,7 @@ render = () => (<form className="container" onSubmit={this.submitForm}>
 		</div>
 
 		<div>
-			<button className="btn btn-outline-primary btn-block" type="submit" onClick={this.submitForm}> Add Event </button>
+		<button className={`btn btn-success ${this.state.success ? 'disabled' : ''} mt-5`} onClick={this.submitForm} type="submit">Add Event</button>
 		</div>
 	</div>
 </form>

@@ -71,6 +71,4 @@ const addEvent = async (query) => {
 	}
 };
 
-export default {
-	getEvents, getEventById, getEventsAdvanced, addEvent,
-};
+export default { getEvents, getEventById, getEventsAdvanced, addEvent };

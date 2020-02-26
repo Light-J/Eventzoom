@@ -50,11 +50,10 @@ router.get(
 );
 
 router.post(
-	'/addEvent',
+	'/add-event',
 	upload.single('image'),
 	validator('required', { field: 'title' }),
 	validator('required', { field: 'description' }),
-	validator('required', { field: 'image' }),
 	validator('required', { field: 'speaker' }),
 	validator('required', { field: 'vaguelocation' }),
 	validator('required', { field: 'specificlocation' }),
@@ -62,9 +61,11 @@ router.post(
 	validator('required', { field: 'organiser' }),
 	validator('required', { field: 'capacity' }),
 	validator('required', { field: 'date' }),
+	validator('fileSize', { file: 'file', maxSize: 1e+7 }), // 10MB
+	validator('fileType', { file: 'file', types: /^image\/.*$/ }),
 	async (req, res) => {
 		try {
-			const event = await EventService.addEvents(req.validated.data);
+			const event = await EventService.addEvent(req.validated.field);
 			await fileService.uploadFile(req.validated.file);
 			return res.send(event);
 		} catch (e) {
