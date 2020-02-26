@@ -7,7 +7,7 @@ import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 import { setUser } from '../store/actions/actions';
 
-const Login = class Login extends React.Component {
+export class Login extends React.Component {
 	static propTypes = {
 		user: PropTypes.object,
 		setUser: PropTypes.func.isRequired,
