@@ -17,7 +17,7 @@ const getEventById = async (id) => {
 	}
 };
 
-const postEvents = async (query) => {
+const addEvents = async (query) => {
 	try {
 		return await ((new Event(query)).save());
 	} catch (e) {
@@ -26,4 +26,4 @@ const postEvents = async (query) => {
 	}
 };
 
-export default { getEvents, getEventById, postEvents };
+export default { getEvents, getEventById, addEvents };

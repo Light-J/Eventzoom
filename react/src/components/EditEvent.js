@@ -144,7 +144,7 @@ render = () => (<form className="container">
 		</div>
 
 		<div>
-			<button onClick={this.submitForm} type="submit" className="btn btn-outline-primary btn-block"> Add Event </button>
+			<button onClick={this.submitForm} type="submit" className="btn btn-outline-primary btn-block"> Edit Event </button>
 		</div>
 	</div>
 </form>
