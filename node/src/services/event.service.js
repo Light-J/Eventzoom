@@ -63,7 +63,7 @@ const getEventById = async (id) => {
 	}
 };
 
-const addEvents = async (query) => {
+const addEvent = async (query) => {
 	try {
 		return await ((new Event(query)).save());
 	} catch (e) {
@@ -72,4 +72,5 @@ const addEvents = async (query) => {
 };
 
 export default {
-	getEvents, getEventById, getEventsAdvanced, addEvents };
+	getEvents, getEventById, getEventsAdvanced, addEvent,
+};

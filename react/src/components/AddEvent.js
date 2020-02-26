@@ -10,7 +10,7 @@ export default class AddEvent extends React.Component {
 		speaker: '',
 		vaguelocation: '',
 		specificlocation: '',
-		disabilityaccess: 'no',
+		disabilityaccess: Boolean,
 		organiser: '',
 		capacity: 0,
 		date: new Date(),
@@ -113,12 +113,12 @@ render = () => (<form className="container" onSubmit={this.submitForm}>
                     No: <input type="radio" name="disabilityaccess"
 					value='no'
 					checked={this.state.disabilityaccess === 'no'}
-					onChange={this.onChange}
+					onChange={this.handleChange}
 				/>
                     Yes: <input type="radio" name="disabilityaccess"
 					value='yes'
 					checked={this.state.disabilityaccess === 'yes'}
-					onChange={this.onChange}
+					onChange={this.handleChange}
 				/>
 			</div>
 		</div>
@@ -140,7 +140,7 @@ render = () => (<form className="container" onSubmit={this.submitForm}>
 		</div>
 
 		<div>
-			<button className="btn btn-outline-primary btn-block"  type="submit" onClick={this.submitForm}> Add Event </button>
+			<button className="btn btn-outline-primary btn-block" type="submit" onClick={this.submitForm}> Add Event </button>
 		</div>
 	</div>
 </form>

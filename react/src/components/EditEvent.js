@@ -62,7 +62,7 @@ render = () => (<form className="container">
 	<div className="card border-0 shadow my-5">
 		<div className="form-group">
 
-			<h1> Create a Event</h1>
+			<h1> Edit an Event</h1>
 			<label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
 			<div className="col-sm-10">
 				<input id="title" className="form-control" type="text" name="title" placeholder="title"

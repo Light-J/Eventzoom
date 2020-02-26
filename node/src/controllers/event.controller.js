@@ -63,23 +63,14 @@ router.post(
 	validator('required', { field: 'capacity' }),
 	validator('required', { field: 'date' }),
 	async (req, res) => {
-			const location = await fileService.uploadFile(req.validated.file);
-			const event = await EventService.addEvents(
-				{
-					title: req.validated.title,
-					description: req.validated.description,
-					image: location,
-					speaker: req.validated.speaker,
-					vaguelocation: req.validated.vaguelocation,
-					specificlocation: req.validated.specificlocation,
-					disabilityaccess: req.validated.disabilityaccess,
-					organiser: req.validated.organiser,
-					capacity: req.validated.capacity,
-					date: req.validated.date,
-				},
-			);
+		try {
+			const event = await EventService.addEvents(req.validated.data);
+			await fileService.uploadFile(req.validated.file);
 			return res.send(event);
-		} 
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
 );
 
 export default router;
