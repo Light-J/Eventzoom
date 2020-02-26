@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Conditional from "./Conditional";
 
 export class NavBar extends Component {
 	static propTypes = {
@@ -35,6 +36,14 @@ export class NavBar extends Component {
 						this.props.user ? <Link className="nav-link" to=""> { this.props.user.email } <span className="sr-only">(current)</span></Link> : <Link className="nav-link" to="/Login">Login <span className="sr-only">(current)</span></Link>
 					}
 				</li>
+				<Conditional if={this.props.user}>
+					<li className="nav-item">
+						<a className="nav-link" style={{ cursor: 'pointer' }} onClick={() => {
+							localStorage.clear();
+							window.location.reload();
+						}}> Logout </a>
+					</li>
+				</Conditional>
 			</ul>
 		</div>
 	</nav>
