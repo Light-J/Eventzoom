@@ -1,0 +1,10 @@
+{
+  "lambda": {
+    "role": "final-client-project-node-executor",
+    "name": "final-client-project-node",
+    "region": "eu-west-3"
+  },
+  "api": {
+    "id": "gttpke2m1j"
+  }
+}

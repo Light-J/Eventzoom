@@ -22,10 +22,10 @@ exports.up = async function (db) {
     speaker: "Cat Berathian",
     vaguelocation: "Cardiff",
     specificlocation: "10 Street, Cardiff, CF23 4QS",
-    disabilityaccess: true,
+    disabilityAccess: true,
     organiser: "Catty Catty cat",
     capacity: 90,
-    date: "2020-03-03T00:00:00.000Z",
+    date: new Date("2020-03-03T00:00:00.000Z"),
   });
   await db.insert('events', {
     title: "Cat Test Event 2",
@@ -34,11 +34,25 @@ exports.up = async function (db) {
     speaker: "Cat-lanister",
     vaguelocation: "Cardiff",
     specificlocation: "10 Street, Cardiff, CF23 4QS",
-    disabilityaccess: false,
+    disabilityAccess: false,
     organiser: "Catty Catty cat",
     capacity: 46,
-    date: "2020-03-03T00:00:00.000Z",
+    date: new Date("2020-03-03T00:00:00.000Z"),
   });
+
+  await db.insert('events', {
+    title: "Are fat cats evil?",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/BK94gNy.jpg",
+    speaker: "Richie McRichieson",
+    vaguelocation: "Cardiff",
+    specificlocation: "10 Street, Cardiff, CF23 4QS",
+    disabilityAccess: false,
+    organiser: "Catty Catty cat",
+    capacity: 46,
+    date: new Date("2020-02-01T09:00:00.000Z"),
+  });
+
 
   await db.insert('events', {
     title: "Cat Test Event 3",
@@ -47,10 +61,10 @@ exports.up = async function (db) {
     speaker: "Cat-lin Stark",
     vaguelocation: "Cardiff",
     specificlocation: "10 Street, Cardiff, CF23 4QS",
-    disabilityaccess: false,
+    disabilityAccess: false,
     organiser: "A dog",
     capacity: 10,
-    date: "2020-03-03T00:00:00.000Z",
+    date: new Date("2020-03-03T00:00:00.000Z"),
   });
 
   await db.insert('events', {
@@ -60,10 +74,10 @@ exports.up = async function (db) {
     speaker: "Catty mcCatperson",
     vaguelocation: "Cardiff",
     specificlocation: "10 Street, Cardiff, CF23 4QS",
-    disabilityaccess: true,
+    disabilityAccess: true,
     organiser: "Catty",
     capacity: 34,
-    date: "2020-03-03T00:00:00.000Z",
+    date: new Date("2020-03-03T00:00:00.000Z"),
   });
 
   return null;

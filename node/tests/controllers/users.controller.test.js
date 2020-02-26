@@ -1,5 +1,5 @@
 import request from 'supertest';
-import index from '../../src/index';
+import index from '../../src/root';
 import userService from '../../src/services/user.service';
 // eslint-disable-next-line no-unused-vars
 import validator from '../../src/middleware/validator';
@@ -20,8 +20,3 @@ describe('/', () => {
 		await expect(userService.createUser.mock.calls[0]).toEqual([undefined]);
 	});
 });
-
-
-afterEach(async () => index.server.close());
-
-afterAll(() => setTimeout(() => process.exit(), 1000));
