@@ -10,6 +10,7 @@ import AddSeries from './AddSeries';
 import Login from '../components/Login';
 import Series from '../components/Series';
 import AddEvent from '../components/AddEvent';
+import EditEvent from '../components/EditEvent';
 
 class App extends Component {
 	static propTypes = {
@@ -28,7 +29,8 @@ class App extends Component {
 			<Series />
 		</Route>
 		<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
-		<Route exact path="/AddEvent" render={(props) => <AddEvent {...props} />} />
+		<Route exact path="/addEvent" render={(props) => <AddEvent {...props} />} />
+		<Route exact path="/editEvent" render={(props) => <EditEvent {...props} />} />
 
 	</div>
 }
