@@ -10,10 +10,10 @@ const router = express.Router();
 
 router.post(
 	'/',
-validator('required', { field: 'email' }),
-validator('regex', { regex: /[^@]+@[^.]+\..+/, field: 'email' }),
-validator('required', { field: 'password' }),
-validator('sameAs', { field: 'password', otherField: 'passwordConfirmation' }),
+	validator('required', { field: 'email' }),
+	validator('regex', { regex: /[^@]+@[^.]+\..+/, field: 'email' }),
+	validator('required', { field: 'password' }),
+	validator('sameAs', { field: 'password', otherField: 'passwordConfirmation' }),
 	validator('validModel', { model: User }),
 	async (req, res) => {
 		await userService.createUser(req.validated);
