@@ -1,17 +1,20 @@
 import React from 'react';
 import axios from 'axios';
-import Conditional from '../components/Conditional';
+import DatePicker from 'react-datepicker';
+import { bool } from 'prop-types';
+import Conditional from './Conditional';
 import serverConfig from '../config/server';
+import "react-datepicker/dist/react-datepicker.css";
 
 export default class AddEvent extends React.Component {
 	state = {
 		title: '',
 		description: '',
-		image: '',
+		file: '',
 		speaker: '',
 		vaguelocation: '',
 		specificlocation: '',
-		disabilityaccess: Boolean,
+		disabilityAccess: bool,
 		organiser: '',
 		capacity: 0,
 		date: new Date(),
@@ -19,6 +22,11 @@ export default class AddEvent extends React.Component {
 		imageError: false,
 		success: false,
 	}
+
+handleDate = (date) => {
+	this.setState({ date: date });
+}
+
 
 handleChange = (e) => {
 	this.setState({ [e.target.name]: e.target.value });
@@ -28,7 +36,8 @@ uploadFile = (e) => {
 	this.setState({ file: e.target.files[0] });
 };
 
-submitForm = async () => {
+submitForm = async (e) => {
+	e.preventDefault();
 	const data = new FormData();
 	data.append('title', this.state.title);
 	data.append('description', this.state.description);
@@ -36,7 +45,7 @@ submitForm = async () => {
 	data.append('speaker', this.state.speaker);
 	data.append('vaguelocation', this.state.vaguelocation);
 	data.append('specificlocation', this.state.specificlocation);
-	data.append('disabilityaccess', this.state.disabilityaccess);
+	data.append('disabilityAccess', this.state.disabilityAccess);
 	data.append('organiser', this.state.organiser);
 	data.append('capacity', this.state.capacity);
 	data.append('date', this.state.date);
@@ -79,7 +88,7 @@ render = () => (<form className="container">
 			<h1> Create a Event</h1>
 			<label htmlFor="title" className="col-sm-2 col-form-label">Title</label>
 			<div className="col-sm-10">
-				<input id="title" className="form-control" type="text" name="title" placeholder="title"
+				<input id="title" className="form-control" type="text" name="title" placeholder="Title"
 					value={this.state.title} onChange={this.handleChange} required />
 			</div>
 		</div>
@@ -87,22 +96,22 @@ render = () => (<form className="container">
 		<div className="form-group">
 			<label htmlFor="description" className="col-sm-2 col-form-label">Description</label>
 			<div className="col-sm-10">
-				<textarea id="title" className="form-control" name="description" placeholder="description"
+				<textarea id="title" className="form-control" name="description" placeholder="Description"
 					value={this.state.description} onChange={this.handleChange} required />
 			</div>
 		</div>
 
 		<div className="form-group">
-			<label htmlFor="image" className="col-sm-2 col-form-label">Upload Image</label>
+			<label htmlFor="image" className="col-sm-2 col-form-label">UploadImage</label>
 			<div className="col-sm-10">
-				<input id="imageUpload" className="form-control" type="file" onChange={this.uploadFile} accept="image/*" required />
+				<input id="imageUpload" className="form-control" type="file" onChange={this.uploadFile} accept="image/*"/>
 			</div>
 		</div>
 
 		<div className="form-group">
 			<label htmlFor="speaker" className="col-sm-2 col-form-label">Speaker</label>
 			<div className="col-sm-10">
-				<input id="speaker" className="form-control" type="text" name="speaker" placeholder="speaker"
+				<input id="speaker" className="form-control" type="text" name="speaker" placeholder="Speaker"
 					value={this.state.speaker} onChange={this.handleChange} required />
 			</div>
 		</div>
@@ -110,7 +119,7 @@ render = () => (<form className="container">
 		<div className="form-group">
 			<label htmlFor="vaguelocation" className="col-sm-2 col-form-label">Vague Location</label>
 			<div className="col-sm-10">
-				<input id="vaguelocation" className="form-control" type="text" name="vaguelocation" placeholder="vague location"
+				<input id="vaguelocation" className="form-control" type="text" name="vaguelocation" placeholder="Vague Location"
 					value={this.state.vaguelocation} onChange={this.handleChange} required />
 			</div>
 		</div>
@@ -118,23 +127,22 @@ render = () => (<form className="container">
 		<div className="form-group">
 			<label htmlFor="specificlocation" className="col-sm-2 col-form-label">Specific Location</label>
 			<div className="col-sm-10">
-				<input id="specificlocation" className="form-control" type="text" name="specificlocation" placeholder="specific location"
+				<input id="specificlocation" className="form-control" type="text" name="specificlocation" placeholder="Specific Location"
 					value={this.state.specificlocation} onChange={this.handleChange} required />
 			</div>
 		</div>
 
-
 		<div className="form-group">
-			<label htmlFor="disabilityaccess" className="col-sm-2 col-form-label">Disability Access</label>
+			<label htmlFor="disabilityAccess" className="col-sm-2 col-form-label">Disability Access</label>
 			<div className="col-sm-10">
-                    No: <input type="radio" name="disabilityaccess"
+                    No: <input type="radio" name="disabilityAccess"
 					value='no'
-					checked={this.state.disabilityaccess === 'no'}
+					checked={this.state.disabilityAccess === 'no'}
 					onChange={this.handleChange}
 				/>
-                    Yes: <input type="radio" name="disabilityaccess"
+                    Yes: <input type="radio" name="disabilityAccess"
 					value='yes'
-					checked={this.state.disabilityaccess === 'yes'}
+					checked={this.state.disabilityAccess === 'yes'}
 					onChange={this.handleChange}
 				/>
 			</div>
@@ -143,7 +151,7 @@ render = () => (<form className="container">
 		<div className="form-group">
 			<label htmlFor="organiser" className="col-sm-2 col-form-label">Organiser</label>
 			<div className="col-sm-10">
-				<input id="organiser" className="form-control" type="text" name="organiser" placeholder="organiser"
+				<input id="organiser" className="form-control" type="text" name="organiser" placeholder="Organiser"
 					value={this.state.organiser} onChange={this.handleChange} required />
 			</div>
 		</div>
@@ -151,13 +159,17 @@ render = () => (<form className="container">
 		<div className="form-group">
 			<label htmlFor="capacity" className="col-sm-2 col-form-label">Capacity</label>
 			<div className="col-sm-10">
-				<input id="capacity" className="form-control" type="number" name="capacity" placeholder="capacity"
+				<input id="capacity" className="form-control" type="number" name="capacity" placeholder="Capacity"
 					value={this.state.capacity} onChange={this.handleChange} required />
 			</div>
 		</div>
 
 		<div>
-		<button className={`btn btn-success ${this.state.success ? 'disabled' : ''} mt-5`} onClick={this.submitForm} type="submit">Add Event</button>
+			<DatePicker selected={this.state.date} onChange={this.handleDate} showTimeSelect dateFormat="Pp" />
+		</div>
+
+		<div>
+			<button className={`btn btn-success ${this.state.success ? 'disabled' : ''} mt-5`} onClick={this.submitForm} type="submit">Add Event</button>
 		</div>
 	</div>
 </form>
