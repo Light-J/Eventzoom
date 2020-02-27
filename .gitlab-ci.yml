@@ -46,6 +46,8 @@ react-deploy:
 
 
 node-deploy:
+  tags:
+    - north
   only:
     - develop
   stage: deploy_staging
