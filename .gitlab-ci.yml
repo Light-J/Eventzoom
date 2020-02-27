@@ -9,8 +9,30 @@ cache:
   - react/node_modules/
 
 stages:
+  - lintfix
   - test
   - deploy_staging
+lintfix:
+  stage: lintfix
+  except:
+   - develop
+   - master
+  script:
+   - git config user.email "me@hdimitrov.com"
+   - git config user.name "The spaghetti resolver"
+   - cd node/
+   - npm i
+   - npm run lint -- --fix || true
+   - git stage src/ tests/ config/ || true
+   - cd ../react/
+   - npm i
+   - npm run lint -- --fix || true
+   - git stage src/ || true
+   - chmod 400 $GITLAB_DEPLOY_KEY
+   - git remote add pipelinefix git@gitlab.cs.cf.ac.uk:c1734384/final-client-project.git
+   - git commit -m "Fixed $(git log -1 --pretty=format:'%an')'s linting (tut tut tut)" || true
+   - GIT_SSH_COMMAND="ssh -i $GITLAB_DEPLOY_KEY -o StrictHostKeyChecking=no" git push pipelinefix HEAD:$CI_COMMIT_REF_NAME || true
+
 
 node-test:
   variables:
