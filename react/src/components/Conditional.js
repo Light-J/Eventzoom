@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class Conditional extends Component {
 	static propTypes = {
-		if: PropTypes.any.isRequired,
+		if: PropTypes.any,
 		children: PropTypes.object.isRequired,
 	};
 
