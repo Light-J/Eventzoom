@@ -63,4 +63,14 @@ const getEventById = async (id) => {
 	}
 };
 
-export default { getEvents, getEventById, getEventsAdvanced };
+const addEvent = async (data) => {
+	try {
+		return await ((new Event(data)).save());
+	} catch (e) {
+		throw Error('Error while adding event');
+	}
+};
+
+export default {
+	getEvents, getEventById, getEventsAdvanced, addEvent,
+};
