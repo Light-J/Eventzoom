@@ -10,12 +10,14 @@ import users from './controllers/users.controller';
 import series from './controllers/series.controller';
 import './helpers/connectToDatabase';
 import './helpers/winston';
+import passport from './controllers/auth/passport';
 
 winston.info(`Client project URL is ${clientConfig.url}`);
 
 const app = express();
 const server = http.createServer(app);
 
+passport.initPassport(app);
 app.use(cors({ origin: clientConfig.url }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // TODO: probably don't need this

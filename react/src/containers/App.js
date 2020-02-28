@@ -7,7 +7,7 @@ import Event from './Event';
 import Search from './Search';
 import Registration from './Registration';
 import AddSeries from './AddSeries';
-import Login from '../components/Login';
+import Login from './Login';
 import Series from '../components/Series';
 import AddEvent from './AddEvent';
 
