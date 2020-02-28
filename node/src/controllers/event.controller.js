@@ -58,8 +58,8 @@ router.post(
 	validator('required', { field: 'speaker' }),
 	validator('fileSize', { file: 'file', maxSize: 1e+7 }), // 10MB
 	validator('fileType', { file: 'file', types: 'image/*' }),
-	validator('required', { field: 'vaguelocation' }),
-	validator('required', { field: 'specificlocation' }),
+	validator('required', { field: 'vagueLocation' }),
+	validator('required', { field: 'specificLocation' }),
 	validator('required', { field: 'disabilityAccess' }),
 	validator('required', { field: 'organiser' }),
 	validator('required', { field: 'capacity' }),
@@ -69,8 +69,8 @@ router.post(
 		try {
 			const location = await fileService.uploadFile(req.validated.file);
 			req.validated.image = location;
-			const event = await EventService.addEvent(req.validated);
-			return res.send(event);
+			await EventService.addEvent(req.validated);
+			return res.json({ success: true });
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}

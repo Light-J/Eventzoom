@@ -21,11 +21,11 @@ describe('<AddEvent />', () => {
 		const labelSpeaker = wrapper.find('label[htmlFor="speaker"]');
 		const inputSpeaker = wrapper.find('input[id="speaker"]');
 
-		const labelVaguelocation = wrapper.find('label[htmlFor="vaguelocation"]');
-		const inputVaguelocation = wrapper.find('input[id="vaguelocation"]');
+		const labelvagueLocation = wrapper.find('label[htmlFor="vagueLocation"]');
+		const inputvagueLocation = wrapper.find('input[id="vagueLocation"]');
 
-		const labelSpecificlocation = wrapper.find('label[htmlFor="specificlocation"]');
-		const inputSpecificlocation = wrapper.find('input[id="specificlocation"]');
+		const labelspecificLocation = wrapper.find('label[htmlFor="specificLocation"]');
+		const inputspecificLocation = wrapper.find('input[id="specificLocation"]');
 
 		const inputDisabilityAccess = wrapper.find('input[type="radio"]');
 
@@ -47,11 +47,11 @@ describe('<AddEvent />', () => {
 		expect(labelSpeaker).toHaveLength(1);
 		expect(inputSpeaker).toHaveLength(1);
 
-		expect(labelVaguelocation).toHaveLength(1);
-		expect(inputVaguelocation).toHaveLength(1);
+		expect(labelvagueLocation).toHaveLength(1);
+		expect(inputvagueLocation).toHaveLength(1);
 
-		expect(labelSpecificlocation).toHaveLength(1);
-		expect(inputSpecificlocation).toHaveLength(1);
+		expect(labelspecificLocation).toHaveLength(1);
+		expect(inputspecificLocation).toHaveLength(1);
 
 		expect(inputDisabilityAccess).toHaveLength(2);
 

@@ -17,8 +17,8 @@ export default class AddEvent extends React.Component {
 		description: '',
 		file: '',
 		speaker: '',
-		vaguelocation: '',
-		specificlocation: '',
+		vagueLocation: '',
+		specificLocation: '',
 		disabilityAccess: false,
 		organiser: '',
 		capacity: 0,
@@ -106,15 +106,15 @@ render = () => (<form className="container">
 		</div>
 
 		<div className="form-group">
-			<label htmlFor="vaguelocation" className="col-form-label">Vague Location</label>
-			<input id="vaguelocation" className="form-control" type="text" name="vaguelocation" placeholder="Vague Location"
-				value={this.state.vaguelocation} onChange={this.handleChange} required />
+			<label htmlFor="vagueLocation" className="col-form-label">Vague Location</label>
+			<input id="vagueLocation" className="form-control" type="text" name="vagueLocation" placeholder="Vague Location"
+				value={this.state.vagueLocation} onChange={this.handleChange} required />
 		</div>
 
 		<div className="form-group">
-			<label htmlFor="specificlocation" className="col-form-label">Specific Location</label>
-			<input id="specificlocation" className="form-control" type="text" name="specificlocation" placeholder="Specific Location"
-				value={this.state.specificlocation} onChange={this.handleChange} required />
+			<label htmlFor="specificLocation" className="col-form-label">Specific Location</label>
+			<input id="specificLocation" className="form-control" type="text" name="specificLocation" placeholder="Specific Location"
+				value={this.state.specificLocation} onChange={this.handleChange} required />
 		</div>
 
 		<div className="form-group">
