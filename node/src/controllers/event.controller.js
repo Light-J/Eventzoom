@@ -1,8 +1,12 @@
 import express from 'express';
-import EventService from '../services/event.service';
+import multer from 'multer';
 import validator from '../middleware/validator';
+import EventService from '../services/event.service';
+import fileService from '../services/file.service';
+import Event from '../models/event.model';
 
 const router = express.Router();
+const upload = multer();
 
 router.get(
 	'/',
@@ -40,6 +44,33 @@ router.get(
 		try {
 			const event = await EventService.getEventById(req.params.id);
 			return res.send(event);
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
+router.post(
+	'/',
+	upload.single('file'),
+	validator('required', { field: 'title' }),
+	validator('required', { field: 'description' }),
+	validator('required', { field: 'speaker' }),
+	validator('fileSize', { file: 'file', maxSize: 1e+7 }), // 10MB
+	validator('fileType', { file: 'file', types: 'image/*' }),
+	validator('required', { field: 'vagueLocation' }),
+	validator('required', { field: 'specificLocation' }),
+	validator('required', { field: 'disabilityAccess' }),
+	validator('required', { field: 'organiser' }),
+	validator('required', { field: 'capacity' }),
+	validator('required', { field: 'date' }),
+	validator('validModel', { model: Event }),
+	async (req, res) => {
+		try {
+			const location = await fileService.uploadFile(req.validated.file);
+			req.validated.image = location;
+			await EventService.addEvent(req.validated);
+			return res.json({ success: true });
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}

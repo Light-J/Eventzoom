@@ -43,26 +43,23 @@ export class Login extends React.Component {
 		if (!this.props.user) {
 			return (
 				<form className="container">
-					<div className="card border-0 shadow my-5">
+					<div className="card border-0 shadow my-5 p-5">
 						<Conditional if={this.state.authenticationFailure}>
 							<div className="alert alert-danger">
-											The username and password are invalid. Please try again.
+								The username and password are invalid. Please try again.
 							</div>
 						</Conditional>
+						<h1>Login</h1>
 						<div className="form-group">
-							<label htmlFor="staticUsername" className="col-sm-2 col-form-label">Username</label>
-							<div className="col-sm-10">
-								<input className="form-control" type="username" name="username" placeholder="username" value={this.state.username} onChange={this.handleChange} required/>
-							</div>
+							<label htmlFor="staticUsername" className="col-form-label">Username</label>
+							<input className="form-control" type="username" name="username" placeholder="Username" value={this.state.username} onChange={this.handleChange} required/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="InputPassword" className="col-sm-2 col-form-label">Password</label>
-							<div className="col-sm-10">
-								<input className="form-control" type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
-							</div>
+							<label htmlFor="InputPassword" className="col-form-label">Password</label>
+							<input className="form-control" type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
 						</div>
 						<div>
-							<button className="btn btn-outline-primary btn-block" onClick={this.submitForm}>Login</button>
+							<button className="btn btn-success btn-block" onClick={this.submitForm}>Login</button>
 						</div>
 					</div>
 				</form>
