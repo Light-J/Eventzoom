@@ -55,9 +55,9 @@ class Event extends Component {
 									<div className='card-body'>
 										<h5 className='card-title'>Event details</h5>
 										<DisabilityAccess disabilityAccess={this.state.disabilityAccess} />
-										<p>Date: {new Date(this.state.date).toLocaleDateString()}</p>
+										<p>Date: {new Date(this.state.date).toLocaleString()}</p>
 										<p>Speaker: {this.state.speaker}</p>
-										<p>Location: {this.state.vaguelocation}</p>
+										<p>Location: {this.state.vagueLocation}</p>
 										<p>Organiser: {this.state.organiser}</p>
 									</div>
 									<div className="card-footer text-center">

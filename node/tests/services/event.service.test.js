@@ -40,3 +40,10 @@ describe('testing getEventByid', () => {
 		return expect(eventModel.findById.mock.calls[0]).toEqual([1]);
 	});
 });
+
+describe('testing addEvent', () => {
+	it('should run successfully', async () => {
+		await eventService.addEvent({ test: 'test' });
+		expect(eventModel.mock.calls[0]).toEqual([{ test: 'test' }]);
+	});
+});

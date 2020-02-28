@@ -10,7 +10,7 @@ class DisabilityAccess extends Component {
 		if (this.props.disabilityAccess) {
 			return <div className="alert alert-success" role="alert">This event has disability access</div>;
 		}
-		return <div className="alert alert-danger" role="alert">This event unfortunatly does not have disability access</div>;
+		return <div className="alert alert-danger" role="alert">This event does not have disability access</div>;
 	};
 }
 
