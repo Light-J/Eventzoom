@@ -5,6 +5,9 @@ import { bool } from 'prop-types';
 import Conditional from './Conditional';
 import serverConfig from '../config/server';
 import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import es from 'date-fns/locale/es';
+registerLocale('es', es)
 
 export default class AddEvent extends React.Component {
 	state = {
@@ -102,7 +105,7 @@ render = () => (<form className="container">
 		</div>
 
 		<div className="form-group">
-			<label htmlFor="image" className="col-sm-2 col-form-label">UploadImage</label>
+			<label htmlFor="image" className="col-sm-2 col-form-label">Upload Image</label>
 			<div className="col-sm-10">
 				<input id="imageUpload" className="form-control" type="file" onChange={this.uploadFile} accept="image/*"/>
 			</div>
@@ -165,11 +168,12 @@ render = () => (<form className="container">
 		</div>
 
 		<div>
-			<DatePicker selected={this.state.date} onChange={this.handleDate} showTimeSelect dateFormat="Pp" />
+			<label htmlFor="Calendar" className="col-sm-2 col-form-label">Select Date and Time</label>
+			<DatePicker className= "form-control" selected={this.state.date} onChange={this.handleDate} setDefaultlocale="es" showTimeSelect dateFormat="Pp" />
 		</div>
 
 		<div>
-			<button className={`btn btn-success ${this.state.success ? 'disabled' : ''} mt-5`} onClick={this.submitForm} type="submit">Add Event</button>
+			<button className={`btn btn-success btn-block ${this.state.success ? 'disabled' : ''}`} onClick={this.submitForm} type="submit">Add Event</button>
 		</div>
 	</div>
 </form>

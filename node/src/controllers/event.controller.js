@@ -65,9 +65,10 @@ router.post(
 	validator('required', { field: 'date' }),
 	async (req, res) => {
 		try {
-			fileService.uploadFile(req.validated.file);
+			const location = await fileService.uploadFile(req.validated.file);
+			req.validated.image = location;
 			const event = await EventService.addEvent(req.validated);
-			return res.text(event);
+			return res.send(event);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
