@@ -1,4 +1,5 @@
 import express from 'express';
+import passport from 'passport';
 import multer from 'multer';
 import validator from '../middleware/validator';
 import seriesService from '../services/series.service';
@@ -9,6 +10,7 @@ const upload = multer();
 
 router.post(
 	'/',
+	passport.authenticate('jwt', { session: false }),
 	upload.single('image'),
 	validator('required', { field: 'title' }),
 	validator('required', { field: 'description' }),
@@ -21,11 +23,33 @@ router.post(
 				title: req.validated.title,
 				description: req.validated.description,
 				image: location,
+				user: req.user._id,
 			},
 		);
 		res.json({ success: true });
 	},
 );
 
+
+router.get(
+	'/mine',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		const series = await seriesService.getSeriesForUser(req.user);
+		res.json(series);
+	},
+);
+
+router.get(
+	'/:id',
+	async (req, res) => {
+		try {
+			const series = await seriesService.getSeriesById(req.params.id);
+			return res.send(series);
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
 
 export default router;

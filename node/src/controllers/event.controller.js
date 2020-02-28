@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import passport from 'passport';
 import validator from '../middleware/validator';
 import EventService from '../services/event.service';
 import fileService from '../services/file.service';
@@ -52,6 +53,7 @@ router.get(
 
 router.post(
 	'/',
+	passport.authenticate('jwt', { session: false }),
 	upload.single('file'),
 	validator('required', { field: 'title' }),
 	validator('required', { field: 'description' }),
@@ -61,15 +63,14 @@ router.post(
 	validator('required', { field: 'vagueLocation' }),
 	validator('required', { field: 'specificLocation' }),
 	validator('required', { field: 'disabilityAccess' }),
-	validator('required', { field: 'organiser' }),
+	validator('required', { field: 'series' }),
 	validator('required', { field: 'capacity' }),
 	validator('required', { field: 'date' }),
-	validator('validModel', { model: Event }),
+	validator('validModel', { model: Event, excludedFields: ['image', 'organiser'] }),
 	async (req, res) => {
 		try {
 			const location = await fileService.uploadFile(req.validated.file);
-			req.validated.image = location;
-			await EventService.addEvent(req.validated);
+			await EventService.addEvent({ image: location, organiser: req.user._id, ...req.validated });
 			return res.json({ success: true });
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });

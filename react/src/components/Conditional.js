@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class Conditional extends Component {
 	static propTypes = {
 		if: PropTypes.any,
-		children: PropTypes.object.isRequired,
+		children: PropTypes.any.isRequired,
 	};
 
 	render = () => (this.props.if ? this.props.children : null);

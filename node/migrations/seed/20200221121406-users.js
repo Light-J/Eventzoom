@@ -1,5 +1,6 @@
 'use strict';
 
+const mongoose = require('mongoose');
 var dbm;
 var type;
 var seed;
@@ -16,11 +17,13 @@ exports.setup = function(options, seedLink) {
 
 exports.up = async function(db) {
   await db.insert('users', {
+    _id: mongoose.mongo.ObjectId('5e595ce2d8118f0888f56140'),
     'email': "user@example.org",
     'password': "$2a$08$l5FOlIe2HKL90vFu2ePSV.5atqJlaapq8it0fo54fHUEjtNxOJYZm" // hello
   });
 
   return db.insert('users', {
+    _id: mongoose.mongo.ObjectId('5e595ce2d8118f0888f56141'),
     'email': "anotheruser@example.org",
     'password': "$2a$08$l5FOlIe2HKL90vFu2ePSV.5atqJlaapq8it0fo54fHUEjtNxOJYZm" // hello
   });

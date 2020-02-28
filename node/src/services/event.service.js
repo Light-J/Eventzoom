@@ -1,5 +1,6 @@
 import escapeStringRegexp from 'escape-string-regexp';
 import Event from '../models/event.model';
+import Series from '../models/series.model';
 
 const getEvents = async (query) => {
 	try {
@@ -57,15 +58,17 @@ const getEventsAdvanced = async (fields) => {
 
 const getEventById = async (id) => {
 	try {
-		return await Event.findById(id);
+		return await Event.findById(id).populate('series organiser');
 	} catch (e) {
 		throw Error('Error while getting single event');
 	}
 };
 
-const addEvent = async (data) => {
+const addEvent = async (eventDetails) => {
 	try {
-		return await ((new Event(data)).save());
+		const event = await ((new Event(eventDetails)).save());
+		await Series.findByIdAndUpdate(eventDetails.series, { $push: { events: event._id } });
+		return event;
 	} catch (e) {
 		throw Error('Error while adding event');
 	}
