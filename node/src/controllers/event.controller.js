@@ -28,7 +28,6 @@ router.get(
 	validator('optional', { field: 'speaker' }),
 	validator('optional', { field: 'startDate' }),
 	validator('optional', { field: 'endDate' }),
-	validator('optional', { field: 'organiser' }),
 	async (req, res) => {
 		try {
 			const events = await EventService.getEventsAdvanced(req.validated);

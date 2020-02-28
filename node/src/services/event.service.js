@@ -14,7 +14,6 @@ const getEvents = async (query) => {
 							{ title: regSearch },
 							{ description: regSearch },
 							{ speaker: regSearch },
-							{ organiser: regSearch },
 						],
 					},
 					{ date: { $gte: Date.now() } },
