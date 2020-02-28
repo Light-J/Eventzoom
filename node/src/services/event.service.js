@@ -63,11 +63,11 @@ const getEventById = async (id) => {
 	}
 };
 
-const addEvent = async (query) => {
+const addEvent = async (data) => {
 	try {
-		return await ((new Event(query)).save());
+		return await ((new Event(data)).save());
 	} catch (e) {
-		throw Error('Error while posting event');
+		throw Error('Error while adding event');
 	}
 };
 

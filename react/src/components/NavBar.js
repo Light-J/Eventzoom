@@ -28,9 +28,6 @@ class NavBar extends Component {
 				<li className="nav-item">
 					<Link className="nav-link" to="/add-event">Add Event <span className="sr-only">(current)</span></Link>
 				</li>
-				<li className="nav-item">
-					<Link className="nav-link" to="/edit-event">Edit Event <span className="sr-only">(current)</span></Link>
-				</li>
 			</ul>
 		</div>
 	</nav>

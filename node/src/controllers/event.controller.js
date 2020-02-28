@@ -3,6 +3,7 @@ import multer from 'multer';
 import validator from '../middleware/validator';
 import EventService from '../services/event.service';
 import fileService from '../services/file.service';
+import Event from '../models/event.model';
 
 const router = express.Router();
 const upload = multer();
@@ -50,7 +51,7 @@ router.get(
 );
 
 router.post(
-	'/add-event',
+	'/',
 	upload.single('file'),
 	validator('required', { field: 'title' }),
 	validator('required', { field: 'description' }),
@@ -63,6 +64,7 @@ router.post(
 	validator('required', { field: 'organiser' }),
 	validator('required', { field: 'capacity' }),
 	validator('required', { field: 'date' }),
+	validator('validModel', { model: Event }),
 	async (req, res) => {
 		try {
 			const location = await fileService.uploadFile(req.validated.file);

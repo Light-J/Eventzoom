@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import AddEvent from '../../components/AddEvent';
+import AddEvent from '../../containers/AddEvent';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -27,7 +27,6 @@ describe('<AddEvent />', () => {
 		const labelSpecificlocation = wrapper.find('label[htmlFor="specificlocation"]');
 		const inputSpecificlocation = wrapper.find('input[id="specificlocation"]');
 
-		const labelDisabilityAccess = wrapper.find('label[htmlFor="disabilityAccess"]');
 		const inputDisabilityAccess = wrapper.find('input[type="radio"]');
 
 		const labelOrganiser = wrapper.find('label[htmlFor="organiser"]');
@@ -35,8 +34,6 @@ describe('<AddEvent />', () => {
 
 		const labelCapacity = wrapper.find('label[htmlFor="capacity"]');
 		const inputCapacity = wrapper.find('input[id="capacity"]');
-
-		const button = wrapper.find('input[type="submit"]');
 
 		expect(labelTitle).toHaveLength(1);
 		expect(inputTitile).toHaveLength(1);
@@ -56,7 +53,6 @@ describe('<AddEvent />', () => {
 		expect(labelSpecificlocation).toHaveLength(1);
 		expect(inputSpecificlocation).toHaveLength(1);
 
-		expect(labelDisabilityAccess).toHaveLength(1);
 		expect(inputDisabilityAccess).toHaveLength(2);
 
 		expect(labelOrganiser).toHaveLength(1);
@@ -64,6 +60,5 @@ describe('<AddEvent />', () => {
 
 		expect(labelCapacity).toHaveLength(1);
 		expect(inputCapacity).toHaveLength(1);
-
 	});
 });
