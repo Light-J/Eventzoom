@@ -40,9 +40,6 @@ const validators = {
 		fieldName: field,
 		fieldValue: req.body[field],
 	}),
-	matchesQuery: async ({ model, searchConditions }) => ({
-		success: await model.find(searchConditions).length !== 0,
-	}),
 	validModel: async ({ model, excludedFields = [] }, req) => {
 		// eslint-disable-next-line new-cap
 		const instance = new model({ ...req.validated });
