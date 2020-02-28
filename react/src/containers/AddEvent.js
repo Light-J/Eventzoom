@@ -20,7 +20,6 @@ export default class AddEvent extends React.Component {
 		vagueLocation: '',
 		specificLocation: '',
 		disabilityAccess: false,
-		organiser: '',
 		capacity: 0,
 		date: new Date(),
 		requiredError: false,
@@ -165,13 +164,6 @@ render = () => (<form className="container">
 					/>
 					<label htmlFor="disabilityAccessYes" className="form-check-label">Yes</label>
 				</div>		</div>
-
-			<div className="form-group">
-				<label htmlFor="organiser" className="col-form-label">Organiser</label>
-				<input id="organiser" className="form-control" type="text" name="organiser" placeholder="Organiser"
-					value={this.state.organiser} onChange={this.handleChange} required />
-			</div>
-
 			<div className="form-group">
 				<label htmlFor="capacity" className="col-form-label">Capacity</label>
 				<input id="capacity" className="form-control" type="number" name="capacity" placeholder="Capacity"
