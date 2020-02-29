@@ -5,5 +5,14 @@ const createSeries = async (series) => {
 	return true;
 };
 
+const getSeriesForUser = async ({ _id }) => Series.find({ user: _id });
 
-export default { createSeries };
+const getSeriesById = async (id) => {
+	try {
+		return await Series.findById(id).populate('events user');
+	} catch (e) {
+		throw Error('Error while getting single series');
+	}
+};
+
+export default { createSeries, getSeriesForUser, getSeriesById };

@@ -73,12 +73,27 @@ describe('testing validModel', () => {
 		const next = jest.fn();
 		const model = class Model {
 			validate = async () => {
-				throw Error('test error');
+				// eslint-disable-next-line no-throw-literal
+				throw { errors: { exception1: '123' } };
 			};
 		};
 		await validator('validModel', { model })(req, res, next);
 		expect(res.status.mock.calls[0]).toMatchSnapshot();
 		expect(res.json.mock.calls[0]).toMatchSnapshot();
 		expect(next.mock.calls.length).toEqual(0);
+	});
+	it('should succeed if field is in exceptions if fields are the same', async () => {
+		const req = { validated: {} };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		const model = class Model {
+			validate = async () => {
+				// eslint-disable-next-line no-throw-literal
+				throw { errors: { exception1: '123' } };
+			};
+		};
+		await validator('validModel', { model, excludedFields: ['exception1'] })(req, res, next);
+		expect(req.validated.validated).toEqual(true);
+		expect(next.mock.calls.length).toEqual(1);
 	});
 });

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { DiscussionEmbed } from 'disqus-react';
+import { Link } from 'react-router-dom';
 import DisabilityAccess from '../components/DisabilityAccess';
 import AttendButton from '../components/AttendButton';
 import serverConfig from '../config/server';
@@ -15,6 +16,10 @@ class Event extends Component {
 		error: false,
 		disqusShortname: disqusConfig.shortname,
 	};
+
+	static propTypes = {
+		eventid: PropTypes.string.isRequired,
+	}
 
 	componentDidMount = () => axios.get(`${serverConfig.url}events/${this.props.eventid}`)
 		.then((res) => {
@@ -58,7 +63,16 @@ class Event extends Component {
 										<p>Date: {new Date(this.state.date).toLocaleString()}</p>
 										<p>Speaker: {this.state.speaker}</p>
 										<p>Location: {this.state.vagueLocation}</p>
-										<p>Organiser: {this.state.organiser}</p>
+										{
+											this.state.organiser
+												? <p>Organiser: {this.state.organiser.email}</p>
+												: <p>No organiser</p>
+										}
+										{
+											this.state.series
+												? <p>Series: <Link to={`/series/${this.state.series._id}`}>{this.state.series.title}</Link></p>
+												: <p>No series</p>
+										}
 									</div>
 									<div className="card-footer text-center">
 										<AttendButton />
@@ -77,9 +91,5 @@ class Event extends Component {
 		</div>
 	</div>
 }
-
-Event.propTypes = {
-	eventid: PropTypes.string.isRequired,
-};
 
 export default Event;
