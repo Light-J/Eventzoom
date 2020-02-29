@@ -5,6 +5,7 @@ import User from '../models/user.model';
 import isAuthenticated from '../middleware/isAuthenticated';
 import userService from '../services/user.service';
 import passportJs from './auth/passport';
+import clientConfig from '../../config/client';
 
 const router = express.Router();
 
@@ -38,5 +39,19 @@ router.post(
 		});
 	},
 );
+
+router.get('/saml/login', passport.authenticate('saml', {
+	successRedirect: '/',
+	failureRedirect: '/users/saml/login',
+}));
+
+
+router.post('/saml/callback', passport.authenticate('saml', {
+	failureRedirect: '/',
+	failureFlash: true,
+}), async (req, res) => {
+	res.redirect(`${clientConfig.url}#/jwt/${await passportJs.getJwtToken(req.user.id)}`);
+});
+
 
 export default router;

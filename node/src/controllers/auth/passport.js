@@ -3,8 +3,10 @@ import passportLocal from 'passport-local';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { Strategy as SamlStrategy } from 'passport-saml';
 import authConfig from '../../../config/auth';
 import userService from '../../services/user.service';
+
 
 const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
@@ -56,6 +58,22 @@ const initPassport = (app) => {
 			}
 		}),
 	);
+	passport.use(new SamlStrategy(
+		{
+			entryPoint: authConfig.saml.entryPoint,
+			issuer: authConfig.saml.issuer,
+			callbackUrl: authConfig.saml.callbackUrl,
+			acceptedClockSkewMs: -1,
+		},
+		(async (profile, done) => {
+			const email = profile[authConfig.saml.emailField];
+			let user = await userService.getUserByEmail(email);
+			if (!user) {
+				user = await userService.createUser({ email });
+			}
+			done(null, user);
+		}),
+	));
 };
 
 export default { getJwtToken, initPassport };
