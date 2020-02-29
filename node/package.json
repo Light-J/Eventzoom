@@ -9,7 +9,7 @@
   "main": "lambda.js",
   "homepage": ".",
   "scripts": {
-    "test": "jest --forceExit --detectOpenHandles --setupFiles dotenv/config",
+    "test": "jest --forceExit --detectOpenHandles",
     "start": "nodemon -r dotenv/config src/index.js --exec babel-node",
     "build": "node \"node_modules/@babel/cli/bin/babel.js\" src/ -d dist/src/ && node \"node_modules/@babel/cli/bin/babel.js\" config/ -d dist/config",
     "prod": "node -r dotenv/config dist/src/index.js dotenv_config_path=.env.prod",
@@ -27,7 +27,8 @@
     "url": "https://gitlab.cs.cf.ac.uk/c1734384/client-prorject-team-1"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFiles": ["dotenv/config"]
   },
   "keywords": [],
   "author": "",
