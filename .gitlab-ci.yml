@@ -33,8 +33,6 @@ react-test:
 
 
 react-deploy:
-  only:
-    - develop
   stage: deploy_staging
   script:
    - cd react/
@@ -48,8 +46,6 @@ react-deploy:
 node-deploy:
   tags:
     - north
-  only:
-    - develop
   stage: deploy_staging
   script:
     - cd node

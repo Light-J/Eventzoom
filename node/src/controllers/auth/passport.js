@@ -63,6 +63,7 @@ const initPassport = (app) => {
 			entryPoint: authConfig.saml.entryPoint,
 			issuer: authConfig.saml.issuer,
 			callbackUrl: authConfig.saml.callbackUrl,
+			cert: authConfig.saml.cert,
 			acceptedClockSkewMs: -1,
 		},
 		(async (profile, done) => {
