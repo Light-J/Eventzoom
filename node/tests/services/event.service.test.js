@@ -1,7 +1,10 @@
 import eventModel from '../../src/models/event.model';
+import seriesModel from '../../src/models/series.model';
 import eventService from '../../src/services/event.service';
 
-jest.mock('../../src/models/event.model');
+const mockSave = jest.fn();
+jest.mock('../../src/models/event.model', () => jest.fn().mockImplementation(() => ({ save: mockSave })));
+jest.mock('../../src/models/series.model');
 
 
 describe('testing getEvents', () => {
@@ -30,12 +33,14 @@ describe('testing getEvents for the advanced search', () => {
 
 describe('testing getEventByid', () => {
 	it('should getMessages successfully', async () => {
-		eventModel.findById = jest.fn().mockImplementation(async () => 'test result');
+		const result = { populate: jest.fn().mockImplementation(async () => 'test result') };
+		eventModel.findById = jest.fn().mockImplementation(() => result);
 		await expect(await eventService.getEventById(1)).toEqual('test result');
 		await expect(eventModel.findById.mock.calls[0]).toEqual([1]);
 	});
 	it('should throw error successfully', async () => {
-		eventModel.findById = jest.fn().mockImplementation(async () => { throw Error('irrelevant'); });
+		const result = { populate: jest.fn().mockImplementation(async () => { throw Error('irrelevant'); }) };
+		eventModel.findById = jest.fn().mockImplementation(() => result);
 		await expect(eventService.getEventById(1)).rejects.toEqual(new Error('Error while getting single event'));
 		return expect(eventModel.findById.mock.calls[0]).toEqual([1]);
 	});
@@ -43,7 +48,9 @@ describe('testing getEventByid', () => {
 
 describe('testing addEvent', () => {
 	it('should run successfully', async () => {
-		await eventService.addEvent({ test: 'test' });
-		expect(eventModel.mock.calls[0]).toEqual([{ test: 'test' }]);
+		mockSave.mockImplementation(async () => ({ _id: 5 }));
+		await eventService.addEvent({ test: 'test', series: '123' });
+		expect(eventModel.mock.calls[0]).toEqual([{ test: 'test', series: '123' }]);
+		expect(seriesModel.findByIdAndUpdate.mock.calls[0]).toEqual(['123', { $push: { events: 5 } }]);
 	});
 });

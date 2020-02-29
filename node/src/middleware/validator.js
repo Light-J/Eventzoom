@@ -40,14 +40,15 @@ const validators = {
 		fieldName: field,
 		fieldValue: req.body[field],
 	}),
-	validModel: async ({ model }, req) => {
+	validModel: async ({ model, excludedFields = [] }, req) => {
 		// eslint-disable-next-line new-cap
 		const instance = new model({ ...req.validated });
 		let valid = true;
 		try {
 			await instance.validate();
 		} catch (e) {
-			valid = false;
+			// if they are all excluded its still valid
+			valid = Object.keys(e.errors).every((element) => excludedFields.includes(element));
 		}
 		return {
 			success: valid,

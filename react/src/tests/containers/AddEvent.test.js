@@ -29,9 +29,6 @@ describe('<AddEvent />', () => {
 
 		const inputDisabilityAccess = wrapper.find('input[type="radio"]');
 
-		const labelOrganiser = wrapper.find('label[htmlFor="organiser"]');
-		const inputOrganiser = wrapper.find('input[id="organiser"]');
-
 		const labelCapacity = wrapper.find('label[htmlFor="capacity"]');
 		const inputCapacity = wrapper.find('input[id="capacity"]');
 
@@ -54,9 +51,6 @@ describe('<AddEvent />', () => {
 		expect(inputspecificLocation).toHaveLength(1);
 
 		expect(inputDisabilityAccess).toHaveLength(2);
-
-		expect(labelOrganiser).toHaveLength(1);
-		expect(inputOrganiser).toHaveLength(1);
 
 		expect(labelCapacity).toHaveLength(1);
 		expect(inputCapacity).toHaveLength(1);
