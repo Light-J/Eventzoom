@@ -93,6 +93,8 @@ describe(' testing POST events/', () => {
 			.field('series', '5e595ce2d8118f0888f56150')
 			.field('date', date.toString());
 		await expect(res.body).toEqual({ success: true });
+		// remove date from check to deal with timezone fuckaroo
+		eventService.addEvent.mock.calls[0][0].date = 'excluded';
 		await expect(eventService.addEvent.mock.calls[0]).toMatchSnapshot();
 		return expect(fileService.uploadFile.mock.calls[0]).toMatchSnapshot();
 	});
