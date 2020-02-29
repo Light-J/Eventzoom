@@ -21,8 +21,6 @@ class SearchSidebar extends Component {
 			<input type="text" className="form-control" placeholder="My new horse" id="title" onChange={(event) => this.props.updateInput(event)} />
 			Speaker:
 			<input type="text" className="form-control" placeholder="Horsey McHorseman" id="speaker" onChange={(event) => this.props.updateInput(event)} />
-			Organiser:
-			<input type="text" className="form-control" placeholder="My new horse" id="organiser" onChange={(event) => this.props.updateInput(event)} />
 			Date range:<br/>
 			<DateRange
 				ranges={
