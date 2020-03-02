@@ -12,7 +12,6 @@ class SubscribeSeriesButton extends Component {
 
 
 	onSubscriptionChange = () => {
-		// Logic for updating users attendance to go here
 		this.setState({ isSubscribed: !this.state.isSubscribed });
 	};
 

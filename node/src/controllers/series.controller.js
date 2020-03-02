@@ -53,8 +53,9 @@ router.get(
 );
 
 router.post(
-	'/subscribe',
+	'/change-subscription',
 	validator('required', { field: 'seriesId' }),
+
 	async (req, res) => {
 		try {
 			return res.status(200);

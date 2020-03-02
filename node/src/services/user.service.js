@@ -23,6 +23,17 @@ const getUserById = async (id) => {
 	}
 };
 
+const changeUserSeriesSubscription = async (seriesId, UserId, subscribe) => {
+	const user = await getUserById(userId);
+	if (subscribe) {
+		// Suscribe user
+		user.subscribedSeries.push(seriesId);
+	} else {
+		// Unsubscribe user
+		user.subscribedSeries.pull(seriesId);
+	}
+};
+
 export default {
-	createUser, getUserByEmail, getUserById,
+	createUser, getUserByEmail, getUserById, changeUserSeriesSubscription,
 };
