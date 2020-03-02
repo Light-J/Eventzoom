@@ -41,11 +41,11 @@ router.get(
 );
 
 router.get(
-	'/user-subscribed/:seriesId',
+	'/:id/user-subscribed',
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		try {
-			return res.send(req.user.subscribedSeries.includes(req.param.seriesId));
+			return res.send(req.user.subscribedSeries.includes(req.params.id));
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
@@ -75,10 +75,10 @@ router.post(
 		try {
 			if (userSubscribed) {
 				seriesService.changeUserSeriesSubscription(req.validated.seriesId, req.user, false);
-				return res.status(200).send();
+				return res.send();
 			}
 			seriesService.changeUserSeriesSubscription(req.validated.seriesId, req.user, true);
-			return res.status(200).send();
+			return res.send();
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}

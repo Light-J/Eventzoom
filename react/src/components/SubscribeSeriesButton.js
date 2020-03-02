@@ -13,16 +13,11 @@ class SubscribeSeriesButton extends Component {
 	};
 
 	componentDidMount() {
-		axios.get(`${serverConfig.url}series/user-subscribed`,
-			{
-				params: {
-					seriesId: this.props.seriesId,
-				},
-			}).then((result) => {
-			this.setState({ isSubscribed: result });
-		});
+		axios.get(`${serverConfig.url}series/${this.props.seriesId}/user-subscribed`)
+			.then((result) => {
+				this.setState({ isSubscribed: result });
+			});
 	}
-
 
 	onSubscriptionChange = () => {
 		axios.post(`${serverConfig.url}series/change-subscription`,
