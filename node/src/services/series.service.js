@@ -15,4 +15,18 @@ const getSeriesById = async (id) => {
 	}
 };
 
-export default { createSeries, getSeriesForUser, getSeriesById };
+const changeUserSeriesSubscription = async (seriesId, user, subscribe) => {
+	if (subscribe) {
+		// Suscribe user
+		user.subscribedSeries.push(seriesId);
+		user.save();
+	} else {
+		// Unsubscribe user
+		user.subscribedSeries.pull(seriesId);
+		user.save();
+	}
+};
+
+export default {
+	createSeries, getSeriesForUser, getSeriesById, changeUserSeriesSubscription,
+};

@@ -52,13 +52,31 @@ router.get(
 	},
 );
 
-router.post(
-	'/change-subscription',
-	validator('required', { field: 'seriesId' }),
-
+router.get(
+	'/user-subscribed/:id',
+	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		try {
-			return res.status(200);
+			return res.send(req.user.subscribedSeries.includes(req.params.id));
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
+router.post(
+	'/change-subscription/',
+	passport.authenticate('jwt', { session: false }),
+	validator('required', { field: 'seriesId' }),
+	async (req, res) => {
+		const userSubscribed = req.user.subscribedSeries.includes(req.validated.seriesId);
+		try {
+			if (userSubscribed) {
+				seriesService.changeUserSeriesSubscription(req.validated.seriesId, req.user, false);
+				return res.status(200).send();
+			}
+			seriesService.changeUserSeriesSubscription(req.validated.seriesId, req.user, true);
+			return res.status(200).send();
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}

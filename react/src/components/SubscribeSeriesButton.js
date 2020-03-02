@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import serverConfig from '../config/server';
 
 class SubscribeSeriesButton extends Component {
 	static propTypes = {
@@ -12,6 +14,8 @@ class SubscribeSeriesButton extends Component {
 
 
 	onSubscriptionChange = () => {
+		axios.post(`${serverConfig.url}series/change-subscription`,
+			{ seriesId: this.props.seriesId }).then();
 		this.setState({ isSubscribed: !this.state.isSubscribed });
 	};
 

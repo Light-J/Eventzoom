@@ -42,7 +42,7 @@ class Series extends Component {
 			image={this.state.image}
 
 		/>
-		<SubscribeSeriesButton seriesId={'1234'} />
+		<SubscribeSeriesButton seriesId={this.props.seriesId} />
 		<div className="row mt-3">
 			<div className="col-md-12">
 				<h5 className="text-center">Events in this series</h5>
