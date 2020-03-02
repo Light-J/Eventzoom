@@ -17,6 +17,11 @@ export default class Registration extends React.Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
+
+	initSaml = () => {
+		window.location.href = `${serverConfig.url}users/saml/login`;
+	};
+
 	// eslint-disable-next-line max-len
 	showPasswordError = () => this.state.password.length && this.state.passwordConfirmation !== this.state.password && this.state.passwordConfirmation.length
 
@@ -58,6 +63,7 @@ export default class Registration extends React.Component {
 
 
 					<h1>Register</h1>
+					<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
 					<label htmlFor="email" className="col-form-label"> Email</label>
 					<input id="email" className="form-control" type="email" name="email" placeholder="Email"
 						value={this.state.email} onChange={this.handleChange} required />
