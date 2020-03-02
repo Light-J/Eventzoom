@@ -9,7 +9,7 @@ import Conditional from '../components/Conditional';
 class Series extends Component {
 	state = {
 		user: { email: '' },
-		desription: '',
+		description: '',
 		image: '',
 		title: '',
 		isLoading: true,

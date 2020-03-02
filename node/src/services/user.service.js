@@ -28,7 +28,23 @@ const getUserById = async (id) => {
 	}
 };
 
+const setUserPasswordById = async (id, password) => {
+	try {
+		const hash = await bcrypt.hash(password, 8);
+		return await User.findByIdAndUpdate(id, { password: hash});
+	} catch (e) {
+		throw Error('Error while setting password for single user');
+	}
+};
+
+const setUserProfileById = async (id, user) => {
+	try {
+		return await User.findByIdAndUpdate(id, user);
+	} catch (e) {
+		throw Error('Error while setting profile for single user');
+	}
+};
 
 export default {
-	createUser, getUserByEmail, getUserById,
+	createUser, getUserByEmail, getUserById, setUserPasswordById, setUserProfileById,
 };

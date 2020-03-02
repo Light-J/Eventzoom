@@ -28,6 +28,36 @@ router.get('/me', passport.authenticate('jwt'), isAuthenticated, async (req, res
 	res.json({ user });
 });
 
+router.put('/me', passport.authenticate('jwt'), isAuthenticated,
+	validator('required', { field: 'email' }),
+	validator('required', { field: 'name' }),
+	async (req, res) => {
+		await userService.setUserProfileById(req.user.id, {
+			email: req.body.email,
+			name: req.body.name,
+		});
+		const user = await userService.getUserById(req.user.id);
+		await new Promise(((resolve, reject) => {
+			req.login(user, (err, data) => {
+				if (err) reject(err);
+				else resolve(data);
+			});
+		}));
+		res.json({ success: true, user: req.user });
+	});
+
+
+router.put('/me/password', passport.authenticate('jwt'), isAuthenticated,
+	validator('required', { field: 'currentPassword' }),
+	validator('correctPassword', { field: 'currentPassword' }),
+	validator('required', { field: 'newPasswordConfirmation' }),
+	validator('required', { field: 'newPassword' }),
+	validator('sameAs', { field: 'newPassword', otherField: 'newPasswordConfirmation' }),
+	async (req, res) => {
+		await userService.setUserPasswordById(req.user.id, req.body.newPassword);
+		res.json({ success: true });
+	});
+
 router.post(
 	'/login',
 	passport.authenticate('local'),

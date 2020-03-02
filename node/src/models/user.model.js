@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
 	},
 	password: { type: String },
 	subscribedSeries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'series' }],
+	name: { type: String, required: false },
 });
 
 UserSchema.plugin(uniqueEnforce);
