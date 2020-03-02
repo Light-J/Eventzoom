@@ -39,6 +39,10 @@ export class Login extends React.Component {
 		}
 	};
 
+	initSaml = () => {
+		window.location.href = `${serverConfig.url}users/saml/login`;
+	}
+
 	render() {
 		if (!this.props.user) {
 			return (
@@ -50,6 +54,7 @@ export class Login extends React.Component {
 							</div>
 						</Conditional>
 						<h1>Login</h1>
+						<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
 						<div className="form-group">
 							<label htmlFor="staticUsername" className="col-form-label">Username</label>
 							<input className="form-control" type="username" name="username" placeholder="Username" value={this.state.username} onChange={this.handleChange} required/>
