@@ -31,7 +31,7 @@ const getUserById = async (id) => {
 const setUserPasswordById = async (id, password) => {
 	try {
 		const hash = await bcrypt.hash(password, 8);
-		return await User.findByIdAndUpdate(id, { password: hash});
+		return await User.findByIdAndUpdate(id, { password: hash });
 	} catch (e) {
 		throw Error('Error while setting password for single user');
 	}
