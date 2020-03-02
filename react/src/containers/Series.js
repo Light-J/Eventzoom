@@ -5,6 +5,7 @@ import SearchResults from '../components/SearchResults';
 import SeriesInfo from '../components/SeriesInfo';
 import serverConfig from '../config/server';
 import Conditional from '../components/Conditional';
+import SubscribeSeriesButton from '../components/SubscribeSeriesButton';
 
 class Series extends Component {
 	state = {
@@ -15,7 +16,7 @@ class Series extends Component {
 		isLoading: true,
 		error: false,
 		events: [],
-	}
+	};
 
 	static propTypes = {
 		seriesId: PropTypes.string.isRequired,
@@ -28,7 +29,7 @@ class Series extends Component {
 		} catch {
 			this.setState({ error: true });
 		}
-	}
+	};
 
 	render = () => <div className="container mt-3">
 		<Conditional if={this.state.errors}>
@@ -41,6 +42,7 @@ class Series extends Component {
 			image={this.state.image}
 
 		/>
+		<SubscribeSeriesButton seriesId={'1234'} />
 		<div className="row mt-3">
 			<div className="col-md-12">
 				<h5 className="text-center">Events in this series</h5>
