@@ -52,4 +52,16 @@ router.get(
 	},
 );
 
+router.post(
+	'/subscribe',
+	validator('required', { field: 'seriesId' }),
+	async (req, res) => {
+		try {
+			return res.status(200);
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
 export default router;
