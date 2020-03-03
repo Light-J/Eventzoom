@@ -85,7 +85,11 @@ router.post(
 	async (req, res) => {
 		const userSubscribed = req.user.subscribedSeries.includes(req.validated.seriesId);
 		try {
-			seriesService.changeUserSeriesSubscription(req.validated.seriesId, req.user, !userSubscribed);
+			await seriesService.changeUserSeriesSubscription(
+				req.validated.seriesId,
+				req.user,
+				!userSubscribed,
+			);
 			return res.send();
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
