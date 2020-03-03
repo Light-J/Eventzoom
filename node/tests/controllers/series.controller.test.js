@@ -43,6 +43,16 @@ describe('testing series/1', () => {
 	});
 });
 
+describe('testing series/subscriptions', () => {
+	it('should fetch users series successfully', async () => {
+		seriesService.getUserSubscriptions = jest.fn().mockImplementation(async () => ({ test: 'test' }));
+		const res = await request(index.app)
+			.get('/series/subscriptions')
+			.send();
+		await expect(res.body).toEqual({ test: 'test' });
+		return expect(seriesService.getUserSubscriptions().mock.calls[0]).toEqual([]);
+	});
+});
 
 describe('testing series/mine', () => {
 	it('should fetch successfully', async () => {

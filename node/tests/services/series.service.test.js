@@ -33,3 +33,12 @@ describe('testing getSeriesByUser', () => {
 		await expect(series.find.mock.calls[0]).toEqual([{ user: 1 }]);
 	});
 });
+
+describe('testing getUserSubscriptions', () => {
+	it('should work successfully', async () => {
+		const FakeUser = {};
+		series.find.populate = jest.fn().mockImplementation(async () => 'test result');
+		await expect(await seriesService.getUserSubscriptions({ FakeUser })).toEqual('test result');
+		await expect(series.find.mock.calls[0]).toEqual([FakeUser]);
+	});
+});
