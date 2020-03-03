@@ -9,7 +9,7 @@ jest.mock('../../src/services/user.service');
 jest.mock('../../src/middleware/validator', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
 
 describe('/', () => {
-	it('should calll service and return success true', async () => {
+	it('should call service and return success true', async () => {
 		userService.createUser = jest.fn().mockImplementation(async () => ({ something: true }));
 		// mock validator so it always passes
 		// eslint-disable-next-line no-unused-expressions

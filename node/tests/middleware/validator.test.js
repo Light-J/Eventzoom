@@ -97,3 +97,30 @@ describe('testing validModel', () => {
 		expect(next.mock.calls.length).toEqual(1);
 	});
 });
+
+describe('testing correctPassword', () => {
+	it('should succeed if correct', async () => {
+		const req = { body: { password: 'hello' }, user: { password: '$2a$08$3l7YO0UVu3u.xHOspgokQufV9YJYRblkNgfTFmXbHn/L4MdpVHZEK' } };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		await validator('correctPassword', { field: 'password' })(req, res, next);
+		expect(req.validated.password).toEqual('hello');
+		expect(next.mock.calls.length).toEqual(1);
+	});
+	it('should fail if not correct', async () => {
+		const req = { body: { password: 'xxx' }, user: { password: '$2a$08$3l7YO0UVu3u.xHOspgokQufV9YJYRblkNgfTFmXbHn/L4MdpVHZEK' } };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		await validator('correctPassword', { field: 'password' })(req, res, next);
+		expect(req.validated.password).toEqual(undefined);
+		expect(next.mock.calls.length).toEqual(1);
+	});
+	it('should fail if null', async () => {
+		const req = { body: { }, user: { password: '$2a$08$3l7YO0UVu3u.xHOspgokQufV9YJYRblkNgfTFmXbHn/L4MdpVHZEK' } };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		await validator('correctPassword', { field: 'password' })(req, res, next);
+		expect(req.validated.password).toEqual(undefined);
+		expect(next.mock.calls.length).toEqual(1);
+	});
+});
