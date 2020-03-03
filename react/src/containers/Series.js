@@ -15,7 +15,7 @@ class Series extends Component {
 		isLoading: true,
 		error: false,
 		events: [],
-	}
+	};
 
 	static propTypes = {
 		seriesId: PropTypes.string.isRequired,
@@ -28,13 +28,14 @@ class Series extends Component {
 		} catch {
 			this.setState({ error: true });
 		}
-	}
+	};
 
 	render = () => <div className="container mt-3">
 		<Conditional if={this.state.errors}>
 			<h1>An error has occured. We are sorry.</h1>
 		</Conditional>
 		<SeriesInfo
+			seriesId={this.props.seriesId}
 			title={this.state.title}
 			author={this.state.user.email}
 			description={this.state.description}

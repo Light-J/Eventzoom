@@ -12,6 +12,7 @@ import Series from './Series';
 import Jwt from './Jwt';
 import AddEvent from './AddEvent';
 import Conditional from '../components/Conditional';
+import Subscriptions from './Subscriptions';
 
 class App extends Component {
 	static propTypes = {
@@ -29,11 +30,11 @@ class App extends Component {
 		<Route exact path="/Registration" render={(props) => <Registration {...props} />} />
 		<Route exact path="/series/:seriesId" render={(props) => <Series {...props.match.params} />} />
 		<Route exact path="/Login" render={(props) => <Login {...props} />} />
+		<Route exact path="/subscriptions" render={() => <Subscriptions />} />
 		<Conditional if={this.props.isLoggedIn}>
 			<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
 			<Route exact path="/add-event" render={(props) => <AddEvent {...props} />} />
 		</Conditional>
-
 	</div>
 }
 
