@@ -46,7 +46,7 @@ exports.up = async function (db) {
     organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
     capacity: 90,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56150'),
-    date: new Date("2020-03-03T14:00:00.000Z"),
+    date: new Date("2020-03-10T14:00:00.000Z"),
   });
   await db.insert('events', {
     _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56164'),
@@ -60,7 +60,7 @@ exports.up = async function (db) {
     organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
     capacity: 46,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56150'),
-    date: new Date("2020-03-03T17:00:00.000Z"),
+    date: new Date("2020-03-10T17:00:00.000Z"),
   });
 
   await db.insert('events', {
@@ -91,7 +91,7 @@ exports.up = async function (db) {
     organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
     capacity: 10,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
-    date: new Date("2020-03-03T09:00:00.000Z"),
+    date: new Date("2020-03-16T09:00:00.000Z"),
   });
 
   await db.insert('events', {
@@ -106,7 +106,7 @@ exports.up = async function (db) {
     organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
     capacity: 34,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
-    date: new Date("2020-03-03T19:00:00.000Z"),
+    date: new Date("2020-03-19T19:00:00.000Z"),
   });
 
   return null;
