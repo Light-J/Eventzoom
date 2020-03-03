@@ -28,6 +28,7 @@ const getUserById = async (id) => {
 	}
 };
 
+
 export default {
 	createUser, getUserByEmail, getUserById,
 };
