@@ -9,6 +9,7 @@ import Registration from './Registration';
 import AddSeries from './AddSeries';
 import Login from './Login';
 import Series from './Series';
+import Jwt from './Jwt';
 import AddEvent from './AddEvent';
 import Conditional from '../components/Conditional';
 import Subscriptions from './Subscriptions';
@@ -24,6 +25,8 @@ class App extends Component {
 			<Search />
 		</Route>
 		<Route exact path="/events/:eventid" component={(props) => <Event {...props.match.params} /> } />
+		<Route exact path="/jwt/:jwt" component={(props) => <Jwt {...props.match.params} /> } />
+
 		<Route exact path="/Registration" render={(props) => <Registration {...props} />} />
 		<Route exact path="/series/:seriesId" render={(props) => <Series {...props.match.params} />} />
 		<Route exact path="/Login" render={(props) => <Login {...props} />} />
