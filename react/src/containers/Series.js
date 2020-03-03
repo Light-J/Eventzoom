@@ -5,7 +5,6 @@ import SearchResults from '../components/SearchResults';
 import SeriesInfo from '../components/SeriesInfo';
 import serverConfig from '../config/server';
 import Conditional from '../components/Conditional';
-import SubscribeSeriesButton from '../components/SubscribeSeriesButton';
 
 class Series extends Component {
 	state = {
@@ -36,13 +35,13 @@ class Series extends Component {
 			<h1>An error has occured. We are sorry.</h1>
 		</Conditional>
 		<SeriesInfo
+			seriesId={this.props.seriesId}
 			title={this.state.title}
 			author={this.state.user.email}
 			description={this.state.description}
 			image={this.state.image}
 
 		/>
-		<SubscribeSeriesButton seriesId={this.props.seriesId} />
 		<div className="row mt-3">
 			<div className="col-md-12">
 				<h5 className="text-center">Events in this series</h5>

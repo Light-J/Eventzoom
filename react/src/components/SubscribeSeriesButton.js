@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRss } from '@fortawesome/free-solid-svg-icons';
 import serverConfig from '../config/server';
+
 
 class SubscribeSeriesButton extends Component {
 	static propTypes = {
@@ -15,7 +18,7 @@ class SubscribeSeriesButton extends Component {
 	componentDidMount() {
 		axios.get(`${serverConfig.url}series/${this.props.seriesId}/user-subscribed`)
 			.then((result) => {
-				this.setState({ isSubscribed: result });
+				this.setState({ isSubscribed: result.data });
 			});
 	}
 
@@ -28,7 +31,7 @@ class SubscribeSeriesButton extends Component {
 	};
 
 
-	render = () => <button className={this.state.isSubscribed ? 'btn btn-danger btn-lg btn-block' : 'btn btn-success btn-lg btn-block' } onClick={this.onSubscriptionChange}>{this.state.isSubscribed ? 'Unfollow' : 'Follow'}</button>;
+	render = () => <button className={this.state.isSubscribed ? 'btn btn-outline-danger' : 'btn btn-outline-success' } onClick={this.onSubscriptionChange}><FontAwesomeIcon icon={faRss} />{this.state.isSubscribed ? 'Unfollow' : 'Follow'}</button>;
 }
 
 export default SubscribeSeriesButton;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import SubscribeSeriesButton from './SubscribeSeriesButton';
 
 class SearchResult extends Component {
 	static propTypes = {
+		seriesId: PropTypes.string.isRequired,
 		image: PropTypes.string.isRequired,
 		title: PropTypes.string.isRequired,
 		author: PropTypes.string.isRequired,
@@ -14,6 +16,7 @@ class SearchResult extends Component {
 		<div className="card-body">
 			<h4 className="card-title">{this.props.title} by <a href="#">{this.props.author}</a></h4>
 			<p className="card-text">{this.props.description}</p>
+			<SubscribeSeriesButton seriesId={this.props.seriesId} />
 		</div>
 	</div>
 }
