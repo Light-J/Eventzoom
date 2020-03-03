@@ -7,10 +7,6 @@ class Subscriptions extends Component {
 	state = {
 		subscriptions: [],
 	};
-	//
-	// static propTypes = {
-	//
-	// };
 
 	componentDidMount = async () => {
 		try {
@@ -23,7 +19,6 @@ class Subscriptions extends Component {
 	};
 
 	render = () => <div className="container mt-3">
-		<h1>This is your subscriptions page</h1>
 		{this.state.subscriptions.map((series) => <Subscription
 			key={series._id}
 			events={series.events}
