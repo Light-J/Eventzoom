@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import SearchResult from './SearchResult';
 import Conditional from './Conditional';
-import { Link } from 'react-router-dom';
 
 class Subscription extends Component {
 	static propTypes = {
