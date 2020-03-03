@@ -41,11 +41,56 @@ router.get(
 );
 
 router.get(
+	'/:id/user-subscribed',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			return res.send(req.user.subscribedSeries.includes(req.params.id));
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
+router.get(
+	'/subscriptions',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			return res.send(await seriesService.getUserSubscriptions(req.user));
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
+
+router.get(
 	'/:id',
 	async (req, res) => {
 		try {
 			const series = await seriesService.getSeriesById(req.params.id);
 			return res.send(series);
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
+
+router.post(
+	'/change-subscription/',
+	passport.authenticate('jwt', { session: false }),
+	validator('required', { field: 'seriesId' }),
+	async (req, res) => {
+		const userSubscribed = req.user.subscribedSeries.includes(req.validated.seriesId);
+		try {
+			await seriesService.changeUserSeriesSubscription(
+				req.validated.seriesId,
+				req.user,
+				!userSubscribed,
+			);
+			return res.send();
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
