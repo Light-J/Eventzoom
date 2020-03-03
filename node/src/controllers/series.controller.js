@@ -52,6 +52,18 @@ router.get(
 	},
 );
 
+router.get(
+	'/subscriptions',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			return res.send(await seriesService.getUserSubscriptions(req.user));
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
 
 router.get(
 	'/:id',

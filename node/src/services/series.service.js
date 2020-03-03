@@ -27,6 +27,22 @@ const changeUserSeriesSubscription = async (seriesId, user, subscribe) => {
 	}
 };
 
+const getUserSubscriptions = async (user) => {
+	const curDate = new Date();
+	const endDate = new Date(curDate).setMonth(curDate.getMonth() + 1);
+	return Series
+		.find({ _id: { $in: user.subscribedSeries } }, '_id title events')
+		.populate({
+			path: 'events',
+			match: { date: { $gte: curDate, $lt: endDate } },
+		});
+};
+
+
 export default {
-	createSeries, getSeriesForUser, getSeriesById, changeUserSeriesSubscription,
+	createSeries,
+	getSeriesForUser,
+	getSeriesById,
+	changeUserSeriesSubscription,
+	getUserSubscriptions,
 };
