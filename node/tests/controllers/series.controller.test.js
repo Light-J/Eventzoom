@@ -48,9 +48,10 @@ describe('testing series/subscriptions', () => {
 		seriesService.getUserSubscriptions = jest.fn().mockImplementation(async () => ({ test: 'test' }));
 		const res = await request(index.app)
 			.get('/series/subscriptions')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
 			.send();
 		await expect(res.body).toEqual({ test: 'test' });
-		return expect(seriesService.getUserSubscriptions().mock.calls[0]).toEqual([]);
+		return expect(seriesService.getUserSubscriptions.mock.calls.length).toEqual(1);
 	});
 });
 

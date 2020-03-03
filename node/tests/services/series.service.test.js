@@ -34,11 +34,21 @@ describe('testing getSeriesByUser', () => {
 	});
 });
 
+
+describe('testing getSeriesByUser', () => {
+	it('should work successfully', async () => {
+		series.find = jest.fn().mockImplementation(async () => 'test result');
+		await expect(await seriesService.getSeriesForUser({ _id: 1 })).toEqual('test result');
+		await expect(series.find.mock.calls[0]).toEqual([{ user: 1 }]);
+	});
+});
+
 describe('testing getUserSubscriptions', () => {
 	it('should work successfully', async () => {
-		const FakeUser = {};
-		series.find.populate = jest.fn().mockImplementation(async () => 'test result');
-		await expect(await seriesService.getUserSubscriptions({ FakeUser })).toEqual('test result');
-		await expect(series.find.mock.calls[0]).toEqual([FakeUser]);
+		const fakeUser = { subscribedSeries: [1, 2, 3] };
+		const result = { populate: jest.fn().mockImplementation(async () => 'test result') };
+		series.find = jest.fn().mockImplementation(() => result);
+		await seriesService.getUserSubscriptions(fakeUser);
+		await expect(series.find.mock.calls[0][0]._id.$in).toEqual([1, 2, 3]);
 	});
 });
