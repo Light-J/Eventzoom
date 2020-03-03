@@ -20,9 +20,11 @@ export class NavBar extends Component {
 				<li className="nav-item active">
 					<Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
 				</li>
-				<li className="nav-item">
-					<Link className="nav-link" to="/Registration">Registration <span className="sr-only">(current)</span></Link>
-				</li>
+				<Conditional if={!this.props.user}>
+					<li className="nav-item">
+						<Link className="nav-link" to="/Registration">Registration <span className="sr-only">(current)</span></Link>
+					</li>
+				</Conditional>
 				<Conditional if={this.props.user}>
 					<li className="nav-item">
 						<Link className="nav-link" to="/subscriptions">My Subscriptions <span className="sr-only">(current)</span></Link>
