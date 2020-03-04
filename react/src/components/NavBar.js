@@ -9,7 +9,7 @@ export class NavBar extends Component {
 		user: PropTypes.object,
 	};
 
-	// taken off of the basic bootstrap template https://getbootstrap.com/docs/4.0/components/navbar/
+	// taken off the basic bootstrap template https://getbootstrap.com/docs/4.0/components/navbar/
 	render = () => <nav className="navbar navbar-expand-lg navbar-light bg-light">
 		<Link className="navbar-brand" to="/">EventZoom</Link>
 		<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ export class NavBar extends Component {
 			<ul className="navbar-nav">
 				<li className="nav-item">
 					{
-						this.props.user ? <Link className="nav-link" to=""> { this.props.user.email } <span className="sr-only">(current)</span></Link> : <Link className="nav-link" to="/Login">Login <span className="sr-only">(current)</span></Link>
+						this.props.user ? <Link className="nav-link" to="/profile"> { this.props.user.email } <span className="sr-only">(current)</span></Link> : <Link className="nav-link" to="/Login">Login <span className="sr-only">(current)</span></Link>
 					}
 				</li>
 				<Conditional if={this.props.user}>
