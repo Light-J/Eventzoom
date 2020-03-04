@@ -70,7 +70,7 @@ const initPassport = (app) => {
 			const email = profile[authConfig.saml.emailField];
 			let user = await userService.getUserByEmail(email);
 			if (!user) {
-				user = await userService.createUser({ email });
+				user = await userService.createUser({ email, sso: true });
 			}
 			done(null, user);
 		}),

@@ -73,7 +73,7 @@ export default class AddSeries extends React.Component {
 					<textarea id="description" className="form-control" name="description" placeholder="Description"
 						onChange={this.handleChange} required value={this.state.description} />
 					<label htmlFor="image" className="col-form-label">Image</label>
-					<input id="passwordConfirmation" className="form-control" type="file" onChange={this.uploadFile} accept="image/*"/>
+					<input className="form-control" type="file" onChange={this.uploadFile} accept="image/*"/>
 					<button className={`btn btn-success ${this.state.success ? 'disabled' : ''} mt-5`} onClick={this.submitForm} type="submit">Add series</button>
 				</div>
 			</div>
