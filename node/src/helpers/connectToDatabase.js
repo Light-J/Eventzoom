@@ -10,6 +10,5 @@ Mongoose.connect(
 		useNewUrlParser: true,
 		serverSelectionTimeoutMS: 3000,
 		connectTimeoutMS: 3000,
-		useUnifiedTopology: true,
 	},
 );
