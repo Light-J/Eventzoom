@@ -3,6 +3,7 @@ import passport from 'passport';
 import validator from '../middleware/validator';
 import User from '../models/user.model';
 import isAuthenticated from '../middleware/isAuthenticated';
+import isNotSsoUser from '../middleware/isNotSsoUser';
 import userService from '../services/user.service';
 import passportJs from './auth/passport';
 import clientConfig from '../../config/client';
@@ -28,7 +29,7 @@ router.get('/me', passport.authenticate('jwt'), isAuthenticated, async (req, res
 	res.json({ user });
 });
 
-router.put('/me', passport.authenticate('jwt'), isAuthenticated,
+router.put('/me', passport.authenticate('jwt'), isAuthenticated, isNotSsoUser,
 	validator('required', { field: 'email' }),
 	validator('required', { field: 'name' }),
 	async (req, res) => {
@@ -52,7 +53,7 @@ router.put('/me', passport.authenticate('jwt'), isAuthenticated,
 	});
 
 
-router.put('/me/password', passport.authenticate('jwt'), isAuthenticated,
+router.put('/me/password', passport.authenticate('jwt'), isAuthenticated, isNotSsoUser,
 	validator('required', { field: 'currentPassword' }),
 	validator('correctPassword', { field: 'currentPassword' }),
 	validator('required', { field: 'newPasswordConfirmation' }),

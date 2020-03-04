@@ -71,61 +71,67 @@ export class Profile extends React.Component {
 	render() {
 		return (
 			<div className="container">
-				<div className="card border-0 shadow my-5 p-5">
-					<h1>Profile</h1>
-					<form>
-						<Conditional if={this.state.profileSaved}>
-							<div className="alert alert-success">
+				<Conditional if={this.props.user.sso}>
+					<div className="alert alert-info">Your profile is managed by your SSO provider.</div>
+				</Conditional>
+				<Conditional if={!this.props.user.sso}>
+
+					<div className="card border-0 shadow my-5 p-5">
+						<h1>Profile</h1>
+						<form>
+							<Conditional if={this.state.profileSaved}>
+								<div className="alert alert-success">
 								Profile saved successfully
-							</div>
-						</Conditional>
-						<Conditional if={this.state.profileSaveFailure}>
-							<div className="alert alert-danger">
+								</div>
+							</Conditional>
+							<Conditional if={this.state.profileSaveFailure}>
+								<div className="alert alert-danger">
 								Error updating profile
+								</div>
+							</Conditional>
+							<div className="form-group">
+								<label className="col-form-label">Email</label>
+								<input className="form-control" type="email" name="email" placeholder="Email" defaultValue={this.props.user.email} onChange={this.handleChange} required/>
 							</div>
-						</Conditional>
-						<div className="form-group">
-							<label className="col-form-label">Email</label>
-							<input className="form-control" type="email" name="email" placeholder="Email" defaultValue={this.props.user.email} onChange={this.handleChange} required/>
-						</div>
-						<div className="form-group">
-							<label className="col-form-label">Name</label>
-							<input className="form-control" type="text" name="name" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
-						</div>
-						<div>
-							<button className="btn btn-success btn-block" onClick={this.submitProfileForm}>Save Profile</button>
-						</div>
-					</form>
-					<hr />
-					<h1>Change Password</h1>
-					<form>
-						<Conditional if={this.state.passwordChanged}>
-							<div className="alert alert-success">
+							<div className="form-group">
+								<label className="col-form-label">Name</label>
+								<input className="form-control" type="text" name="name" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
+							</div>
+							<div>
+								<button className="btn btn-success btn-block" onClick={this.submitProfileForm}>Save Profile</button>
+							</div>
+						</form>
+						<hr />
+						<h1>Change Password</h1>
+						<form>
+							<Conditional if={this.state.passwordChanged}>
+								<div className="alert alert-success">
 								Password changed successfully
-							</div>
-						</Conditional>
-						<Conditional if={this.state.passwordChangeFailure}>
-							<div className="alert alert-danger">
+								</div>
+							</Conditional>
+							<Conditional if={this.state.passwordChangeFailure}>
+								<div className="alert alert-danger">
 								Error changing password
+								</div>
+							</Conditional>
+							<div className="form-group">
+								<label htmlFor="InputPassword" className="col-form-label">Current Password</label>
+								<input className="form-control" type="password" name="currentPassword" placeholder="Current Password" onChange={this.handleChange} required/>
 							</div>
-						</Conditional>
-						<div className="form-group">
-							<label htmlFor="InputPassword" className="col-form-label">Current Password</label>
-							<input className="form-control" type="password" name="currentPassword" placeholder="Current Password" onChange={this.handleChange} required/>
-						</div>
-						<div className="form-group">
-							<label htmlFor="InputPassword" className="col-form-label">New Password</label>
-							<input className="form-control" type="password" name="newPassword" placeholder="New Password" onChange={this.handleChange} required/>
-						</div>
-						<div className="form-group">
-							<label htmlFor="InputPassword" className="col-form-label">Repeat New Password</label>
-							<input className="form-control" type="password" name="newPasswordConfirmation" placeholder="Password" onChange={this.handleChange} required/>
-						</div>
-						<div>
-							<button className="btn btn-success btn-block" onClick={this.submitChangePasswordForm}>Update Password</button>
-						</div>
-					</form>
-				</div>
+							<div className="form-group">
+								<label htmlFor="InputPassword" className="col-form-label">New Password</label>
+								<input className="form-control" type="password" name="newPassword" placeholder="New Password" onChange={this.handleChange} required/>
+							</div>
+							<div className="form-group">
+								<label htmlFor="InputPassword" className="col-form-label">Repeat New Password</label>
+								<input className="form-control" type="password" name="newPasswordConfirmation" placeholder="Password" onChange={this.handleChange} required/>
+							</div>
+							<div>
+								<button className="btn btn-success btn-block" onClick={this.submitChangePasswordForm}>Update Password</button>
+							</div>
+						</form>
+					</div>
+				</Conditional>
 			</div>
 		);
 	}
