@@ -9,6 +9,8 @@
 //  fieldName: name of field for validated array,
 //   fieldValue: the value of the field
 // }
+import bcrypt from 'bcryptjs';
+
 const validators = {
 	required: async ({ field }, req) => ({
 		success: req.body[field],
@@ -56,13 +58,26 @@ const validators = {
 			fieldValue: true,
 		};
 	},
+	correctPassword: async ({ field }, req) => {
+		let result;
+		try {
+			result = await bcrypt.compare(req.body[field], req.user.password);
+		} catch (e) {
+			result = false;
+		}
+		return {
+			success: result,
+			fieldName: field,
+			fieldValue: req.body[field],
+		};
+	},
 };
 
 const validate = (validator, params) => async (req, res, next) => {
 	let result = false;
 
 	// potentially instantiate req.validated
-	req.validated = req.validated || [];
+	req.validated = req.validated || {};
 	if (req.method === 'GET') {
 		req.body = req.query;
 	}
