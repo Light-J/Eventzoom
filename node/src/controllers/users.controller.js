@@ -48,7 +48,7 @@ router.put('/me', passport.authenticate('jwt'), isAuthenticated,
 				else resolve(data);
 			});
 		}));
-		res.json({ success: true, user });
+		return res.json({ success: true, user });
 	});
 
 

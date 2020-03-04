@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
+import bcryptjs from 'bcryptjs';
 import validator from '../../src/middleware/validator';
-import bcryptjs from "bcryptjs";
 
 // taken from https://gitlab.cs.cf.ac.uk/c1734384/react-assessment-1/blob/master/assessment-1-server/tests/middleware/validation.test.js
 describe('testing required', () => {
