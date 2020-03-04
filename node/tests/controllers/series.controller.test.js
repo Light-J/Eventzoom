@@ -7,7 +7,7 @@ import getValidJwt from './getValidJwt';
 jest.mock('../../src/services/series.service');
 
 describe('/', () => {
-	it('should calll service and return success true', async () => {
+	it('should call service and return success true', async () => {
 		seriesService.createSeries = jest.fn().mockImplementation(async () => ({ something: true }));
 		fileService.uploadFile = jest.fn().mockImplementation(async () => ('http://google.com'));
 		const res = await request(index.app)

@@ -73,7 +73,7 @@ describe('testing events/1', () => {
 });
 
 describe(' testing POST events/', () => {
-	it('should calll service and return success true', async () => {
+	it('should call service and return success true', async () => {
 		eventService.addEvent = jest.fn().mockImplementation(async () => ({ something: true }));
 		fileService.uploadFile = jest.fn().mockImplementation(async () => ('http://google.com'));
 		const date = new Date(2019, 1, 1);

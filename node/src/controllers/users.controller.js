@@ -43,7 +43,7 @@ router.put('/me', passport.authenticate('jwt'), isAuthenticated,
 				else resolve(data);
 			});
 		}));
-		res.json({ success: true, user: req.user });
+		res.json({ success: true, user });
 	});
 
 
