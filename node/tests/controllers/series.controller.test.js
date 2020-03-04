@@ -55,6 +55,26 @@ describe('testing series/subscriptions', () => {
 	});
 });
 
+describe('testing series/change-subscription/', () => {
+	it('should call the /change-subscription/ controller successfully', async () => {
+		seriesService.changeUserSeriesSubscription = jest.fn().mockImplementation(async () => ({}));
+		const res = await request(index.app)
+			.post('/series/change-subscription/')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send({ seriesId: 'cat' });
+		await expect(res.body).toEqual({});
+		return expect(seriesService.changeUserSeriesSubscription.mock.calls.length).toEqual(1);
+	});
+	it('should call the /change-subscription/ controller wrong and fail', async () => {
+		seriesService.changeUserSeriesSubscription = jest.fn().mockImplementation(async () => ({}));
+		const res = await request(index.app)
+			.post('/series/change-subscription/')
+			.set('Authorization', `Bearer ${await getValidJwt()}`);
+		await expect(res.body).toEqual({ error: 'required', success: false });
+		return expect(seriesService.changeUserSeriesSubscription.mock.calls.length).toEqual(0);
+	});
+});
+
 describe('testing series/mine', () => {
 	it('should fetch successfully', async () => {
 		seriesService.getSeriesForUser = jest.fn().mockImplementation(async () => ({ test: 'test' }));
@@ -64,5 +84,15 @@ describe('testing series/mine', () => {
 			.send();
 		await expect(res.body).toEqual({ test: 'test' });
 		return expect(seriesService.getSeriesById.mock.calls[0][0]._id).toMatchSnapshot();
+	});
+});
+
+describe('testing series/:id/user-subscribed', () => {
+	it('should fetch successfully', async () => {
+		const res = await request(index.app)
+			.get('/series/123/user-subscribed')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send();
+		return expect(res.body).toEqual(false);
 	});
 });
