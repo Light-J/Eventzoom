@@ -86,3 +86,13 @@ describe('testing series/mine', () => {
 		return expect(seriesService.getSeriesById.mock.calls[0][0]._id).toMatchSnapshot();
 	});
 });
+
+describe('testing series/:id/user-subscribed', () => {
+	it('should fetch successfully', async () => {
+		const res = await request(index.app)
+			.get('/series/123/user-subscribed')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send();
+		return expect(res.body).toEqual(false);
+	});
+});
