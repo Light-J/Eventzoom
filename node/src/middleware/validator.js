@@ -77,7 +77,7 @@ const validate = (validator, params) => async (req, res, next) => {
 	let result = false;
 
 	// potentially instantiate req.validated
-	req.validated = req.validated || [];
+	req.validated = req.validated || {};
 	if (req.method === 'GET') {
 		req.body = req.query;
 	}
