@@ -32,10 +32,15 @@ router.put('/me', passport.authenticate('jwt'), isAuthenticated,
 	validator('required', { field: 'email' }),
 	validator('required', { field: 'name' }),
 	async (req, res) => {
-		await userService.setUserProfileById(req.user.id, {
-			email: req.body.email,
-			name: req.body.name,
-		});
+		try {
+			await userService.setUserProfileById(req.user.id, {
+				email: req.body.email,
+				name: req.body.name,
+			});
+		} catch (e) {
+			return res.json({ success: false });
+		}
+
 		const user = await userService.getUserById(req.user.id);
 		await new Promise(((resolve, reject) => {
 			req.login(user, (err, data) => {
