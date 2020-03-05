@@ -51,7 +51,7 @@ class Event extends Component {
 						<h1 className="font-weight-light">{this.state.title}</h1>
 						<div className='row'>
 							<div className='col-md-7'>
-								<p>0 out of {this.state.capacity} attending</p>
+								<p>{this.state.attendeesAmount} out of {this.state.capacity} attending</p>
 								<p className="lead">{this.state.description}</p>
 								<img src={this.state.image} alt='Event' className="img-responsive mw-100"/>
 							</div>
@@ -75,7 +75,9 @@ class Event extends Component {
 										}
 									</div>
 									<div className="card-footer text-center">
-										<AttendButton eventId={this.props.eventid} />
+										<AttendButton
+											eventId={this.props.eventid}
+											full={this.state.capacity === this.state.attendeesAmount} />
 									</div>
 								</div>
 							</div>
