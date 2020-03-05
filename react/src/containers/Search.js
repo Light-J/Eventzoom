@@ -14,7 +14,7 @@ class Search extends Component {
 		searchQuery: '',
 		advancedSearchQuery: {
 			startDate: new Date(),
-			endDate: new Date(),
+			endDate: new Date().setMonth(new Date().getMonth() + 1),
 		},
 	};
 
