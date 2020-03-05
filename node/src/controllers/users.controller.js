@@ -34,6 +34,7 @@ router.put('/me', passport.authenticate('jwt'), isAuthenticated, isNotSsoUser,
 	validator('required', { field: 'name' }),
 	async (req, res) => {
 		try {
+			console.log(req.validated);
 			await userService.setUserProfileById(req.user.id, req.validated);
 		} catch (e) {
 			return res.json({ success: false });

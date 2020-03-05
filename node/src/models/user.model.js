@@ -9,6 +9,11 @@ const UserSchema = new mongoose.Schema({
 	subscribedSeries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'series' }],
 	name: { type: String, required: false },
 	sso: { type: Boolean, required: false },
+	filterable: {
+		public: { type: Boolean, required: false },
+		school: { type: String, required: false },
+		staff: { type: Boolean, required: false },
+	},
 });
 
 UserSchema.plugin(uniqueEnforce);

@@ -1,7 +1,7 @@
 import Series from '../models/series.model';
 
 const createSeries = async (series) => {
-	await ((new Series(series)).save());
+	await ((new Series({ attributes: [{ type: 'staff' }, { school: 'comsc' }], ...series })).save());
 	return true;
 };
 

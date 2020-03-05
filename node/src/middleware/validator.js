@@ -49,6 +49,7 @@ const validators = {
 		try {
 			await instance.validate();
 		} catch (e) {
+			console.log(e);
 			// if they are all excluded its still valid
 			valid = Object.keys(e.errors).every((element) => excludedFields.includes(element));
 		}

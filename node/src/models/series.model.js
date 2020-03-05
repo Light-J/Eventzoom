@@ -16,7 +16,11 @@ const SeriesSchema = new mongoose.Schema({
 	events: [{
 		type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Event',
 	}],
-
+	filterable: {
+		public: { type: Boolean, required: false },
+		school: { type: String, required: false },
+		staff: { type: Boolean, required: false },
+	},
 });
 const Series = mongoose.model('Series', SeriesSchema);
 

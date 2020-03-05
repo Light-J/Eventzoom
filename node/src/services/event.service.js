@@ -65,7 +65,7 @@ const getEventById = async (id) => {
 
 const addEvent = async (eventDetails) => {
 	try {
-		const event = await ((new Event(eventDetails)).save());
+		const event = await ((new Event({ filterable: {public: false, school: 'comsc', staff: true}, ...eventDetails })).save());
 		await Series.findByIdAndUpdate(eventDetails.series, { $push: { events: event._id } });
 		return event;
 	} catch (e) {
