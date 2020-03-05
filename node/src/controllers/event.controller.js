@@ -77,4 +77,18 @@ router.post(
 	},
 );
 
+router.post(
+	'/:id/attend',
+	validator('required', { field: 'attend' }),
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			await EventService.attendEvent(req.params.id, req.user, req.validated);
+			return res.json({ success: true });
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
 export default router;

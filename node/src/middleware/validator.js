@@ -13,7 +13,7 @@ import bcrypt from 'bcryptjs';
 
 const validators = {
 	required: async ({ field }, req) => ({
-		success: req.body[field],
+		success: req.body[field] != null && req.body[field].length !== 0,
 		fieldName: field,
 		fieldValue: req.body[field],
 	}),

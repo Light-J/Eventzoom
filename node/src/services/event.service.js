@@ -73,6 +73,22 @@ const addEvent = async (eventDetails) => {
 	}
 };
 
+const attendEvent = async (eventId, user, attend) => {
+	try {
+		// TODO add a check if the event is at capacity
+		const event = await getEventById(eventId);
+		if (attend) {
+			event.attendees.push(user._id);
+		} else {
+			event.attendees.pull(user._id);
+		}
+		event.save();
+		return event;
+	} catch (e) {
+		throw Error('Error while adding user to attendees list');
+	}
+};
+
 export default {
-	getEvents, getEventById, getEventsAdvanced, addEvent,
+	getEvents, getEventById, getEventsAdvanced, addEvent, attendEvent,
 };

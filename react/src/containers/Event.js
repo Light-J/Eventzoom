@@ -19,14 +19,14 @@ class Event extends Component {
 
 	static propTypes = {
 		eventid: PropTypes.string.isRequired,
-	}
+	};
 
 	componentDidMount = () => axios.get(`${serverConfig.url}events/${this.props.eventid}`)
 		.then((res) => {
 			this.setState({ isLoaded: true, ...res.data });
 		}).catch(() => {
 			this.setState({ error: true });
-		})
+		});
 
 	getDisqusConfig = () => ({
 		url: `${disqusConfig.domain}events/${this.props.eventid}`,
@@ -75,7 +75,7 @@ class Event extends Component {
 										}
 									</div>
 									<div className="card-footer text-center">
-										<AttendButton />
+										<AttendButton eventId={this.props.eventid} />
 									</div>
 								</div>
 							</div>
