@@ -75,20 +75,42 @@ const addEvent = async (eventDetails) => {
 
 const attendEvent = async (eventId, user, attend) => {
 	try {
-		// TODO add a check if the event is at capacity
 		const event = await getEventById(eventId);
 		if (attend) {
-			event.attendees.push(user._id);
+			if (event.attendees.length < event.capacity) {
+				event.attendees.push(user._id);
+			} else {
+				return false;
+			}
 		} else {
 			event.attendees.pull(user._id);
 		}
 		event.save();
-		return event;
+		return true;
 	} catch (e) {
 		throw Error('Error while adding user to attendees list');
 	}
 };
 
+const userAttending = async (eventId, user) => {
+	try {
+		const event = await getEventById(eventId);
+		return event.attendees.includes(user._id);
+	} catch (e) {
+		throw Error('Error while retrieving data');
+	}
+};
+
+const eventAtCapacity = async (eventId) => {
+	try {
+		const event = await getEventById(eventId);
+		return (event.attendees.length >= event.capacity);
+	} catch (e) {
+		throw Error('Error while calculating events attendance');
+	}
+};
+
+
 export default {
-	getEvents, getEventById, getEventsAdvanced, addEvent, attendEvent,
+	getEvents, getEventById, getEventsAdvanced, addEvent, attendEvent, userAttending, eventAtCapacity,
 };

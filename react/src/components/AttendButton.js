@@ -10,6 +10,13 @@ class AttendButton extends Component {
 
 	state = { userAttending: false };
 
+	componentDidMount() {
+		axios.get(`${serverConfig.url}events/${this.props.eventId}/user-attending`)
+			.then((result) => {
+				this.setState({ userAttending: result.data });
+			});
+	}
+
 	onAttendChange = () => {
 		// Logic for updating users attendance to go here
 		axios.post(`${serverConfig.url}events/${this.props.eventId}/attend`,
