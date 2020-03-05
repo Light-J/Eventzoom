@@ -15,6 +15,14 @@ const EventSchema = new mongoose.Schema({
 	attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'attendees' }],
 });
 
+
+EventSchema.methods.toJSON = function retract() {
+	const object = this.toObject();
+	object.attendeesAmount = object.attendees.length;
+	delete object.attendees;
+	return object;
+};
+
 const Event = mongoose.model('Event', EventSchema);
 
 export default Event;
