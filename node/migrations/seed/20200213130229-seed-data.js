@@ -109,6 +109,63 @@ exports.up = async function (db) {
     date: new Date("2020-03-19T19:00:00.000Z"),
   });
 
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56168'),
+    title: "Comsc Staff event",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/PtmP1yu.jpg",
+    speaker: "Catty mcCatperson",
+    vagueLocation: "Cardiff",
+    specificLocation: "10 Street, Cardiff, CF23 4QS",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 34,
+    filterable: {
+      public: false,
+      school: 'comsc',
+      staff: true,
+    },
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
+    date: new Date("2020-03-19T19:00:00.000Z"),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56169'),
+    title: "Comsc Everyone event",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/PtmP1yu.jpg",
+    speaker: "Catty mcCatperson",
+    vagueLocation: "Cardiff",
+    specificLocation: "10 Street, Cardiff, CF23 4QS",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 34,
+    filterable: {
+      public: false,
+      school: 'comsc',
+    },
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
+    date: new Date("2020-03-19T19:00:00.000Z"),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56170'),
+    title: "Business Everyone event",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/PtmP1yu.jpg",
+    speaker: "Catty mcCatperson",
+    vagueLocation: "Cardiff",
+    specificLocation: "10 Street, Cardiff, CF23 4QS",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 34,
+    filterable: {
+      public: false,
+      school: 'cbs',
+    },
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
+    date: new Date("2020-03-19T19:00:00.000Z"),
+  });
   return null;
 };
 

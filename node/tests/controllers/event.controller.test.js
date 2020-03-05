@@ -3,9 +3,15 @@ import index from '../../src/root';
 import eventService from '../../src/services/event.service';
 import fileService from '../../src/services/file.service';
 import getValidJwt from './getValidJwt';
-
+import authorizationService from '../../src/services/authorization.service';
+// this horrific line mocks the validator middleware, and makes it skip everything
+jest.mock('../../src/middleware/isAllowedToView', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
+jest.mock('../../src/middleware/isStaff', () => jest.fn().mockImplementation((req, res, next) => next()));
+jest.mock('../../src/services/authorization.service');
 jest.mock('../../src/services/event.service');
 jest.mock('../../src/services/file.service');
+
+authorizationService.filterInaccessible = jest.fn().mockImplementation((events) => events);
 
 describe('testing GET events/', () => {
 	it('should fetch all event', async () => {
@@ -74,10 +80,11 @@ describe('testing events/1', () => {
 
 describe(' testing POST events/', () => {
 	it('should call service and return success true', async () => {
+		jest.setTimeout(2000);
 		eventService.addEvent = jest.fn().mockImplementation(async () => ({ something: true }));
 		fileService.uploadFile = jest.fn().mockImplementation(async () => ('http://google.com'));
+		authorizationService.generateFilterableField = jest.fn().mockImplementation(() => false);
 		const date = new Date(2019, 1, 1);
-		// eslint-disable-next-line no-unused-expressions
 		const res = await request(index.app)
 			.post('/events')
 			.set('Authorization', `Bearer ${await getValidJwt()}`)
