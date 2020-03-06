@@ -43,15 +43,15 @@ export class AttendButton extends React.Component {
 
 	render() {
 		if (this.state.userCancelled) {
-			return <button className={ 'btn btn-info btn-lg btn-block' } >You have successfully cancelled</button>;
+			return <button className="btn btn-info btn-lg btn-block">You have successfully cancelled</button>;
 		} if (this.state.userAttending) {
-			return <button className={'btn btn-danger btn-lg btn-block'} onClick={this.onAttendChange}>Cancel reservation</button>;
+			return <button className="btn btn-danger btn-lg btn-block" onClick={this.onAttendChange}>Cancel reservation</button>;
 		} if (this.props.full) {
-			return <button className={'btn btn-info btn-lg btn-block'}>Sorry this event is full</button>;
+			return <button className="btn btn-info btn-lg btn-block">Sorry, this event is full</button>;
 		} if (this.props.user) {
-			return <button className={ 'btn btn-success btn-lg btn-block' } onClick={this.onAttendChange}>Attend</button>;
+			return <button className="btn btn-success btn-lg btn-block" onClick={this.onAttendChange}>Attend</button>;
 		}
-		return <Link to={'/login'}><button className={'btn btn-outline-info'}><FontAwesomeIcon icon={faRss} /> Log in to attend series</button></Link>;
+		return <Link to={'/login'}><button className="btn btn-outline-info"><FontAwesomeIcon icon={faRss} /> Log in to attend event</button></Link>;
 	}
 }
 
