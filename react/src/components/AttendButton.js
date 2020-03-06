@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRss } from '@fortawesome/free-solid-svg-icons';
 import serverConfig from '../config/server';
 
-class AttendButton extends Component {
+export class AttendButton extends React.Component {
 	static propTypes = {
 		eventId: PropTypes.string.isRequired,
 		full: PropTypes.bool.isRequired,
