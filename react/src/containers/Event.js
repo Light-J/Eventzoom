@@ -15,18 +15,39 @@ class Event extends Component {
 		date: '1970-01-01',
 		error: false,
 		disqusShortname: disqusConfig.shortname,
+		userAttending: false,
+		userCancelled: false,
 	};
 
 	static propTypes = {
 		eventid: PropTypes.string.isRequired,
 	};
 
-	componentDidMount = () => axios.get(`${serverConfig.url}events/${this.props.eventid}`)
-		.then((res) => {
-			this.setState({ isLoaded: true, ...res.data });
-		}).catch(() => {
-			this.setState({ error: true });
-		});
+	componentDidMount() {
+		axios.get(`${serverConfig.url}events/${this.props.eventid}`)
+			.then((res) => {
+				this.setState({ isLoaded: true, ...res.data });
+			}).catch(() => {
+				this.setState({ error: true });
+			});
+		axios.get(`${serverConfig.url}events/${this.props.eventid}/user-attending`)
+			.then((result) => {
+				this.setState({ userAttending: result.data });
+			});
+	}
+
+	onAttendChange = () => {
+		axios.post(`${serverConfig.url}events/${this.props.eventid}/attend`,
+			{ attend: !this.state.userAttending })
+			.then(() => {
+				this.setState({
+					userAttending: !this.state.userAttending,
+					userCancelled: this.state.userAttending,
+				});
+				this.updateAttendeesAmount(this.state.userAttending ? 1 : -1);
+			});
+	};
+
 
 	getDisqusConfig = () => ({
 		url: `${disqusConfig.domain}events/${this.props.eventid}`,
@@ -82,7 +103,9 @@ class Event extends Component {
 										<AttendButton
 											eventId={this.props.eventid}
 											full={this.state.capacity === this.state.attendeesAmount}
-											updateAttendeesAmount={this.updateAttendeesAmount}/>
+											userAttending={this.state.userAttending}
+											userCancelled={this.state.userCancelled}
+											onAttendChange={this.onAttendChange}/>
 									</div>
 								</div>
 							</div>
