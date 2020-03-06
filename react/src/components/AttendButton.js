@@ -12,9 +12,13 @@ class AttendButton extends Component {
 		eventId: PropTypes.string.isRequired,
 		full: PropTypes.bool.isRequired,
 		user: PropTypes.object,
+		updateAttendeesAmount: PropTypes.func,
 	};
 
-	state = { userAttending: false };
+	state = {
+		userAttending: false,
+		userCancelled: false,
+	};
 
 	componentDidMount() {
 		axios.get(`${serverConfig.url}events/${this.props.eventId}/user-attending`)
@@ -24,16 +28,23 @@ class AttendButton extends Component {
 	}
 
 	onAttendChange = () => {
-		// Logic for updating users attendance to go here
 		axios.post(`${serverConfig.url}events/${this.props.eventId}/attend`,
 			{ attend: !this.state.userAttending })
 			.then(() => {
-				this.setState({ userAttending: !this.state.userAttending });
+				this.setState({
+					userAttending: !this.state.userAttending,
+					userCancelled: this.state.userAttending,
+				});
+				if (this.props.updateAttendeesAmount) {
+					this.props.updateAttendeesAmount(this.state.userAttending ? 1 : -1);
+				}
 			});
 	};
 
 	render() {
-		if (this.state.userAttending) {
+		if (this.state.userCancelled) {
+			return <button className={ 'btn btn-info btn-lg btn-block' } >You have successfully cancelled</button>;
+		} if (this.state.userAttending) {
 			return <button className={'btn btn-danger btn-lg btn-block'} onClick={this.onAttendChange}>Cancel reservation</button>;
 		} if (this.props.full) {
 			return <button className={'btn btn-info btn-lg btn-block'}>Sorry this event is full</button>;

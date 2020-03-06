@@ -34,6 +34,10 @@ class Event extends Component {
 		title: this.state.title,
 	});
 
+	updateAttendeesAmount = (amount) => {
+		this.setState({ attendeesAmount: this.state.attendeesAmount + amount });
+	};
+
 	render = () => <div className='container'>
 		<div className="container">
 			<div className="card border-0 shadow my-5">
@@ -77,7 +81,8 @@ class Event extends Component {
 									<div className="card-footer text-center">
 										<AttendButton
 											eventId={this.props.eventid}
-											full={this.state.capacity === this.state.attendeesAmount} />
+											full={this.state.capacity === this.state.attendeesAmount}
+											updateAttendeesAmount={this.updateAttendeesAmount}/>
 									</div>
 								</div>
 							</div>
