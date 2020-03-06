@@ -7,7 +7,6 @@ import { faRss } from '@fortawesome/free-solid-svg-icons';
 
 export class AttendButton extends React.Component {
 	static propTypes = {
-		eventId: PropTypes.string.isRequired,
 		full: PropTypes.bool.isRequired,
 		user: PropTypes.object,
 		userAttending: PropTypes.bool,

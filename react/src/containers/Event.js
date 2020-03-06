@@ -101,7 +101,6 @@ class Event extends Component {
 									</div>
 									<div className="card-footer text-center">
 										<AttendButton
-											eventId={this.props.eventid}
 											full={this.state.capacity === this.state.attendeesAmount}
 											userAttending={this.state.userAttending}
 											userCancelled={this.state.userCancelled}
