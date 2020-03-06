@@ -16,7 +16,7 @@ const EventSchema = new mongoose.Schema({
 });
 
 
-EventSchema.methods.toJSON = function retract() {
+EventSchema.methods.toJSON = function retractAttendeesList() {
 	const object = this.toObject();
 	object.attendeesAmount = object.attendees.length;
 	delete object.attendees;
