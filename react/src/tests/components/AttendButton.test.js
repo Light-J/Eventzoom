@@ -13,7 +13,7 @@ describe('Tests loading of attend button', () => {
 		const wrapper = Enzyme.shallow(
 			<AttendButton full={false} eventId={123} />,
 		);
-		expect(wrapper.contains(<Link to={'/login'}><button className={'btn btn-outline-info'}><FontAwesomeIcon icon={faRss} /> Log in to attend series</button></Link>)).toEqual(true);
+		expect(wrapper.contains(<Link to={'/login'}><button className="btn btn-outline-info"><FontAwesomeIcon icon={faRss} /> Log in to attend event</button></Link>)).toEqual(true);
 	});
 	it('Loads button, event not full and user', async () => {
 		const wrapper = Enzyme.shallow(
@@ -25,6 +25,6 @@ describe('Tests loading of attend button', () => {
 		const wrapper = Enzyme.shallow(
 			<AttendButton full={true} eventId={123} />,
 		);
-		expect(wrapper.contains(<button className={'btn btn-info btn-lg btn-block'}>Sorry this event is full</button>)).toEqual(true);
+		expect(wrapper.contains(<button className="btn btn-info btn-lg btn-block">Sorry, this event is full</button>)).toEqual(true);
 	});
 });
