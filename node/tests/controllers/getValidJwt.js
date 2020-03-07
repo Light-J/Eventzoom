@@ -1,4 +1,4 @@
-import passport from '../../src/controllers/auth/passport';
+import passport from '../../src/services/passport.service';
 import User from '../../src/models/user.model';
 
 const getValidToken = async () => {

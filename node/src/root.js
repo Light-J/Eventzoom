@@ -10,7 +10,7 @@ import users from './controllers/users.controller';
 import series from './controllers/series.controller';
 import './helpers/connectToDatabase';
 import './helpers/winston';
-import passport from './controllers/auth/passport';
+import passport from './services/passport.service';
 
 winston.info(`Client project URL is ${clientConfig.url}`);
 

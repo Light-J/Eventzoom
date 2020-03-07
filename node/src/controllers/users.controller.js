@@ -5,7 +5,7 @@ import User from '../models/user.model';
 import isAuthenticated from '../middleware/isAuthenticated';
 import isNotSsoUser from '../middleware/isNotSsoUser';
 import userService from '../services/user.service';
-import passportJs from './auth/passport';
+import passportJs from '../services/passport.service';
 import clientConfig from '../../config/client';
 
 const router = express.Router();
