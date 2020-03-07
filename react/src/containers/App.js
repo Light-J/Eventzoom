@@ -26,12 +26,12 @@ class App extends Component {
 		<Route exact path="/" >
 			<Search />
 		</Route>
-		<Route exact path="/events/:eventid" component={(props) => <Event {...props.match.params} /> } />
+		<Route exact path="/events/:eventId" component={(props) => <Event {...props.match.params} /> } />
 		<Route exact path="/jwt/:jwt" component={(props) => <Jwt {...props.match.params} /> } />
 
-		<Route exact path="/Registration" render={(props) => <Registration {...props} />} />
+		<Route exact path="/register" render={(props) => <Registration {...props} />} />
 		<Route exact path="/series/:seriesId" render={(props) => <Series {...props.match.params} />} />
-		<Route exact path="/Login" render={(props) => <Login {...props} />} />
+		<Route exact path="/login" render={(props) => <Login {...props} />} />
 		<Route exact path="/subscriptions" render={() => <Subscriptions />} />
 		<Conditional if={this.props.isLoggedIn}>
 			<Conditional if={
