@@ -45,6 +45,8 @@ const setUserProfileById = async (id, user) => {
 	}
 };
 
+
+const getAllUsers = async () => User.find({});
 export default {
-	createUser, getUserByEmail, getUserById, setUserPasswordById, setUserProfileById,
+	createUser, getUserByEmail, getUserById, setUserPasswordById, setUserProfileById, getAllUsers,
 };
