@@ -30,7 +30,7 @@ exports.up = async function (db) {
     title: "Cat test series 2",
     description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     image: "https://i.imgur.com/vgZrB5U.jpg",
-    events: [mongoose.Types.ObjectId('5e595ce2d8118f0888f56165'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56166'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56167')],
+    events: [mongoose.Types.ObjectId('5e595ce2d8118f0888f56165'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56166'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56167'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56168'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56169'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56170')],
     user: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
 
   });
