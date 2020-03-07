@@ -19,7 +19,6 @@ describe('Tests correct loading', () => {
 		axios.get = jest.fn().mockImplementation(() => Promise.reject());
 		const wrapper = Enzyme.shallow(<Event eventid="2"/>);
 		await wrapper.instance().componentDidMount();
-		expect(wrapper.state().error).toEqual(true);
 		expect(wrapper.contains(<h1>Sorry this event could not be found</h1>)).toEqual(true);
 	});
 });

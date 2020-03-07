@@ -99,3 +99,36 @@ describe(' testing POST events/', () => {
 		return expect(fileService.uploadFile.mock.calls[0]).toMatchSnapshot();
 	});
 });
+
+describe('testing events/id/attend', () => {
+	it('should call the attend controller successfully', async () => {
+		eventService.attendEvent = jest.fn().mockImplementation(async () => ({}));
+		const res = await request(index.app)
+			.post('/events/123/attend')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send({ attend: true });
+		await expect(res.body.success).toEqual(true);
+		return expect(eventService.attendEvent.mock.calls.length).toEqual(1);
+	});
+	it('should call the attend controller and expect to fail', async () => {
+		eventService.attendEvent = jest.fn().mockImplementation(async () => ({}));
+		const res = await request(index.app)
+			.post('/events/123/attend')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send({});
+		await expect(res.body.success).toEqual(false);
+		return expect(eventService.attendEvent.mock.calls.length).toEqual(0);
+	});
+});
+
+describe('testing events/id/user-attending', () => {
+	it('should call the attend controller successfully', async () => {
+		eventService.userAttending = jest.fn().mockImplementation(async () => true);
+		const res = await request(index.app)
+			.get('/events/123/user-attending')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send();
+		await expect(res.body).toEqual(true);
+		return expect(eventService.userAttending.mock.calls.length).toEqual(1);
+	});
+});

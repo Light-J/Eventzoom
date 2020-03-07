@@ -54,3 +54,88 @@ describe('testing addEvent', () => {
 		expect(seriesModel.findByIdAndUpdate.mock.calls[0]).toEqual(['123', { $push: { events: 5 } }]);
 	});
 });
+
+describe('testing event at capacity', () => {
+	it('event is at capacity should should return true', async () => {
+		const result = {
+			populate: jest.fn().mockImplementation(async () => ({
+				attendees: [1, 2, 3],
+				capacity: 3,
+			})),
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => result);
+		const response = await eventService.eventAtCapacity(123);
+		expect(response).toEqual(true);
+	});
+	it('event is not at capacity should should return false', async () => {
+		const result = {
+			populate: jest.fn().mockImplementation(async () => ({
+				attendees: [1, 2],
+				capacity: 3,
+			})),
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => result);
+		const response = await eventService.eventAtCapacity(123);
+		expect(response).toEqual(false);
+	});
+});
+
+describe('testing if user attending event', () => {
+	it('user is attending so return true', async () => {
+		const fakeUser = { _id: 1 };
+		const result = {
+			populate: jest.fn().mockImplementation(async () => ({
+				attendees: [1, 2, 3],
+				capacity: 3,
+			})),
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => result);
+		const response = await eventService.userAttending(123, fakeUser);
+		expect(response).toEqual(true);
+	});
+	it('user is not attending so return false', async () => {
+		const fakeUser = { _id: 5 };
+		const result = {
+			populate: jest.fn().mockImplementation(async () => ({
+				attendees: [1, 2, 3],
+				capacity: 3,
+			})),
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => result);
+		const response = await eventService.userAttending(123, fakeUser);
+		expect(response).toEqual(false);
+	});
+});
+
+describe('testing user attending an event', () => {
+	it('event under capactity so user can attend', async () => {
+		const fakeUser = { _id: 1 };
+		const result = {
+			populate: jest.fn().mockImplementation(async () => ({
+				attendees: [2],
+				capacity: 3,
+				save() {
+					return true;
+				},
+			})),
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => result);
+		const response = await eventService.attendEvent(123, fakeUser, true);
+		expect(response).toEqual(true);
+	});
+	it('event at capactity so user can not attend', async () => {
+		const fakeUser = { _id: 1 };
+		const result = {
+			populate: jest.fn().mockImplementation(async () => ({
+				attendees: [2],
+				capacity: 1,
+				save() {
+					return true;
+				},
+			})),
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => result);
+		const response = await eventService.attendEvent(123, fakeUser, true);
+		expect(response).toEqual(false);
+	});
+});

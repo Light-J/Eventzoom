@@ -77,4 +77,34 @@ router.post(
 	},
 );
 
+router.post(
+	'/:id/attend',
+	validator('required', { field: 'attend' }),
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			const result = await EventService.attendEvent(req.params.id, req.user, req.validated.attend);
+			if (!result) {
+				// If the result is false then the event was probably at capacity
+				return res.json({ success: false });
+			}
+			return res.json({ success: true });
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
+router.get(
+	'/:id/user-attending',
+	passport.authenticate('jwt', { session: false }),
+	async (req, res) => {
+		try {
+			return res.send(await EventService.userAttending(req.params.id, req.user));
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
 export default router;
