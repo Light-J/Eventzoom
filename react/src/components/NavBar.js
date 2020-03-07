@@ -22,7 +22,7 @@ export class NavBar extends Component {
 				</li>
 				<Conditional if={!this.props.user}>
 					<li className="nav-item">
-						<Link className="nav-link" to="/Registration">Registration <span className="sr-only">(current)</span></Link>
+						<Link className="nav-link" to="/register">Registration <span className="sr-only">(current)</span></Link>
 					</li>
 				</Conditional>
 				<Conditional if={this.props.user}>
@@ -46,7 +46,7 @@ export class NavBar extends Component {
 			<ul className="navbar-nav">
 				<li className="nav-item">
 					{
-						this.props.user ? <Link className="nav-link" to="/profile"> { this.props.user.email } <span className="sr-only">(current)</span></Link> : <Link className="nav-link" to="/Login">Login <span className="sr-only">(current)</span></Link>
+						this.props.user ? <Link className="nav-link" to="/profile"> { this.props.user.email } <span className="sr-only">(current)</span></Link> : <Link className="nav-link" to="/login">Login <span className="sr-only">(current)</span></Link>
 					}
 				</li>
 				<Conditional if={this.props.user}>
