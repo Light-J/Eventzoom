@@ -12,6 +12,7 @@ jest.mock('../../src/services/event.service');
 jest.mock('../../src/services/file.service');
 
 authorizationService.filterInaccessible = jest.fn().mockImplementation((events) => events);
+authorizationService.canAccessResource = jest.fn().mockImplementation(() => true);
 
 describe('testing GET events/', () => {
 	it('should fetch all event', async () => {

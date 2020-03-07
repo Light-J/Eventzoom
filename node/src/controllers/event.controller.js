@@ -50,6 +50,8 @@ router.get(
 	async (req, res) => {
 		try {
 			const event = await EventService.getEventById(req.params.id);
+			// eslint-disable-next-line max-len
+			event.series = authorizationService.canAccessResource(event.series, req.user) ? event.series : null;
 			return res.send(event);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
