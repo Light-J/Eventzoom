@@ -2,7 +2,6 @@ import express from 'express';
 import passport from 'passport';
 import validator from '../middleware/validator';
 import User from '../models/user.model';
-import isAuthenticated from '../middleware/isAuthenticated';
 import isNotSsoUser from '../middleware/isNotSsoUser';
 import userService from '../services/user.service';
 import passportJs from './auth/passport';
@@ -23,13 +22,13 @@ router.post(
 	},
 );
 
-router.get('/me', passport.authenticate('jwt'), isAuthenticated, async (req, res) => {
+router.get('/me', passport.authenticate('jwt'), async (req, res) => {
 	const user = req.user;
 	delete user.password;
 	res.json({ user });
 });
 
-router.put('/me', passport.authenticate('jwt'), isAuthenticated, isNotSsoUser,
+router.put('/me', passport.authenticate('jwt'), isNotSsoUser,
 	validator('required', { field: 'email' }),
 	validator('required', { field: 'name' }),
 	async (req, res) => {
@@ -50,7 +49,7 @@ router.put('/me', passport.authenticate('jwt'), isAuthenticated, isNotSsoUser,
 	});
 
 
-router.put('/me/password', passport.authenticate('jwt'), isAuthenticated, isNotSsoUser,
+router.put('/me/password', passport.authenticate('jwt'), isNotSsoUser,
 	validator('required', { field: 'currentPassword' }),
 	validator('correctPassword', { field: 'currentPassword' }),
 	validator('required', { field: 'newPasswordConfirmation' }),
