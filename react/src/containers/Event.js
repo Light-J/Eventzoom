@@ -15,24 +15,49 @@ class Event extends Component {
 		date: '1970-01-01',
 		error: false,
 		disqusShortname: disqusConfig.shortname,
+		userAttending: false,
+		userCancelled: false,
 	};
 
 	static propTypes = {
 		eventid: PropTypes.string.isRequired,
+	};
+
+	componentDidMount() {
+		axios.get(`${serverConfig.url}events/${this.props.eventid}`)
+			.then((res) => {
+				this.setState({ isLoaded: true, ...res.data });
+			}).catch(() => {
+				this.setState({ error: true });
+			});
+		axios.get(`${serverConfig.url}events/${this.props.eventid}/user-attending`)
+			.then((result) => {
+				this.setState({ userAttending: result.data });
+			});
 	}
 
-	componentDidMount = () => axios.get(`${serverConfig.url}events/${this.props.eventid}`)
-		.then((res) => {
-			this.setState({ isLoaded: true, ...res.data });
-		}).catch(() => {
-			this.setState({ error: true });
-		})
+	onAttendChange = () => {
+		axios.post(`${serverConfig.url}events/${this.props.eventid}/attend`,
+			{ attend: !this.state.userAttending })
+			.then(() => {
+				this.setState({
+					userAttending: !this.state.userAttending,
+					userCancelled: this.state.userAttending,
+				});
+				this.updateAttendeesAmount(this.state.userAttending ? 1 : -1);
+			});
+	};
+
 
 	getDisqusConfig = () => ({
 		url: `${disqusConfig.domain}events/${this.props.eventid}`,
 		identifier: this.props.eventid,
 		title: this.state.title,
 	});
+
+	updateAttendeesAmount = (amount) => {
+		this.setState({ attendeesAmount: this.state.attendeesAmount + amount });
+	};
 
 	render = () => <div className='container'>
 		<div className="container">
@@ -51,7 +76,7 @@ class Event extends Component {
 						<h1 className="font-weight-light">{this.state.title}</h1>
 						<div className='row'>
 							<div className='col-md-7'>
-								<p>0 out of {this.state.capacity} attending</p>
+								<p>{this.state.attendeesAmount} out of {this.state.capacity} attending</p>
 								<p className="lead">{this.state.description}</p>
 								<img src={this.state.image} alt='Event' className="img-responsive mw-100"/>
 							</div>
@@ -75,7 +100,11 @@ class Event extends Component {
 										}
 									</div>
 									<div className="card-footer text-center">
-										<AttendButton />
+										<AttendButton
+											full={this.state.capacity === this.state.attendeesAmount}
+											userAttending={this.state.userAttending}
+											userCancelled={this.state.userCancelled}
+											onAttendChange={this.onAttendChange}/>
 									</div>
 								</div>
 							</div>

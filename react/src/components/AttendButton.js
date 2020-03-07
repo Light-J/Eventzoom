@@ -1,14 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRss } from '@fortawesome/free-solid-svg-icons';
 
-class AttendButton extends Component {
-	state = { userAttending: false };
+export class AttendButton extends React.Component {
+	static propTypes = {
+		full: PropTypes.bool.isRequired,
+		user: PropTypes.object,
+		userAttending: PropTypes.bool,
+		userCancelled: PropTypes.bool,
+		onAttendChange: PropTypes.func,
+	};
 
-	onAttendChange = () => {
-		// Logic for updating users attendance to go here
-		this.setState({ userAttending: !this.state.userAttending });
+	render() {
+		if (this.props.userCancelled) {
+			return <button className="btn btn-info btn-lg btn-block">You have successfully cancelled</button>;
+		} if (this.props.userAttending) {
+			return <button className="btn btn-danger btn-lg btn-block" onClick={() => this.props.onAttendChange()}>Cancel reservation</button>;
+		} if (this.props.full) {
+			return <button className="btn btn-info btn-lg btn-block">Sorry, this event is full</button>;
+		} if (this.props.user) {
+			return <button className="btn btn-success btn-lg btn-block" onClick={() => this.props.onAttendChange()}>Attend</button>;
+		}
+		return <Link to="/login"><button className="btn btn-outline-info"><FontAwesomeIcon icon={faRss} /> Log in to attend event</button></Link>;
 	}
-
-	render = () => <button className={this.state.userAttending ? 'btn btn-danger btn-lg btn-block' : 'btn btn-success btn-lg btn-block' } onClick={this.onAttendChange}>{this.state.userAttending ? 'Cancel reservation' : 'Attend'}</button>;
 }
 
-export default AttendButton;
+const mapStateToProps = (state) => ({
+	user: state.userReducer.user,
+});
+
+export default connect(mapStateToProps)(AttendButton);
