@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import { Strategy as AnonymousStrategy } from 'passport-anonymous';
-import authConfig from '../../../config/auth';
-import userService from '../../services/user.service';
+import authConfig from '../../config/auth';
+import userService from './user.service';
 
 
 const passportLocalVerify = async (username, password, done) => {
