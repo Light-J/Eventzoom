@@ -4,6 +4,7 @@ import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
 import enGB from 'date-fns/locale/en-GB';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
+import FilterableFields from '../components/FilterableFields';
 import 'react-datepicker/dist/react-datepicker.css';
 import './AddEvent.css';
 
@@ -27,6 +28,9 @@ export default class AddEvent extends React.Component {
 		success: false,
 		availableSeries: [],
 		series: '',
+		noPublic: 0,
+		restrictToSchool: 0,
+		restrictToStaff: 0,
 	}
 
 handleDate = (date) => {
@@ -41,6 +45,10 @@ handleChange = (e) => {
 uploadFile = (e) => {
 	this.setState({ file: e.target.files[0] });
 };
+
+updateParentState = (data) => {
+	this.setState(data);
+}
 
 componentDidMount = async () => {
 	const res = await axios.get(`${serverConfig.url}series/mine`);
@@ -181,7 +189,12 @@ render = () => (<form className="container">
 					showTimeSelect={true}
 				/>
 			</div>
-
+			<FilterableFields
+				noPublic={this.state.noPublic}
+				restrictToSchool={this.state.restrictToSchool}
+				restrictToStaff={this.state.restrictToStaff}
+				updateParentState={this.updateParentState}
+			/>
 			<div>
 				<button className={`btn btn-success btn-block mt-2 ${this.state.success ? 'disabled' : ''}`} onClick={this.submitForm} type="submit">Add Event</button>
 			</div>

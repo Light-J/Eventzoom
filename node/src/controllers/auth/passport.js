@@ -4,6 +4,7 @@ import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Strategy as SamlStrategy } from 'passport-saml';
+import { Strategy as AnonymousStrategy } from 'passport-anonymous';
 import authConfig from '../../../config/auth';
 import userService from '../../services/user.service';
 
@@ -42,7 +43,7 @@ const initPassport = (app) => {
 	});
 
 	passport.use(new passportLocal.Strategy({ session: false }, passportLocalVerify));
-
+	passport.use(new AnonymousStrategy());
 	passport.use(
 		'jwt',
 		new JwtStrategy(JwtOptions, async (jwtPayload, done) => {
@@ -68,9 +69,19 @@ const initPassport = (app) => {
 		},
 		(async (profile, done) => {
 			const email = profile[authConfig.saml.emailField];
+			const name = profile[authConfig.saml.nameField];
+			const school = profile[authConfig.saml.schoolField];
+			const staff = profile[authConfig.saml.typeField] === 'staff';
 			let user = await userService.getUserByEmail(email);
 			if (!user) {
-				user = await userService.createUser({ email, sso: true });
+				user = await userService.createUser(
+					{
+						email,
+						name,
+						sso: true,
+						filterable: { public: false, school, staff },
+					},
+				);
 			}
 			done(null, user);
 		}),

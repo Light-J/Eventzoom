@@ -96,7 +96,7 @@ class Event extends Component {
 										{
 											this.state.series
 												? <p>Series: <Link to={`/series/${this.state.series._id}`}>{this.state.series.title}</Link></p>
-												: <p>No series</p>
+												: <p>Not a part of a series</p>
 										}
 									</div>
 									<div className="card-footer text-center">
