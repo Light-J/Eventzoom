@@ -9,7 +9,7 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('Tests correct loading', () => {
 	it('Sets isLoaded to true without error', async () => {
 		axios.get = jest.fn().mockImplementation(async () => ({ data: { title: 'Example Title' } }));
-		const wrapper = Enzyme.shallow(<Event eventid="2"/>);
+		const wrapper = Enzyme.shallow(<Event eventId="2"/>);
 		await wrapper.instance().componentDidMount();
 		expect(wrapper.state().isLoaded).toEqual(true);
 		expect(wrapper.state().title).toEqual('Example Title');
@@ -17,7 +17,7 @@ describe('Tests correct loading', () => {
 	});
 	it('Sets error to true on error', async () => {
 		axios.get = jest.fn().mockImplementation(() => Promise.reject());
-		const wrapper = Enzyme.shallow(<Event eventid="2"/>);
+		const wrapper = Enzyme.shallow(<Event eventId="2"/>);
 		await wrapper.instance().componentDidMount();
 		expect(wrapper.contains(<h1>Sorry this event could not be found</h1>)).toEqual(true);
 	});
