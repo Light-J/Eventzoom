@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
+import FilterableFields from '../components/FilterableFields';
+
 
 export default class AddSeries extends React.Component {
 	state = {
@@ -11,6 +13,15 @@ export default class AddSeries extends React.Component {
 		requiredError: false,
 		imageError: false,
 		success: false,
+		noPublic: 0,
+		restrictToSchool: 0,
+		restrictToStaff: 0,
+
+	};
+
+
+	updateParentState = (data) => {
+		this.setState(data);
 	};
 
 	handleChange = (e) => {
@@ -24,6 +35,9 @@ export default class AddSeries extends React.Component {
 
 	submitForm = async () => {
 		const data = new FormData();
+		data.append('noPublic', this.state.noPublic);
+		data.append('restrictToSchool', this.state.restrictToSchool);
+		data.append('restrictToStaff', this.state.restrictToSchool);
 		data.append('title', this.state.title);
 		data.append('description', this.state.description);
 		data.append('image', this.state.file);
@@ -74,6 +88,13 @@ export default class AddSeries extends React.Component {
 						onChange={this.handleChange} required value={this.state.description} />
 					<label htmlFor="image" className="col-form-label">Image</label>
 					<input className="form-control" type="file" onChange={this.uploadFile} accept="image/*"/>
+					<FilterableFields
+						noPublic={this.state.noPublic}
+						restrictToSchool={this.state.restrictToSchool}
+						restrictToStaff={this.state.restrictToStaff}
+						updateParentState={this.updateParentState}
+					/>
+
 					<button className={`btn btn-success ${this.state.success ? 'disabled' : ''} mt-5`} onClick={this.submitForm} type="submit">Add series</button>
 				</div>
 			</div>

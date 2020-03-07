@@ -3,8 +3,15 @@ import index from '../../src/root';
 import seriesService from '../../src/services/series.service';
 import fileService from '../../src/services/file.service';
 import getValidJwt from './getValidJwt';
+import authorizationService from '../../src/services/authorization.service';
+
 
 jest.mock('../../src/services/series.service');
+jest.mock('../../src/middleware/isAllowedToView', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
+jest.mock('../../src/middleware/isStaff', () => jest.fn().mockImplementation((req, res, next) => next()));
+jest.mock('../../src/services/authorization.service');
+
+authorizationService.filterInaccessible = jest.fn().mockImplementation((events) => events);
 
 describe('/', () => {
 	it('should call service and return success true', async () => {
@@ -45,12 +52,12 @@ describe('testing series/1', () => {
 
 describe('testing series/subscriptions', () => {
 	it('should fetch users series successfully', async () => {
-		seriesService.getUserSubscriptions = jest.fn().mockImplementation(async () => ({ test: 'test' }));
+		seriesService.getUserSubscriptions = jest.fn().mockImplementation(async () => ([{ test: 'test', toObject: jest.fn() }]));
 		const res = await request(index.app)
 			.get('/series/subscriptions')
 			.set('Authorization', `Bearer ${await getValidJwt()}`)
 			.send();
-		await expect(res.body).toEqual({ test: 'test' });
+		await expect(res.body).toEqual([{}]);
 		return expect(seriesService.getUserSubscriptions.mock.calls.length).toEqual(1);
 	});
 });
