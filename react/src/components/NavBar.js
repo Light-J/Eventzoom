@@ -29,12 +29,18 @@ export class NavBar extends Component {
 					<li className="nav-item">
 						<Link className="nav-link" to="/subscriptions">My Subscriptions <span className="sr-only">(current)</span></Link>
 					</li>
-					<li>
-						<Link className="nav-link" to="/add-series">Add Series</Link>
-					</li>
-					<li className="nav-item">
-						<Link className="nav-link" to="/add-event">Add Event <span className="sr-only">(current)</span></Link>
-					</li>
+					<Conditional if={
+						this.props.user
+						&& this.props.user.filterable
+						&& this.props.user.filterable.staff}
+					>
+						<li>
+							<Link className="nav-link" to="/add-series">Add Series</Link>
+						</li>
+						<li className="nav-item">
+							<Link className="nav-link" to="/add-event">Add Event <span className="sr-only">(current)</span></Link>
+						</li>
+					</Conditional>
 				</Conditional>
 			</ul>
 			<ul className="navbar-nav">

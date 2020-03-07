@@ -18,6 +18,7 @@ import Profile from './Profile';
 class App extends Component {
 	static propTypes = {
 		isLoggedIn: PropTypes.bool.isRequired,
+		user: PropTypes.object.isRequired,
 	};
 
 	render = () => <div>
@@ -33,8 +34,14 @@ class App extends Component {
 		<Route exact path="/Login" render={(props) => <Login {...props} />} />
 		<Route exact path="/subscriptions" render={() => <Subscriptions />} />
 		<Conditional if={this.props.isLoggedIn}>
-			<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
-			<Route exact path="/add-event" render={(props) => <AddEvent {...props} />} />
+			<Conditional if={
+				this.props.user
+				&& this.props.user.filterable
+				&& this.props.user.filterable.staff}
+			>
+				<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
+				<Route exact path="/add-event" render={(props) => <AddEvent {...props} />} />
+			</Conditional>
 			<Route exact path="/profile" render={(props) => <Profile {...props} />} />
 		</Conditional>
 	</div>
@@ -42,6 +49,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
 	isLoggedIn: !!state.userReducer.user,
+	user: state.userReducer.user,
 });
 
 export default connect(mapStateToProps)(App);
