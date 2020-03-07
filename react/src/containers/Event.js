@@ -20,24 +20,24 @@ class Event extends Component {
 	};
 
 	static propTypes = {
-		eventid: PropTypes.string.isRequired,
+		eventId: PropTypes.string.isRequired,
 	};
 
 	componentDidMount() {
-		axios.get(`${serverConfig.url}events/${this.props.eventid}`)
+		axios.get(`${serverConfig.url}events/${this.props.eventId}`)
 			.then((res) => {
 				this.setState({ isLoaded: true, ...res.data });
 			}).catch(() => {
 				this.setState({ error: true });
 			});
-		axios.get(`${serverConfig.url}events/${this.props.eventid}/user-attending`)
+		axios.get(`${serverConfig.url}events/${this.props.eventId}/user-attending`)
 			.then((result) => {
 				this.setState({ userAttending: result.data });
 			});
 	}
 
 	onAttendChange = () => {
-		axios.post(`${serverConfig.url}events/${this.props.eventid}/attend`,
+		axios.post(`${serverConfig.url}events/${this.props.eventId}/attend`,
 			{ attend: !this.state.userAttending })
 			.then(() => {
 				this.setState({
@@ -50,8 +50,8 @@ class Event extends Component {
 
 
 	getDisqusConfig = () => ({
-		url: `${disqusConfig.domain}events/${this.props.eventid}`,
-		identifier: this.props.eventid,
+		url: `${disqusConfig.domain}events/${this.props.eventId}`,
+		identifier: this.props.eventId,
 		title: this.state.title,
 	});
 
