@@ -66,7 +66,7 @@ class Event extends Component {
 					<div className="card-body p-5">
 
 						<div className="d-flex align-items-center">
-							<img src={'https://pluspng.com/img-png/kitten-png--243.png'} alt='Sad kitten'/>
+							<img src="https://pluspng.com/img-png/kitten-png--243.png" alt='Sad kitten'/>
 							<h1>Sorry this event could not be found</h1>
 						</div>
 					</div>
