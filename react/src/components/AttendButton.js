@@ -24,7 +24,7 @@ export class AttendButton extends React.Component {
 		} if (this.props.user) {
 			return <button className="btn btn-success btn-lg btn-block" onClick={() => this.props.onAttendChange()}>Attend</button>;
 		}
-		return <Link to={'/login'}><button className="btn btn-outline-info"><FontAwesomeIcon icon={faRss} /> Log in to attend event</button></Link>;
+		return <Link to="/login"><button className="btn btn-outline-info"><FontAwesomeIcon icon={faRss} /> Log in to attend event</button></Link>;
 	}
 }
 
