@@ -110,7 +110,6 @@ const eventAtCapacity = async (eventId) => {
 	}
 };
 
-
 export default {
 	getEvents, getEventById, getEventsAdvanced, addEvent, attendEvent, userAttending, eventAtCapacity,
 };

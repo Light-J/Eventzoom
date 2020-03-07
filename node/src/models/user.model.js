@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import uniqueEnforce from 'mongoose-unique-validator';
+import filterableFields from '../mixins/filterable';
 
 const UserSchema = new mongoose.Schema({
 	email: {
@@ -9,6 +10,7 @@ const UserSchema = new mongoose.Schema({
 	subscribedSeries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'series' }],
 	name: { type: String, required: false },
 	sso: { type: Boolean, required: false },
+	filterable: { ...filterableFields },
 });
 
 UserSchema.plugin(uniqueEnforce);

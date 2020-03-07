@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import filterableFields from '../mixins/filterable';
 
 const SeriesSchema = new mongoose.Schema({
 	title: {
@@ -16,6 +17,7 @@ const SeriesSchema = new mongoose.Schema({
 	events: [{
 		type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Event',
 	}],
+	filterable: { ...filterableFields },
 
 });
 const Series = mongoose.model('Series', SeriesSchema);
