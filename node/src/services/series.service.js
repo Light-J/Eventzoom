@@ -1,4 +1,5 @@
 import Series from '../models/series.model';
+import authorizationService from './authorization.service';
 
 const createSeries = async (series) => {
 	await ((new Series(series)).save());
@@ -30,12 +31,18 @@ const changeUserSeriesSubscription = async (seriesId, user, subscribe) => {
 const getUserSubscriptions = async (user) => {
 	const curDate = new Date();
 	const endDate = new Date(curDate).setMonth(curDate.getMonth() + 1);
-	return Series
+	let foundSeries = await Series
 		.find({ _id: { $in: user.subscribedSeries } }, '_id title events')
 		.populate({
 			path: 'events',
 			match: { date: { $gte: curDate, $lt: endDate } },
 		});
+	foundSeries = await authorizationService.filterInaccessible(foundSeries, user);
+	foundSeries = foundSeries.map((subscription) => ({
+		...subscription.toObject(),
+		events: authorizationService.filterInaccessible(subscription.events, user),
+	}));
+	return foundSeries;
 };
 
 

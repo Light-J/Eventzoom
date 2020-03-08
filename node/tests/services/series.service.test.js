@@ -1,5 +1,6 @@
 import seriesService from '../../src/services/series.service';
 import series from '../../src/models/series.model';
+import authorizationService from '../../src/services/authorization.service';
 
 jest.mock('../../src/models/series.model');
 
@@ -44,8 +45,18 @@ describe('testing getSeriesByUser', () => {
 
 describe('testing getUserSubscriptions', () => {
 	it('should work successfully', async () => {
+		// eslint-disable-next-line max-len
+		authorizationService.filterInaccessible = jest.fn().mockImplementation((something) => something);
 		const fakeUser = { subscribedSeries: [1, 2, 3] };
-		const result = { populate: jest.fn().mockImplementation(async () => 'test result') };
+		const result = {
+			populate: jest.fn().mockImplementation(
+				async () => [
+					{
+						toObject: jest.fn().mockImplementation(() => ({ test: 'test' })),
+					},
+				],
+			),
+		};
 		series.find = jest.fn().mockImplementation(() => result);
 		await seriesService.getUserSubscriptions(fakeUser);
 		await expect(series.find.mock.calls[0][0]._id.$in).toEqual([1, 2, 3]);
