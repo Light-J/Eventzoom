@@ -57,7 +57,7 @@ describe('testing series/subscriptions', () => {
 			.get('/series/subscriptions')
 			.set('Authorization', `Bearer ${await getValidJwt()}`)
 			.send();
-		await expect(res.body).toEqual([{test: 'test'}]);
+		await expect(res.body).toEqual([{ test: 'test' }]);
 		return expect(seriesService.getUserSubscriptions.mock.calls.length).toEqual(1);
 	});
 });
