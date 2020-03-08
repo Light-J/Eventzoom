@@ -11,6 +11,7 @@ import series from './controllers/series.controller';
 import './helpers/connectToDatabase';
 import './helpers/winston';
 import passport from './services/passport.service';
+import email from './controllers/email.controller';
 
 winston.info(`Client project URL is ${clientConfig.url}`);
 
@@ -25,6 +26,8 @@ app.use('/hello', hello);
 app.use('/events', events);
 app.use('/users', users);
 app.use('/series', series);
+app.use('/emails', email);
+
 
 app.get('/', (req, res) => {
 	winston.info('hitting sample endpoint');

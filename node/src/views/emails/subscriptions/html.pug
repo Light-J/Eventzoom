@@ -1,0 +1,12 @@
+doctype html
+html
+    head
+    body
+        h1 Weekly digest
+        each val in series
+            h2 #{val.title}
+            each event in val.events
+                a(href=clientUrl + '/#/events/'+event._id)
+                    h3 #{event.title}
+                p #{event.description}
+                hr
