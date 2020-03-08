@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing emails should send successfully 1`] = `
+Array [
+  Array [],
+]
+`;
+
+exports[`testing emails should send successfully 2`] = `
+Array [
+  Array [
+    Array [
+      Object {
+        "events": Array [
+          "qwerty",
+        ],
+      },
+    ],
+  ],
+  Array [
+    Array [
+      Object {
+        "events": Array [],
+      },
+    ],
+  ],
+]
+`;
+
+exports[`testing emails should send successfully 3`] = `
+Array [
+  Array [
+    undefined,
+    "subscriptions",
+    Object {
+      "series": Array [
+        Object {
+          "events": Array [
+            "qwerty",
+          ],
+        },
+      ],
+    },
+  ],
+  Array [
+    undefined,
+    "subscriptions",
+    Object {
+      "series": Array [
+        Object {
+          "events": Array [],
+        },
+      ],
+    },
+  ],
+]
+`;

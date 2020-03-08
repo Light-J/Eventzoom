@@ -1,3 +1,3 @@
 export default {
-	uri: process.env.MONGO_URL || 'mongodb://localhost:27017/assessment1',
+	uri: process.env.MONGO_URL || 'mongodb://localhost:27017/eventzoom',
 };

@@ -11,7 +11,7 @@
   "scripts": {
     "test": "jest --forceExit --detectOpenHandles",
     "start": "nodemon -r dotenv/config src/index.js --exec babel-node",
-    "build": "node \"node_modules/@babel/cli/bin/babel.js\" src/ -d dist/src/ && node \"node_modules/@babel/cli/bin/babel.js\" config/ -d dist/config",
+    "build": "node \"node_modules/@babel/cli/bin/babel.js\" src/ -d dist/src/ && node \"node_modules/@babel/cli/bin/babel.js\" config/ -d dist/config && cp -r src/views dist/src/views",
     "prod": "node -r dotenv/config dist/src/index.js dotenv_config_path=.env.prod",
     "lint": "eslint ./",
     "destroy-lambda": "aws lambda delete-function --function-name final-client-project-node --region eu-west-3 && aws iam delete-role-policy --role-name final-client-project-node-executor --policy-name log-writer --region eu-west-3 && aws iam delete-role --role-name final-client-project-node-executor --region eu-west-3 && rm claudia.json",
@@ -20,7 +20,9 @@
     "migrate": "npx db-migrate up",
     "seed": "npx db-migrate up:all",
     "create-seeder": "npx db-migrate create:seed",
-    "create-migration": "npx db-migrate create"
+    "create-migration": "npx db-migrate create",
+    "create-email-scheduler": "node ./node_modules/claudia/bin/cmd.js add-scheduled-event --event sendMail.json --schedule \"rate(5 minutes)\" --name \"EmailScheduler\"",
+    "destroy-email-scheduler": "node delete-email-scheduler.js"
   },
   "repository": {
     "type": "git",
@@ -50,17 +52,20 @@
     "db-migrate": "^0.11.6",
     "db-migrate-mongodb": "^1.5.0",
     "dotenv": "^8.2.0",
+    "email-templates": "^7.0.4",
     "escape-string-regexp": "^2.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.10",
     "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.2",
+    "nodemailer": "^6.4.4",
     "passport": "^0.4.1",
     "passport-anonymous": "^1.0.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "passport-saml": "^1.3.3",
+    "pug": "^2.0.4",
     "regenerator-runtime": "^0.13.3",
     "uuid": "^3.4.0",
     "winston": "^3.2.1"

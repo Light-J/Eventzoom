@@ -67,14 +67,7 @@ router.get(
 	passport.authenticate('jwt', { session: false }),
 	async (req, res) => {
 		try {
-			let subscriptions = await seriesService.getUserSubscriptions(req.user);
-			// check if theres access to all subscribed series
-			subscriptions = await authorizationService.filterInaccessible(subscriptions, req.user);
-			// check if there is access to all events within each series
-			subscriptions = subscriptions.map((subscription) => ({
-				...subscription.toObject(),
-				events: authorizationService.filterInaccessible(subscription.events, req.user),
-			}));
+			const subscriptions = await seriesService.getUserSubscriptions(req.user);
 			return res.send(subscriptions);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
