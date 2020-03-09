@@ -7,7 +7,7 @@ import { Strategy as SamlStrategy } from 'passport-saml';
 import { Strategy as AnonymousStrategy } from 'passport-anonymous';
 import authConfig from '../../config/auth';
 import userService from './user.service';
-
+import userModel from '../models/user.model';
 
 const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
@@ -72,18 +72,12 @@ const initPassport = (app) => {
 			const name = profile[authConfig.saml.nameField];
 			const school = profile[authConfig.saml.schoolField];
 			const staff = profile[authConfig.saml.typeField] === 'staff';
-			let user = await userService.getUserByEmail(email);
-			if (!user) {
-				user = await userService.createUser(
-					{
-						email,
-						name,
-						sso: true,
-						filterable: { public: false, school, staff },
-					},
-				);
-			}
-			done(null, user);
+			const samlUser = await userModel.findOneAndUpdate(
+				{ email },
+				{ name, filterable: { public: false, school, staff } },
+				{ new: true, upsert: true },
+			);
+			done(null, samlUser);
 		}),
 	));
 };
