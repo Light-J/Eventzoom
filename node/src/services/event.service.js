@@ -3,7 +3,6 @@ import * as ics from 'ics';
 import Event from '../models/event.model';
 import Series from '../models/series.model';
 import emailService from './email.service';
-import fileService from './file.service';
 
 const getEvents = async (query) => {
 	try {
@@ -66,26 +65,9 @@ const getEventById = async (id) => {
 	}
 };
 
-const createEventCalenderLink = async (eventId) => {
-	const event = await getEventById(eventId);
-	ics.createEvent(event.toICSFormat(), async (error, value) => {
-		const file = {
-			originalname: 'invitation.ics',
-			buffer: value,
-			mimetype: 'text/calendar',
-		};
-		const location = await fileService.uploadFile(file);
-		event.calendarLink = location;
-		event.save();
-		return location;
-	});
-};
-
 const addEvent = async (eventDetails) => {
 	try {
 		const event = await ((new Event(eventDetails)).save());
-		event.calendarLink = await fileService.uploadFile(createEventCalenderLink(event._id));
-		event.save();
 		await Series.findByIdAndUpdate(eventDetails.series, { $push: { events: event._id } });
 		return event;
 	} catch (e) {
