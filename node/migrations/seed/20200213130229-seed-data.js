@@ -47,6 +47,7 @@ exports.up = async function (db) {
     capacity: 90,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56150'),
     date: new Date("2020-03-10T14:00:00.000Z"),
+    calendarLink: 'https://eventzoom-image.s3.amazonaws.com/4a03bc68-4cfd-4693-8781-92c52b8b7a0e.ics',
   });
   await db.insert('events', {
     _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56164'),
@@ -61,6 +62,7 @@ exports.up = async function (db) {
     capacity: 46,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56150'),
     date: new Date("2020-03-10T17:00:00.000Z"),
+    calendarLink: 'https://eventzoom-image.s3.amazonaws.com/4a03bc68-4cfd-4693-8781-92c52b8b7a0e.ics',
   });
 
   await db.insert('events', {
@@ -76,6 +78,7 @@ exports.up = async function (db) {
     capacity: 46,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
     date: new Date("2020-02-01T09:00:00.000Z"),
+    calendarLink: 'https://eventzoom-image.s3.amazonaws.com/4a03bc68-4cfd-4693-8781-92c52b8b7a0e.ics',
   });
 
 
@@ -92,6 +95,7 @@ exports.up = async function (db) {
     capacity: 10,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
     date: new Date("2020-03-16T09:00:00.000Z"),
+    calendarLink: 'https://eventzoom-image.s3.amazonaws.com/4a03bc68-4cfd-4693-8781-92c52b8b7a0e.ics',
   });
 
   await db.insert('events', {
@@ -107,6 +111,7 @@ exports.up = async function (db) {
     capacity: 34,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
     date: new Date("2020-03-19T19:00:00.000Z"),
+    calendarLink: 'https://eventzoom-image.s3.amazonaws.com/4a03bc68-4cfd-4693-8781-92c52b8b7a0e.ics',
   });
 
   await db.insert('events', {
@@ -127,6 +132,7 @@ exports.up = async function (db) {
     },
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
     date: new Date("2020-03-19T19:00:00.000Z"),
+    calendarLink: 'https://eventzoom-image.s3.amazonaws.com/4a03bc68-4cfd-4693-8781-92c52b8b7a0e.ics',
   });
 
   await db.insert('events', {
@@ -146,6 +152,7 @@ exports.up = async function (db) {
     },
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
     date: new Date("2020-03-19T19:00:00.000Z"),
+    calendarLink: 'https://eventzoom-image.s3.amazonaws.com/4a03bc68-4cfd-4693-8781-92c52b8b7a0e.ics',
   });
 
   await db.insert('events', {
@@ -165,6 +172,7 @@ exports.up = async function (db) {
     },
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56151'),
     date: new Date("2020-03-19T19:00:00.000Z"),
+    calendarLink: 'https://eventzoom-image.s3.amazonaws.com/4a03bc68-4cfd-4693-8781-92c52b8b7a0e.ics',
   });
   return null;
 };

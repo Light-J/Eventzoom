@@ -3,7 +3,7 @@ import escapeStringRegexp from 'escape-string-regexp';
 import Event from '../models/event.model';
 import Series from '../models/series.model';
 import emailService from './email.service';
-import fileService from "./file.service";
+import fileService from './file.service';
 
 const ics = require('ics');
 
@@ -68,16 +68,6 @@ const getEventById = async (id) => {
 	}
 };
 
-const addEvent = async (eventDetails) => {
-	try {
-		const event = await ((new Event(eventDetails)).save());
-		await Series.findByIdAndUpdate(eventDetails.series, { $push: { events: event._id } });
-		return event;
-	} catch (e) {
-		throw Error('Error while adding event');
-	}
-};
-
 const createEventCalenderLink = async (eventId) => {
 	const event = await getEventById(eventId);
 	ics.createEvent(event.toICSFormat(), async (error, value) => {
@@ -93,17 +83,24 @@ const createEventCalenderLink = async (eventId) => {
 	});
 };
 
+const addEvent = async (eventDetails) => {
+	try {
+		const event = await ((new Event(eventDetails)).save());
+		event.calendarLink = await fileService.uploadFile(createEventCalenderLink(event._id));
+		event.save();
+		await Series.findByIdAndUpdate(eventDetails.series, { $push: { events: event._id } });
+		return event;
+	} catch (e) {
+		throw Error('Error while adding event');
+	}
+};
+
 const attendEvent = async (eventId, user, attend) => {
 	try {
 		const event = await getEventById(eventId);
 		if (attend) {
 			if (event.attendees.length < event.capacity) {
 				event.attendees.push(user._id);
-				// If the event does not currently have a calender link create it
-				if (!event.calendarLink) {
-					event.calendarLink = await createEventCalenderLink(event._id);
-				}
-				console.log(event);
 				emailService.sendEmail(user.email, 'event-confirmation', { event });
 			} else {
 				return false;
