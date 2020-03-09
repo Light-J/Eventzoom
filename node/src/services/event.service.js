@@ -1,11 +1,12 @@
 import escapeStringRegexp from 'escape-string-regexp';
-// import ics from 'ics';
 import Event from '../models/event.model';
 import Series from '../models/series.model';
 import emailService from './email.service';
 import fileService from './file.service';
 
+// eslint-disable-next-line prefer-import/prefer-import-over-require
 const ics = require('ics');
+
 
 const getEvents = async (query) => {
 	try {
@@ -101,14 +102,13 @@ const attendEvent = async (eventId, user, attend) => {
 		if (attend) {
 			if (event.attendees.length < event.capacity) {
 				event.attendees.push(user._id);
-				ics.createEvent(event.toICSFormat(), async (error, value) => {
-					emailService.sendEmail(user.email, 'event-confirmation', { event }, {
-						icalEvent: {
-							content: value,
-							method: 'request',
-							filename: 'invitation.ics',
-						},
-					});
+				const icsString = await ics.createEvent(event.toICSFormat());
+				emailService.sendEmail(user.email, 'event-confirmation', { event }, {
+					icalEvent: {
+						filename: 'invitation.ics',
+						method: 'publish',
+						content: icsString.value,
+					},
 				});
 			} else {
 				return false;

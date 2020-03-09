@@ -15,7 +15,6 @@ const EventSchema = new mongoose.Schema({
 	series: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Series' },
 	attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
 	filterable: { ...filterableFields },
-	calendarLink: { type: String },
 
 });
 
@@ -30,7 +29,7 @@ EventSchema.methods.toICSFormat = function getInIcsFormat() {
 		location: event.specificLocation,
 		status: 'CONFIRMED',
 		busyStatus: 'BUSY',
-		organizer: { email: event.organiser.email },
+		organizer: { email: event.organiser.email, name: event.organiser.email },
 	};
 };
 
