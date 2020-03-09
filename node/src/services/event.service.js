@@ -84,7 +84,6 @@ const attendEvent = async (eventId, user, attend) => {
 				const icsString = await ics.createEvent(event.toICSFormat());
 				emailService.sendEmail(user.email, 'event-confirmation', { event }, {
 					icalEvent: {
-						filename: 'invitation.ics',
 						method: 'publish',
 						content: icsString.value,
 					},
