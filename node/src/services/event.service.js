@@ -101,9 +101,15 @@ const attendEvent = async (eventId, user, attend) => {
 		if (attend) {
 			if (event.attendees.length < event.capacity) {
 				event.attendees.push(user._id);
-				emailService.sendEmail(user.email, 'event-confirmation', { event }, {icalEvent: {
-					href: event.calendarLink,
-				}});
+				ics.createEvent(event.toICSFormat(), async (error, value) => {
+					emailService.sendEmail(user.email, 'event-confirmation', { event }, {
+						icalEvent: {
+							content: value,
+							method: 'request',
+							filename: 'invitation.ics',
+						},
+					});
+				});
 			} else {
 				return false;
 			}
@@ -134,7 +140,6 @@ const eventAtCapacity = async (eventId) => {
 		throw Error('Error while calculating events attendance');
 	}
 };
-
 
 
 export default {
