@@ -1,12 +1,9 @@
 import escapeStringRegexp from 'escape-string-regexp';
+import * as ics from 'ics';
 import Event from '../models/event.model';
 import Series from '../models/series.model';
 import emailService from './email.service';
 import fileService from './file.service';
-
-// eslint-disable-next-line prefer-import/prefer-import-over-require
-const ics = require('ics');
-
 
 const getEvents = async (query) => {
 	try {
