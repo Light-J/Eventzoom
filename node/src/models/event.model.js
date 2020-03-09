@@ -15,9 +15,24 @@ const EventSchema = new mongoose.Schema({
 	series: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Series' },
 	attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
 	filterable: { ...filterableFields },
+	calendarLink: { type: String },
 
 });
 
+EventSchema.methods.toICSFormat = function getInIcsFormat() {
+	const event = this.populate('organiser');
+	const date = new Date(event.date);
+	return {
+		start: [date.getFullYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()],
+		duration: { hours: 1 },
+		title: event.title,
+		description: event.description,
+		location: event.specificLocation,
+		status: 'CONFIRMED',
+		busyStatus: 'BUSY',
+		organizer: { email: event.organiser.email },
+	};
+};
 
 EventSchema.methods.toJSON = function retractAttendeesList() {
 	const object = this.toObject();

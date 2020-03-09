@@ -1,6 +1,11 @@
 import escapeStringRegexp from 'escape-string-regexp';
+// import ics from 'ics';
 import Event from '../models/event.model';
 import Series from '../models/series.model';
+import emailService from './email.service';
+import fileService from "./file.service";
+
+const ics = require('ics');
 
 const getEvents = async (query) => {
 	try {
@@ -73,12 +78,33 @@ const addEvent = async (eventDetails) => {
 	}
 };
 
+const createEventCalenderLink = async (eventId) => {
+	const event = await getEventById(eventId);
+	ics.createEvent(event.toICSFormat(), async (error, value) => {
+		const file = {
+			originalname: 'invitation.ics',
+			buffer: value,
+			mimetype: 'text/calendar',
+		};
+		const location = await fileService.uploadFile(file);
+		event.calendarLink = location;
+		event.save();
+		return location;
+	});
+};
+
 const attendEvent = async (eventId, user, attend) => {
 	try {
 		const event = await getEventById(eventId);
 		if (attend) {
 			if (event.attendees.length < event.capacity) {
 				event.attendees.push(user._id);
+				// If the event does not currently have a calender link create it
+				if (!event.calendarLink) {
+					event.calendarLink = await createEventCalenderLink(event._id);
+				}
+				console.log(event);
+				emailService.sendEmail(user.email, 'event-confirmation', { event });
 			} else {
 				return false;
 			}
@@ -109,6 +135,8 @@ const eventAtCapacity = async (eventId) => {
 		throw Error('Error while calculating events attendance');
 	}
 };
+
+
 
 export default {
 	getEvents, getEventById, getEventsAdvanced, addEvent, attendEvent, userAttending, eventAtCapacity,
