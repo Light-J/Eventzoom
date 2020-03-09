@@ -28,12 +28,13 @@ const email = new Email({
 });
 
 
-const sendEmail = async (to, template, locals) => {
+const sendEmail = async (to, template, locals, otherParams = {}) => {
 	await email.send({
 		template,
 		locals: { clientUrl: clientConfig.url, ...locals },
 		message: {
 			to,
+			...otherParams,
 		},
 	});
 };

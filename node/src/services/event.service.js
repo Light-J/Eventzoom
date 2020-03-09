@@ -101,7 +101,9 @@ const attendEvent = async (eventId, user, attend) => {
 		if (attend) {
 			if (event.attendees.length < event.capacity) {
 				event.attendees.push(user._id);
-				emailService.sendEmail(user.email, 'event-confirmation', { event });
+				emailService.sendEmail(user.email, 'event-confirmation', { event }, {icalEvent: {
+					href: event.calendarLink,
+				}});
 			} else {
 				return false;
 			}
