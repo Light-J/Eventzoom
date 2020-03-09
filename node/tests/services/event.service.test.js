@@ -1,10 +1,12 @@
 import eventModel from '../../src/models/event.model';
 import seriesModel from '../../src/models/series.model';
 import eventService from '../../src/services/event.service';
+import emailService from '../../src/services/email.service';
 
 const mockSave = jest.fn();
 jest.mock('../../src/models/event.model', () => jest.fn().mockImplementation(() => ({ save: mockSave })));
 jest.mock('../../src/models/series.model');
+jest.mock('../../src/services/email.service');
 
 
 describe('testing getEvents', () => {
@@ -110,12 +112,16 @@ describe('testing if user attending event', () => {
 describe('testing user attending an event', () => {
 	it('event under capactity so user can attend', async () => {
 		const fakeUser = { _id: 1 };
+		emailService.sendEmail = jest.fn();
 		const result = {
 			populate: jest.fn().mockImplementation(async () => ({
 				attendees: [2],
 				capacity: 3,
 				save() {
 					return true;
+				},
+				toICSFormat() {
+					return { uid: 123 };
 				},
 			})),
 		};

@@ -1,6 +1,8 @@
 import escapeStringRegexp from 'escape-string-regexp';
+import * as ics from 'ics';
 import Event from '../models/event.model';
 import Series from '../models/series.model';
+import emailService from './email.service';
 
 const getEvents = async (query) => {
 	try {
@@ -79,6 +81,13 @@ const attendEvent = async (eventId, user, attend) => {
 		if (attend) {
 			if (event.attendees.length < event.capacity) {
 				event.attendees.push(user._id);
+				const icsString = await ics.createEvent(event.toICSFormat());
+				emailService.sendEmail(user.email, 'event-confirmation', { event }, {
+					icalEvent: {
+						method: 'publish',
+						content: icsString.value,
+					},
+				});
 			} else {
 				return false;
 			}
@@ -109,6 +118,7 @@ const eventAtCapacity = async (eventId) => {
 		throw Error('Error while calculating events attendance');
 	}
 };
+
 
 export default {
 	getEvents, getEventById, getEventsAdvanced, addEvent, attendEvent, userAttending, eventAtCapacity,
