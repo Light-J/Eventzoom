@@ -23,13 +23,16 @@ EventSchema.methods.toICSFormat = function getInIcsFormat() {
 	const date = new Date(event.date);
 	return {
 		start: [date.getFullYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()],
-		duration: { hours: 1 },
+		duration: { hours: 1 }, // We dont collect duration so default to 1 so event shows in calendar
 		title: event.title,
 		description: event.description,
 		location: event.specificLocation,
 		status: 'CONFIRMED',
 		busyStatus: 'BUSY',
-		organizer: { email: event.organiser.email, name: event.organiser.email },
+		organizer: {
+			email: event.organiser.email,
+			name: event.organiser.name || event.organiser.email,
+		},
 	};
 };
 
