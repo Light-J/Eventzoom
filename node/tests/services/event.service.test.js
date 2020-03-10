@@ -3,6 +3,8 @@ import seriesModel from '../../src/models/series.model';
 import eventService from '../../src/services/event.service';
 import emailService from '../../src/services/email.service';
 
+
+// eventService.sortEventQuery = jest.fn();
 const mockSave = jest.fn();
 jest.mock('../../src/models/event.model', () => jest.fn().mockImplementation(() => ({ save: mockSave })));
 jest.mock('../../src/models/series.model');
@@ -11,8 +13,11 @@ jest.mock('../../src/services/email.service');
 
 describe('testing getEvents', () => {
 	it('should getMessages successfully', async () => {
-		eventModel.find = jest.fn().mockImplementation(async () => 'test result');
-		await expect(await eventService.getEvents()).toEqual('test result');
+		eventModel.find = jest.fn()
+			.mockImplementation(() => (
+				{ sort: jest.fn().mockImplementation(() => ({ exec: jest.fn().mockImplementation(() => 'test result') })) }
+			));
+		await expect(await eventService.getEvents('aasdfasdfasdf', 'sort', 'direction')).toEqual('test result');
 	});
 	it('should throw error successfully', async () => {
 		eventModel.find = jest.fn().mockImplementation(async () => { throw Error('irrelevant'); });
@@ -22,7 +27,10 @@ describe('testing getEvents', () => {
 
 describe('testing getEvents for the advanced search', () => {
 	it('should getMessages successfully', async () => {
-		eventModel.find = jest.fn().mockImplementation(async () => 'test result');
+		eventModel.find = jest.fn()
+			.mockImplementation(() => (
+				{ sort: jest.fn().mockImplementation(() => ({ exec: jest.fn().mockImplementation(() => 'test result') })) }
+			));
 		await expect(await eventService.getEventsAdvanced({ title: 'test' })).toEqual('test result');
 		await expect(eventModel.find.mock.calls[0][0].title).toEqual(/test/i);
 	});
