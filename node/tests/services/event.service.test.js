@@ -8,6 +8,8 @@ jest.mock('../../src/models/event.model', () => jest.fn().mockImplementation(() 
 jest.mock('../../src/models/series.model');
 jest.mock('../../src/services/email.service');
 
+// cause we mock it later on
+const realSortEventQuery = eventService.sortEventQuery;
 
 describe('testing getEvents', () => {
 	it('should getMessages successfully', async () => {
@@ -149,5 +151,15 @@ describe('testing user attending an event', () => {
 		eventModel.findById = jest.fn().mockImplementation(() => result);
 		const response = await eventService.attendEvent(123, fakeUser, true);
 		expect(response).toEqual(false);
+	});
+});
+
+describe('testing sortEventQuery', () => {
+	it('should run successfully', async () => {
+		eventModel.find = jest.fn()
+			.mockImplementation(() => (
+				{ sort: jest.fn().mockImplementation(() => ({ exec: jest.fn().mockImplementation(() => 'test result') })) }
+			));
+		expect(await realSortEventQuery('qweasd', 'qweasd', 'qweasd')).toEqual('test result');
 	});
 });
