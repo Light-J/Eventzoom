@@ -3,8 +3,6 @@ import seriesModel from '../../src/models/series.model';
 import eventService from '../../src/services/event.service';
 import emailService from '../../src/services/email.service';
 
-
-// eventService.sortEventQuery = jest.fn();
 const mockSave = jest.fn();
 jest.mock('../../src/models/event.model', () => jest.fn().mockImplementation(() => ({ save: mockSave })));
 jest.mock('../../src/models/series.model');
