@@ -98,7 +98,7 @@ export class Profile extends React.Component {
 								<input className="form-control" type="text" name="name" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
 							</div>
 							<div>
-								<button className="btn btn-success btn-block" onClick={this.submitProfileForm}>Save Profile</button>
+								<button className="btn btn-success" onClick={this.submitProfileForm}>Save Profile</button>
 							</div>
 						</form>
 						<hr />
@@ -127,7 +127,7 @@ export class Profile extends React.Component {
 								<input className="form-control" type="password" name="newPasswordConfirmation" placeholder="Password" onChange={this.handleChange} required/>
 							</div>
 							<div>
-								<button className="btn btn-success btn-block" onClick={this.submitChangePasswordForm}>Update Password</button>
+								<button className="btn btn-success" onClick={this.submitChangePasswordForm}>Update Password</button>
 							</div>
 						</form>
 					</div>

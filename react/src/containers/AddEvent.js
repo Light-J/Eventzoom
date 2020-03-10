@@ -196,7 +196,7 @@ render = () => (<form className="container">
 				updateParentState={this.updateParentState}
 			/>
 			<div>
-				<button className={`btn btn-success btn-block mt-2 ${this.state.success ? 'disabled' : ''}`} onClick={this.submitForm} type="submit">Add Event</button>
+				<button className={`btn btn-success mt-2 ${this.state.success ? 'disabled' : ''}`} onClick={this.submitForm} type="submit">Add Event</button>
 			</div>
 		</div>
 	</Conditional>
