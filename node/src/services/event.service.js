@@ -4,40 +4,40 @@ import Event from '../models/event.model';
 import Series from '../models/series.model';
 import emailService from './email.service';
 
-const getEvents = async (query) => {
-	try {
-		if (query) {
-			const escapedQuery = escapeStringRegexp(query);
-			const regSearch = new RegExp(`${escapedQuery}`, 'i');
-			return await Event.find({
-				$and: [
-					{
-						$or: [
-							{ title: regSearch },
-							{ description: regSearch },
-							{ speaker: regSearch },
-						],
-					},
-					{ date: { $gte: Date.now() } },
 
-				],
-			});
-		}
-		return await Event.find({ date: { $gte: Date.now() } });
+// eslint-disable-next-line max-len
+const sortEventQuery = async (query, sort, direction) => Event.find(query).sort({ [sort]: direction }).exec();
+const getEvents = async (query, sort, direction) => {
+	try {
+		const escapedQuery = escapeStringRegexp(query);
+		const regSearch = new RegExp(escapedQuery, 'i');
+		return await sortEventQuery({
+			$and: [
+				{
+					$or: [
+						{ title: regSearch },
+						{ description: regSearch },
+						{ speaker: regSearch },
+					],
+				},
+				{ date: { $gte: Date.now() } },
+
+			],
+		}, sort, direction);
 	} catch (e) {
 		// Log Errors
 		throw Error('Error while getting events');
 	}
 };
 
-const getEventsAdvanced = async (fields) => {
+const getEventsAdvanced = async (fields, sort, direction) => {
 	try {
 		const searchQuery = {};
 		Object.keys(fields).forEach((key) => {
 			const escapedString = fields[key];
-			if (key !== 'startDate' && key !== 'endDate') {
-				searchQuery[key] = new RegExp(`${escapedString}`, 'i');
-			} else {
+			if (key !== 'startDate' && key !== 'endDate' && key !== 'sort' && key !== 'direction') {
+				searchQuery[key] = new RegExp(escapedString, 'i');
+			} else if (key === 'startDate' || key === 'endDate') {
 				// minimum and maximum JS dates
 				// https://stackoverflow.com/questions/11526504/minimum-and-maximum-date
 				// 25 Feb 2020
@@ -50,7 +50,7 @@ const getEventsAdvanced = async (fields) => {
 		if (!searchQuery.date) {
 			searchQuery.date = { $gte: Date.now() };
 		}
-		return await Event.find(searchQuery);
+		return await sortEventQuery(searchQuery, sort, direction);
 	} catch (e) {
 		// Log Errors
 		throw Error(e.stack);
@@ -121,5 +121,12 @@ const eventAtCapacity = async (eventId) => {
 
 
 export default {
-	getEvents, getEventById, getEventsAdvanced, addEvent, attendEvent, userAttending, eventAtCapacity,
+	getEvents,
+	getEventById,
+	getEventsAdvanced,
+	addEvent,
+	attendEvent,
+	userAttending,
+	eventAtCapacity,
+	sortEventQuery,
 };

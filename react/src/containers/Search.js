@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar';
 import SearchSidebar from '../components/SearchSidebar';
 import Conditional from '../components/Conditional';
 import SearchResults from '../components/SearchResults';
+import SortButton from '../components/SortButton';
 import serverConfig from '../config/server';
 
 class Search extends Component {
@@ -14,29 +15,48 @@ class Search extends Component {
 		searchQuery: '',
 		advancedSearchQuery: {
 			startDate: new Date(),
-			endDate: new Date().setMonth(new Date().getMonth() + 1),
+			endDate: new Date(),
 		},
+		sort: 'date',
+		direction: 'asc',
+		hasSetDate: false,
 	};
 
 	componentDidMount() {
-		axios.get(`${serverConfig.url}events/`)
-			.then((res) => {
-				this.setState({ searchResults: res.data, isLoading: false });
+		if (!this.state.hasSetDate) {
+			const endDate = new Date();
+			endDate.setMonth(endDate.getMonth() + 1);
+			this.setState({
+				advancedSearchQuery: { startDate: new Date(), endDate },
+				hasSetDate: true,
+				searchMethod: this.updateResults,
 			});
+		}
+		this.updateResults();
 	}
 
 	onToggle = () => {
 		this.setState({ showSidebar: !this.state.showSidebar });
 	};
 
+	selectSort = (sort, direction) => {
+		this.setState({ sort, direction }, () => this.state.searchMethod());
+	};
+
 	updateResults = () => {
 		axios.get(`${serverConfig.url}events/`, {
 			params: {
 				query: this.state.searchQuery,
+				sort: this.state.sort,
+				direction: this.state.direction,
 			},
 		})
 			.then((res) => {
-				this.setState({ searchResults: res.data, isLoading: false });
+				this.setState({
+					searchResults: res.data,
+					isLoading: false,
+					searchMethod: this.updateResults,
+				});
 			});
 	};
 
@@ -57,15 +77,28 @@ class Search extends Component {
 
 	updateAdvancedResults = () => {
 		axios.get(`${serverConfig.url}events/advanced`, {
-			params: this.state.advancedSearchQuery,
+			params: {
+				sort: this.state.sort,
+				direction: this.state.direction,
+				...this.state.advancedSearchQuery,
+			},
 		})
 			.then((res) => {
-				this.setState({ searchResults: res.data, isLoading: false });
+				this.setState({
+					searchResults: res.data,
+					isLoading: false,
+					searchMethod: this.updateAdvancedResults,
+				});
 			});
 	};
 
 	render = () => <div className="container mt-3">
 		<SearchBar toggle={this.onToggle} search={this.updateResults} updateQuery={this.updateQuery} />
+		<SortButton
+			selectSort={this.selectSort}
+			sortable={this.state.sort}
+			direction={this.state.direction}
+		/>
 		<div className="row mt-3">
 			<Conditional if={this.state.showSidebar}>
 				<div className="col-md-4">

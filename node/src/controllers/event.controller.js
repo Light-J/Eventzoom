@@ -14,11 +14,13 @@ const upload = multer();
 
 router.get(
 	'/',
+	validator('in', { field: 'sort', matches: ['date', 'attendees'] }),
+	validator('in', { field: 'direction', matches: ['asc', 'desc'] }),
 	passport.authenticate(['jwt', 'anonymous'], { session: false }),
 	async (req, res) => {
 		try {
 			const { query } = req.query;
-			const events = await EventService.getEvents(query);
+			const events = await EventService.getEvents(query, req.query.sort, req.query.direction);
 			return res.send(authorizationService.filterInaccessible(events, req.user));
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
@@ -33,9 +35,15 @@ router.get(
 	validator('optional', { field: 'speaker' }),
 	validator('optional', { field: 'startDate' }),
 	validator('optional', { field: 'endDate' }),
+	validator('in', { field: 'sort', matches: ['date', 'attendees'] }),
+	validator('in', { field: 'direction', matches: ['asc', 'desc'] }),
 	async (req, res) => {
 		try {
-			const events = await EventService.getEventsAdvanced(req.validated);
+			const events = await EventService.getEventsAdvanced(
+				req.validated,
+				req.validated.sort,
+				req.validated.direction,
+			);
 			return res.send(authorizationService.filterInaccessible(events, req.user));
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
