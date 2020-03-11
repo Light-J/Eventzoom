@@ -125,3 +125,23 @@ describe('testing correctPassword', () => {
 		expect(req.validated.password).toEqual(undefined);
 	});
 });
+
+
+describe('testing in', () => {
+	it('should succeed if correct', async () => {
+		const req = { body: { password: 'hello' } };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		await validator('in', { field: 'password', matches: ['hello', 'hi', 'bye'] })(req, res, next);
+		expect(req.validated.password).toEqual('hello');
+		expect(next.mock.calls.length).toEqual(1);
+	});
+	it('should fail if not correct', async () => {
+		const req = { body: { password: 'not-a-greeting' } };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		await validator('in', { field: 'password', matches: ['hello', 'hi', 'bye'] })(req, res, next);
+		expect(req.validated.password).toEqual(undefined);
+		expect(next.mock.calls.length).toEqual(0);
+	});
+});
