@@ -7,6 +7,7 @@ import App from './containers/App';
 import configureStore from './store/store';
 import { setUser } from './store/actions/actions';
 import serverConfig from './config/server';
+import './scss/main.scss';
 
 axios.interceptors.request.use((config) => {
 	// eslint-disable-next-line no-param-reassign
