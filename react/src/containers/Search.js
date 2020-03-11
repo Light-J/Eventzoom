@@ -23,6 +23,7 @@ class Search extends Component {
 		sort: 'date',
 		direction: 'asc',
 		hasSetDate: false,
+		seriesPage: 0,
 	};
 
 	componentDidMount() {
@@ -67,6 +68,7 @@ class Search extends Component {
 		axios.get(`${serverConfig.url}series/`, {
 			params: {
 				query: this.state.searchQuery,
+				page: this.state.seriesPage,
 			},
 		})
 			.then((res) => {
