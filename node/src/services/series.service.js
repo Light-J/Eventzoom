@@ -1,3 +1,4 @@
+import escapeStringRegexp from 'escape-string-regexp';
 import Series from '../models/series.model';
 import authorizationService from './authorization.service';
 import seriesConfig from '../../config/series';
@@ -49,8 +50,18 @@ const getUserSubscriptions = async (user) => {
 	return foundSeries;
 };
 
+const getSeries = async (query) => {
+	try {
+		const escapedQuery = escapeStringRegexp(query);
+		const regSearch = new RegExp(escapedQuery, 'i');
+		return await Series.find({ $or: [{ title: regSearch }, { description: regSearch }] });
+	} catch (e) {
+		throw Error('Error while querying for series');
+	}
+};
 
 export default {
+	getSeries,
 	createSeries,
 	getSeriesForUser,
 	getSeriesById,
