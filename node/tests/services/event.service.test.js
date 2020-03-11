@@ -8,11 +8,16 @@ jest.mock('../../src/models/event.model', () => jest.fn().mockImplementation(() 
 jest.mock('../../src/models/series.model');
 jest.mock('../../src/services/email.service');
 
+// cause we mock it later on
+const realSortEventQuery = eventService.sortEventQuery;
 
 describe('testing getEvents', () => {
 	it('should getMessages successfully', async () => {
-		eventModel.find = jest.fn().mockImplementation(async () => 'test result');
-		await expect(await eventService.getEvents()).toEqual('test result');
+		eventModel.find = jest.fn()
+			.mockImplementation(() => (
+				{ sort: jest.fn().mockImplementation(() => ({ exec: jest.fn().mockImplementation(() => 'test result') })) }
+			));
+		await expect(await eventService.getEvents('aasdfasdfasdf', 'sort', 'direction')).toEqual('test result');
 	});
 	it('should throw error successfully', async () => {
 		eventModel.find = jest.fn().mockImplementation(async () => { throw Error('irrelevant'); });
@@ -22,7 +27,10 @@ describe('testing getEvents', () => {
 
 describe('testing getEvents for the advanced search', () => {
 	it('should getMessages successfully', async () => {
-		eventModel.find = jest.fn().mockImplementation(async () => 'test result');
+		eventModel.find = jest.fn()
+			.mockImplementation(() => (
+				{ sort: jest.fn().mockImplementation(() => ({ exec: jest.fn().mockImplementation(() => 'test result') })) }
+			));
 		await expect(await eventService.getEventsAdvanced({ title: 'test' })).toEqual('test result');
 		await expect(eventModel.find.mock.calls[0][0].title).toEqual(/test/i);
 	});
@@ -143,5 +151,15 @@ describe('testing user attending an event', () => {
 		eventModel.findById = jest.fn().mockImplementation(() => result);
 		const response = await eventService.attendEvent(123, fakeUser, true);
 		expect(response).toEqual(false);
+	});
+});
+
+describe('testing sortEventQuery', () => {
+	it('should run successfully', async () => {
+		eventModel.find = jest.fn()
+			.mockImplementation(() => (
+				{ sort: jest.fn().mockImplementation(() => ({ exec: jest.fn().mockImplementation(() => 'test result') })) }
+			));
+		expect(await realSortEventQuery('qweasd', 'qweasd', 'qweasd')).toEqual('test result');
 	});
 });

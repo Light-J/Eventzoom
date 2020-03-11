@@ -13,7 +13,10 @@ describe('testing createSeries', () => {
 
 describe('testing getSeriesById', () => {
 	it('should work successfully', async () => {
-		const result = { populate: jest.fn().mockImplementation(async () => 'test result') };
+		const populateMock = { populate: () => 'test result' };
+		const result = {
+			populate: () => populateMock,
+		};
 		series.findById = jest.fn().mockImplementation(() => result);
 		await expect(await seriesService.getSeriesById(1)).toEqual('test result');
 		await expect(series.findById.mock.calls[0]).toEqual([1]);
