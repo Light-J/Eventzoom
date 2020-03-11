@@ -54,7 +54,12 @@ const getSeries = async (query) => {
 	try {
 		const escapedQuery = escapeStringRegexp(query);
 		const regSearch = new RegExp(escapedQuery, 'i');
-		return await Series.find({ $or: [{ title: regSearch }, { description: regSearch }] });
+		return await Series.find({
+			$or: [
+				{ title: regSearch },
+				{ description: regSearch },
+			],
+		});
 	} catch (e) {
 		throw Error('Error while querying for series');
 	}
