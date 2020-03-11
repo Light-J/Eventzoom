@@ -129,7 +129,7 @@ render = () => (<form className="container">
 
 			<div className="form-group">
 				<label htmlFor="image" className="col-form-label">Upload Image</label>
-				<input id="imageUpload" className="form-control" type="file" onChange={this.uploadFile} accept="image/*"/>
+				<input id="imageUpload" type="file" onChange={this.uploadFile} accept="image/*"/>
 			</div>
 
 			<div className="form-group">
