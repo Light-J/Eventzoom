@@ -1,5 +1,6 @@
 import Series from '../models/series.model';
 import authorizationService from './authorization.service';
+import seriesConfig from '../../config/series';
 
 const createSeries = async (series) => {
 	await ((new Series(series)).save());
@@ -11,7 +12,7 @@ const getSeriesForUser = async ({ _id }) => Series.find({ user: _id });
 const getSeriesById = async (id) => {
 	try {
 		return await Series.findById(id)
-			.populate({ path: 'events', options: { limit: 3, sort: { date: 1 } } })
+			.populate({ path: 'events', options: { sort: { date: 1 } } })
 			.populate('user');
 	} catch (e) {
 		throw Error('Error while getting single series');
@@ -38,7 +39,7 @@ const getUserSubscriptions = async (user) => {
 		.populate({
 			path: 'events',
 			match: { date: { $gte: curDate, $lt: endDate } },
-			options: { limit: 3, sort: { date: 1 } },
+			options: { limit: seriesConfig.eventsPerSubscription, sort: { date: 1 } },
 		});
 	foundSeries = await authorizationService.filterInaccessible(foundSeries, user);
 	foundSeries = foundSeries.map((subscription) => ({
