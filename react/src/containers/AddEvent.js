@@ -83,7 +83,7 @@ submitForm = async (event) => {
 
 render = () => (<form className="container">
 	<Conditional if={this.state.availableSeries && !this.state.availableSeries.length}>
-		<h1>Please add a series first.</h1>
+		<h1 className="mt-3">Please add a series first.</h1>
 	</Conditional>
 	<Conditional if={this.state.availableSeries.length}>
 
@@ -129,7 +129,7 @@ render = () => (<form className="container">
 
 			<div className="form-group">
 				<label htmlFor="image" className="col-form-label">Upload Image</label>
-				<input id="imageUpload" className="form-control" type="file" onChange={this.uploadFile} accept="image/*"/>
+				<input id="imageUpload" type="file" onChange={this.uploadFile} accept="image/*"/>
 			</div>
 
 			<div className="form-group">
@@ -196,7 +196,7 @@ render = () => (<form className="container">
 				updateParentState={this.updateParentState}
 			/>
 			<div>
-				<button className={`btn btn-success btn-block mt-2 ${this.state.success ? 'disabled' : ''}`} onClick={this.submitForm} type="submit">Add Event</button>
+				<button className={`btn btn-success mt-2 ${this.state.success ? 'disabled' : ''}`} onClick={this.submitForm} type="submit">Add Event</button>
 			</div>
 		</div>
 	</Conditional>
