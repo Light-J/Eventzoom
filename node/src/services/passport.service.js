@@ -74,7 +74,7 @@ const initPassport = (app) => {
 			const staff = profile[authConfig.saml.typeField] === 'staff';
 			const samlUser = await userModel.findOneAndUpdate(
 				{ email },
-				{ name, filterable: { public: false, school, staff } },
+				{ name, filterable: { public: false, school, staff }, sso: true },
 				{ new: true, upsert: true },
 			);
 			done(null, samlUser);
