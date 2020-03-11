@@ -6,12 +6,15 @@ import Conditional from '../components/Conditional';
 import SearchResults from '../components/SearchResults';
 import SortButton from '../components/SortButton';
 import serverConfig from '../config/server';
+import SeriesResults from '../components/SeriesResults';
 
 class Search extends Component {
 	state = {
-		isLoading: true,
+		isLoadingEvents: true,
+		isLoadingSeries: true,
 		showSidebar: false,
-		searchResults: [],
+		eventSearchResults: [],
+		seriesSearchResults: [],
 		searchQuery: '',
 		advancedSearchQuery: {
 			startDate: new Date(),
@@ -29,7 +32,7 @@ class Search extends Component {
 			this.setState({
 				advancedSearchQuery: { startDate: new Date(), endDate },
 				hasSetDate: true,
-				searchMethod: this.updateResults,
+				searchMethod: this.updateEventsResults,
 			});
 		}
 		this.updateResults();
@@ -43,7 +46,7 @@ class Search extends Component {
 		this.setState({ sort, direction }, () => this.state.searchMethod());
 	};
 
-	updateResults = () => {
+	updateEventsResults = () => {
 		axios.get(`${serverConfig.url}events/`, {
 			params: {
 				query: this.state.searchQuery,
@@ -53,9 +56,23 @@ class Search extends Component {
 		})
 			.then((res) => {
 				this.setState({
-					searchResults: res.data,
-					isLoading: false,
-					searchMethod: this.updateResults,
+					eventSearchResults: res.data,
+					isLoadingEvents: false,
+					searchMethod: this.updateEventsResults,
+				});
+			});
+	};
+
+	updateSeriesResults = () => {
+		axios.get(`${serverConfig.url}series/`, {
+			params: {
+				query: this.state.searchQuery,
+			},
+		})
+			.then((res) => {
+				this.setState({
+					seriesSearchResults: res.data,
+					isLoadingSeries: false,
 				});
 			});
 	};
@@ -85,15 +102,23 @@ class Search extends Component {
 		})
 			.then((res) => {
 				this.setState({
-					searchResults: res.data,
-					isLoading: false,
+					eventSearchResults: res.data,
+					isLoadingEvents: false,
 					searchMethod: this.updateAdvancedResults,
 				});
 			});
 	};
 
+	updateResults = () => {
+		this.updateEventsResults();
+		this.updateSeriesResults();
+	};
+
 	render = () => <div className="container mt-3">
-		<SearchBar toggle={this.onToggle} search={this.updateResults} updateQuery={this.updateQuery} />
+		<SearchBar
+			toggle={this.onToggle}
+			search={this.updateResults}
+			updateQuery={this.updateQuery} />
 		<SortButton
 			selectSort={this.selectSort}
 			sortable={this.state.sort}
@@ -111,7 +136,12 @@ class Search extends Component {
 				</div>
 			</Conditional>
 			<div className={this.state.showSidebar ? 'col-md-8' : 'col-md-12'}>
-				<SearchResults results={this.state.searchResults} isLoading={this.state.isLoading}/>
+				<SeriesResults
+					results={this.state.seriesSearchResults}
+					isLoading={this.state.isLoadingSeries} />
+				<SearchResults
+					results={this.state.eventSearchResults}
+					isLoading={this.state.isLoadingEvents}/>
 			</div>
 		</div>
 	</div>

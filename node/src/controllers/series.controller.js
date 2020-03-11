@@ -44,8 +44,8 @@ router.get(
 	passport.authenticate(['jwt', 'anonymous'], { session: false }),
 	async (req, res) => {
 		try {
-			const { query } = req.query;
-			const series = await seriesService.getSeries(query);
+			const { query, page } = req.query;
+			const series = await seriesService.getSeries(query, page);
 			// (query, req.query.sort, req.query.direction);
 			return res.send(series);// authorizationService.filterInaccessible(series, req.user));
 		} catch (e) {
