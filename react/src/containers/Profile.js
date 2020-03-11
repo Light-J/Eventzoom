@@ -72,7 +72,7 @@ export class Profile extends React.Component {
 		return (
 			<div className="container">
 				<Conditional if={this.props.user.sso}>
-					<div className="alert alert-info">Your profile is managed by your SSO provider.</div>
+					<div className="alert alert-info m-3">Your profile is managed by your SSO provider.</div>
 				</Conditional>
 				<Conditional if={!this.props.user.sso}>
 

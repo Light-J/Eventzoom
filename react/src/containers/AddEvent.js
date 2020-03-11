@@ -83,7 +83,7 @@ submitForm = async (event) => {
 
 render = () => (<form className="container">
 	<Conditional if={this.state.availableSeries && !this.state.availableSeries.length}>
-		<h1>Please add a series first.</h1>
+		<h1 className="mt-3">Please add a series first.</h1>
 	</Conditional>
 	<Conditional if={this.state.availableSeries.length}>
 
