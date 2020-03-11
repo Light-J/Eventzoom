@@ -10,7 +10,7 @@ export class NavBar extends Component {
 	};
 
 	// taken off the basic bootstrap template https://getbootstrap.com/docs/4.0/components/navbar/
-	render = () => <nav className="navbar navbar-expand-lg navbar-light bg-light">
+	render = () => <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
 		<Link className="navbar-brand" to="/">EventZoom</Link>
 		<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span className="navbar-toggler-icon"></span>
