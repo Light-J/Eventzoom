@@ -64,7 +64,7 @@ export class Login extends React.Component {
 							<input className="form-control" type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
 						</div>
 						<div>
-							<button className="btn btn-success btn-block" onClick={this.submitForm}>Login</button>
+							<button className="btn btn-success" onClick={this.submitForm}>Login</button>
 						</div>
 					</div>
 				</form>
