@@ -36,7 +36,7 @@ class SubscribeSeriesButton extends Component {
 
 	render() {
 		if (this.props.user) {
-			return <button className={this.state.isSubscribed ? 'btn btn-outline-danger' : 'btn btn-outline-success' } onClick={this.onSubscriptionChange}><FontAwesomeIcon icon={faRss} />{this.state.isSubscribed ? 'Unfollow' : 'Follow'}</button>;
+			return <button className={this.state.isSubscribed ? 'btn btn-outline-danger' : 'btn btn-outline-success' } onClick={this.onSubscriptionChange}><FontAwesomeIcon icon={faRss} /> {this.state.isSubscribed ? 'Unfollow' : 'Follow'}</button>;
 		}
 		return <Link to={'/login'}><button className={'btn btn-outline-info'}><FontAwesomeIcon icon={faRss} /> Log in to follow series</button></Link>;
 	}
