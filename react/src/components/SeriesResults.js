@@ -67,11 +67,6 @@ class SeriesResults extends Component {
 						<Slide index={-1}>
 							<div className="col">
 								<div className="card flex-md-row mb-4 box-shadow">
-									{/* <div className="d-none d-md-block" style={{ */}
-									{/*	width: '250px', */}
-									{/*	height: '250px', */}
-									{/*	background: 'url(https://pluspng.com/img-png/kitten-png--243.png) 50% 50% no-repeat', */}
-									{/* }}/> */}
 									<img className="d-none d-md-block" src="https://pluspng.com/img-png/kitten-png--243.png" alt="sad kitten" style={{
 										width: '200px',
 										height: '250px',
