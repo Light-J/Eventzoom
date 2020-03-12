@@ -11,6 +11,10 @@ const convertToArray = (data, currentResults) => data.reduce((reducer, current, 
 	return reducer;
 }, []);
 
+// based on pseudocode from
+// https://www.researchgate.net/figure/Pseudo-code-of-the-Lloyds-K-Means-algorithm-K-Means-is-a-simple-algorithm-that-has_fig1_278710586
+// loosely based on wikipedia's explanation at https://en.wikipedia.org/wiki/K-means_clustering
+// accessed 12 March 2020
 const calculate = (data, paramCentroids, distance, calculateCentroids, iterations = 500) => {
 	let centroids = [...paramCentroids];
 	let pastResults = [];
