@@ -1,6 +1,8 @@
 import escapeStringRegexp from 'escape-string-regexp';
 import * as ics from 'ics';
+import stringSimilaritiy from 'string-similarity';
 import Event from '../models/event.model';
+import kmeans from './kmeans.service';
 import Series from '../models/series.model';
 import emailService from './email.service';
 
@@ -119,6 +121,39 @@ const eventAtCapacity = async (eventId) => {
 	}
 };
 
+const getRecommendationsForEvent = async (event, user) => {
+	console.log('getting called!');
+
+	//TODO: take into account user!
+	const events = (await getEvents('', 'date', 'asc')).map((e) => e.toJSON());
+	const result = kmeans.calculate(events, [events[0], events[3]], (event1, event2) => {
+		const attendanceSimilarity = (event1.attendeesAmount / event1.capacity - event2.attendeesAmount / event2.capacity) / 100;
+		const titleSimilarity = 1 - stringSimilaritiy.compareTwoStrings(event1.title.toLowerCase(), event2.title.toLowerCase());
+		const descriptionSimilarity = 1 - stringSimilaritiy.compareTwoStrings(event1.description.toLowerCase(), event2.description.toLowerCase());
+		// console.log(attendanceSimilarity + titleSimilarity + descriptionSimilarity);
+		return attendanceSimilarity + titleSimilarity + descriptionSimilarity;
+	}, (eventsToAverage) => {
+		const attendeesAmount = eventsToAverage.reduce((init, e) => init + e.attendeesAmount, 0) / eventsToAverage.length;
+		// reference: https://stackoverflow.com/questions/5915096/get-random-item-from-javascript-array
+		// accessed 12 March 2020
+		const title = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].title;
+		const description = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].description;
+		const capacity = eventsToAverage.reduce((init, e) => init + e.capacity, 0) / eventsToAverage.length;
+		// console.log(attendeesAmount,
+		// 	title,
+		// 	description,
+		// 	capacity);
+		return {
+			...eventsToAverage[0],
+			attendeesAmount,
+			title,
+			description,
+			capacity,
+		};
+	});
+	return result;
+};
+
 
 export default {
 	getEvents,
@@ -129,4 +164,5 @@ export default {
 	userAttending,
 	eventAtCapacity,
 	sortEventQuery,
+	getRecommendationsForEvent,
 };

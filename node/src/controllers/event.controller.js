@@ -1,10 +1,6 @@
 import express from 'express';
 import multer from 'multer';
 import passport from 'passport';
-import skmeans from 'skmeans';
-import stringSimilaritiy from 'string-similarity';
-import { ConfigBase } from 'aws-sdk/lib/config';
-import nodeKMeans from 'node-kmeans';
 import validator from '../middleware/validator';
 import EventService from '../services/event.service';
 import fileService from '../services/file.service';
@@ -12,7 +8,8 @@ import Event from '../models/event.model';
 import authorizationService from '../services/authorization.service';
 import isAllowedToView from '../middleware/isAllowedToView';
 import isStaff from '../middleware/isStaff';
-import kmeans from '../services/kmeans.service';
+import cacheService from '../services/cache.service';
+
 
 const router = express.Router();
 const upload = multer();
@@ -73,45 +70,16 @@ router.get(
 );
 
 router.get(
-	'/get/recommendations',
+	'/:id/recommendations',
+	passport.authenticate(['jwt', 'anonymous'], { session: false }),
 	async (req, res) => {
-		const events = (await EventService.getEvents('', 'date', 'asc')).map((e) => e.toJSON());
-		const result = kmeans.calculate(events, [events[0], events[3]], (event1, event2) => {
-			const attendanceSimilarity = (event1.attendeesAmount / event1.capacity - event2.attendeesAmount / event2.capacity) / 100;
-			const titleSimilarity = 1 - stringSimilaritiy.compareTwoStrings(event1.title.toLowerCase(), event2.title.toLowerCase());
-			const descriptionSimilarity = 1 - stringSimilaritiy.compareTwoStrings(event1.description.toLowerCase(), event2.description.toLowerCase());
-			console.log(attendanceSimilarity + titleSimilarity + descriptionSimilarity);
-			return attendanceSimilarity + titleSimilarity + descriptionSimilarity;
-		}, (eventsToAverage) => {
-			const attendeesAmount = eventsToAverage.reduce((init, e) => init + e.attendeesAmount, 0) / eventsToAverage.length;
-			// reference: https://stackoverflow.com/questions/5915096/get-random-item-from-javascript-array
-			// accessed 12 March 2020
-			const title = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].title;
-			const description = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].description;
-			const capacity = eventsToAverage.reduce((init, e) => init + e.capacity, 0) / eventsToAverage.length;
-			console.log(attendeesAmount,
-				title,
-				description,
-				capacity);
-			return {
-				...eventsToAverage[0],
-				attendeesAmount,
-				title,
-				description,
-				capacity,
-			};
-		});
-
-		/*
-		(events) => ({
-			...event,
-			attendeesAmount: (Math.random() < 0.5 ? -1 : 1) * Math.floor(Math.random() * 5) + event.attendeesAmount,
-			title: event.title.split(' ').map((word) => (Math.random() > 0.7 ? `${word}${word}` : word)).join(' '),
-			description: event.description.split(' ').map((word) => (Math.random() > 0.7 ? `${word} ${word}` : word)).join(' '),
-			capacity: (Math.random() < 0.5 ? -1 : 1) * Math.floor(Math.random() * 5) + event.capacity,
-		})
-		*/
-		res.send(result);
+		const userId = req.user ? req.user._id : '-1';
+		const recommendations = await cacheService.remember(
+			`user.${userId}events.${req.params.id}.recommendations`,
+			'3600',
+			async () => EventService.getRecommendationsForEvent(req.params.id, req.user),
+		);
+		res.send(recommendations);
 	},
 );
 
