@@ -23,7 +23,6 @@ class Search extends Component {
 		sort: 'date',
 		direction: 'asc',
 		hasSetDate: false,
-		seriesPage: 0,
 	};
 
 	componentDidMount() {
@@ -68,7 +67,6 @@ class Search extends Component {
 		axios.get(`${serverConfig.url}series/`, {
 			params: {
 				query: this.state.searchQuery,
-				page: this.state.seriesPage,
 			},
 		})
 			.then((res) => {
@@ -116,14 +114,6 @@ class Search extends Component {
 		this.updateSeriesResults();
 	};
 
-	nextSeriesPage = () => {
-		this.setState({ seriesPage: this.state.seriesPage + 1 });
-	};
-
-	prevSeriesPage = () => {
-		this.setState({ seriesPage: this.state.seriesPage - 1 });
-	};
-
 	render = () => <div className="container mt-3">
 		<SearchBar
 			toggle={this.onToggle}
@@ -148,10 +138,7 @@ class Search extends Component {
 			<div className={this.state.showSidebar ? 'col-md-8' : 'col-md-12'}>
 				<SeriesResults
 					results={this.state.seriesSearchResults}
-					isLoading={this.state.isLoadingSeries}
-					next={this.nextSeriesPage}
-					previous={this.prevSeriesPage}
-					selectedIndex={this.state.seriesPage}/>
+					isLoading={this.state.isLoadingSeries} />
 				<SearchResults
 					results={this.state.eventSearchResults}
 					isLoading={this.state.isLoadingEvents}/>

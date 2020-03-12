@@ -15,10 +15,14 @@ class SeriesResult extends Component {
 	});
 
 
-	render = () => <div className="col mb-3">
-		<Link to={`/series/${this.props.id}`}>
-			<div className="card flex-md-row mb-4 box-shadow">
-				<div className="d-none d-md-block" style={{ width: '2500px', height: '250px', background: `url(${this.props.image}) 50% 80% no-repeat` }}>a</div>
+	render = () => <div className="col">
+		<Link className="text-decoration-none text-reset" to={`/series/${this.props.id}`} >
+			<div className="card flex-md-row box-shadow align-items-stretch">
+				<div className="d-none d-md-block" style={{
+					width: '2500px',
+					height: '250px',
+					background: `url(${this.props.image}) 50% 80% no-repeat`,
+				}}/>
 				<div className="card-body d-flex flex-column align-items-start">
 					<h3 className="mb-0">
 						<a className="text-dark" href="#">{this.props.title}</a>

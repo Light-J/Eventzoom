@@ -50,7 +50,7 @@ const getUserSubscriptions = async (user) => {
 	return foundSeries;
 };
 
-const getSeries = async (query, page) => {
+const getSeries = async (query = '') => {
 	try {
 		const escapedQuery = escapeStringRegexp(query);
 		const regSearch = new RegExp(escapedQuery, 'i');
@@ -60,7 +60,7 @@ const getSeries = async (query, page) => {
 				{ description: regSearch },
 			],
 
-		}).skip(page * 2).limit(2);
+		}).limit(20);
 	} catch (e) {
 		throw Error('Error while querying for series');
 	}
