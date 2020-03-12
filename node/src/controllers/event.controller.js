@@ -82,13 +82,35 @@ router.get(
 			const descriptionSimilarity = 1 - stringSimilaritiy.compareTwoStrings(event1.description.toLowerCase(), event2.description.toLowerCase());
 			console.log(attendanceSimilarity + titleSimilarity + descriptionSimilarity);
 			return attendanceSimilarity + titleSimilarity + descriptionSimilarity;
-		}, (event) => ({
+		}, (eventsToAverage) => {
+			const attendeesAmount = eventsToAverage.reduce((init, e) => init + e.attendeesAmount, 0) / eventsToAverage.length;
+			// reference: https://stackoverflow.com/questions/5915096/get-random-item-from-javascript-array
+			// accessed 12 March 2020
+			const title = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].title;
+			const description = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].description;
+			const capacity = eventsToAverage.reduce((init, e) => init + e.capacity, 0) / eventsToAverage.length;
+			console.log(attendeesAmount,
+				title,
+				description,
+				capacity);
+			return {
+				...eventsToAverage[0],
+				attendeesAmount,
+				title,
+				description,
+				capacity,
+			};
+		});
+
+		/*
+		(events) => ({
 			...event,
 			attendeesAmount: (Math.random() < 0.5 ? -1 : 1) * Math.floor(Math.random() * 5) + event.attendeesAmount,
 			title: event.title.split(' ').map((word) => (Math.random() > 0.7 ? `${word}${word}` : word)).join(' '),
 			description: event.description.split(' ').map((word) => (Math.random() > 0.7 ? `${word} ${word}` : word)).join(' '),
 			capacity: (Math.random() < 0.5 ? -1 : 1) * Math.floor(Math.random() * 5) + event.capacity,
-		}));
+		})
+		*/
 		res.send(result);
 	},
 );
