@@ -1,6 +1,10 @@
 import express from 'express';
 import multer from 'multer';
 import passport from 'passport';
+import skmeans from 'skmeans';
+import stringSimilaritiy from 'string-similarity';
+import { ConfigBase } from 'aws-sdk/lib/config';
+import nodeKMeans from 'node-kmeans';
 import validator from '../middleware/validator';
 import EventService from '../services/event.service';
 import fileService from '../services/file.service';
@@ -8,6 +12,7 @@ import Event from '../models/event.model';
 import authorizationService from '../services/authorization.service';
 import isAllowedToView from '../middleware/isAllowedToView';
 import isStaff from '../middleware/isStaff';
+import kmeans from '../services/kmeans.service';
 
 const router = express.Router();
 const upload = multer();
@@ -64,6 +69,27 @@ router.get(
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
+	},
+);
+
+router.get(
+	'/get/recommendations',
+	async (req, res) => {
+		const events = (await EventService.getEvents('', 'date', 'asc')).map((e) => e.toJSON());
+		const result = kmeans.calculate(events, [events[0], events[3]], (event1, event2) => {
+			const attendanceSimilarity = (event1.attendeesAmount / event1.capacity - event2.attendeesAmount / event2.capacity) / 100;
+			const titleSimilarity = 1 - stringSimilaritiy.compareTwoStrings(event1.title.toLowerCase(), event2.title.toLowerCase());
+			const descriptionSimilarity = 1 - stringSimilaritiy.compareTwoStrings(event1.description.toLowerCase(), event2.description.toLowerCase());
+			console.log(attendanceSimilarity + titleSimilarity + descriptionSimilarity);
+			return attendanceSimilarity + titleSimilarity + descriptionSimilarity;
+		}, (event) => ({
+			...event,
+			attendeesAmount: (Math.random() < 0.5 ? -1 : 1) * Math.floor(Math.random() * 5) + event.attendeesAmount,
+			title: event.title.split(' ').map((word) => (Math.random() > 0.7 ? `${word}${word}` : word)).join(' '),
+			description: event.description.split(' ').map((word) => (Math.random() > 0.7 ? `${word} ${word}` : word)).join(' '),
+			capacity: (Math.random() < 0.5 ? -1 : 1) * Math.floor(Math.random() * 5) + event.capacity,
+		}));
+		res.send(result);
 	},
 );
 
