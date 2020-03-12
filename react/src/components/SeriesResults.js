@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Conditional from './Conditional';
 import SeriesResult from './SeriesResult';
-import {left, right} from './SeriesResult.module.css';
+import { left, right } from './SeriesResult.module.css';
 
 
 class SeriesResults extends Component {
