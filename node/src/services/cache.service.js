@@ -16,7 +16,7 @@ const remember = (key, time, retrieve) => new Promise((resolve, reject) => {
 			if (err1) {
 				return reject(err1);
 			}
-			resolve(functionResult);
+			return resolve(functionResult);
 		});
 	});
 });

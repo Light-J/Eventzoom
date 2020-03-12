@@ -5,6 +5,8 @@ import Event from '../models/event.model';
 import kmeans from './kmeans.service';
 import Series from '../models/series.model';
 import emailService from './email.service';
+import authorizationService from './authorization.service';
+import recommendationsConfig from '../../config/recommendations';
 
 
 // eslint-disable-next-line max-len
@@ -121,37 +123,55 @@ const eventAtCapacity = async (eventId) => {
 	}
 };
 
-const getRecommendationsForEvent = async (event, user) => {
-	console.log('getting called!');
+const compareTwoEvents = (event1, event2) => {
+	const attendanceSimilarity =			(
+		event1.attendeesAmount / event1.capacity
+			- event2.attendeesAmount / event2.capacity
+	)
+		/ 100;
+	const titleSimilarity = 1 - stringSimilaritiy.compareTwoStrings(
+		event1.title.toLowerCase(),
+		event2.title.toLowerCase(),
+	);
+	const descriptionSimilarity = 1 - stringSimilaritiy.compareTwoStrings(
+		event1.description.toLowerCase(),
+		event2.description.toLowerCase(),
+	);
+	return attendanceSimilarity + titleSimilarity + descriptionSimilarity;
+};
 
-	//TODO: take into account user!
-	const events = (await getEvents('', 'date', 'asc')).map((e) => e.toJSON());
-	const result = kmeans.calculate(events, [events[0], events[3]], (event1, event2) => {
-		const attendanceSimilarity = (event1.attendeesAmount / event1.capacity - event2.attendeesAmount / event2.capacity) / 100;
-		const titleSimilarity = 1 - stringSimilaritiy.compareTwoStrings(event1.title.toLowerCase(), event2.title.toLowerCase());
-		const descriptionSimilarity = 1 - stringSimilaritiy.compareTwoStrings(event1.description.toLowerCase(), event2.description.toLowerCase());
-		// console.log(attendanceSimilarity + titleSimilarity + descriptionSimilarity);
-		return attendanceSimilarity + titleSimilarity + descriptionSimilarity;
-	}, (eventsToAverage) => {
-		const attendeesAmount = eventsToAverage.reduce((init, e) => init + e.attendeesAmount, 0) / eventsToAverage.length;
-		// reference: https://stackoverflow.com/questions/5915096/get-random-item-from-javascript-array
-		// accessed 12 March 2020
-		const title = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].title;
-		const description = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].description;
-		const capacity = eventsToAverage.reduce((init, e) => init + e.capacity, 0) / eventsToAverage.length;
-		// console.log(attendeesAmount,
-		// 	title,
-		// 	description,
-		// 	capacity);
-		return {
-			...eventsToAverage[0],
-			attendeesAmount,
-			title,
-			description,
-			capacity,
-		};
-	});
-	return result;
+const averageEvents = (eventsToAverage) => {
+	// average out these two
+	const attendeesAmount = eventsToAverage.reduce((init, e) => init + e.attendeesAmount, 0)
+	/ eventsToAverage.length;
+	const capacity = eventsToAverage.reduce((init, e) => init + e.capacity, 0)
+	/ eventsToAverage.length;
+	// pick out a random number here.
+	const title = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].title;
+	// eslint-disable-next-line max-len
+	const description = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].description;
+	// eslint-disable-next-line max-len
+	return {
+		...eventsToAverage[0],
+		attendeesAmount,
+		title,
+		description,
+		capacity,
+	};
+};
+
+const getRecommendationsForEvent = async (event, user) => {
+	const events = authorizationService.filterInaccessible((await getEvents('', 'date', 'asc')), user).map((e) => e.toJSON());
+	const centroids = events.filter(
+		(e, index) => index % recommendationsConfig.numberOfRecommendations === 0,
+	);
+	const result = kmeans.calculate(events, centroids, compareTwoEvents, averageEvents);
+
+	return result.find(
+		(e) => e.some(
+			(foundEvent) => foundEvent._id.toString() === event._id.toString(),
+		),
+	).filter((e) => e._id.toString() !== event._id.toString());
 };
 
 

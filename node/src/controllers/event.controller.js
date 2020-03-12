@@ -72,12 +72,14 @@ router.get(
 router.get(
 	'/:id/recommendations',
 	passport.authenticate(['jwt', 'anonymous'], { session: false }),
+	isAllowedToView(Event, 'id'),
 	async (req, res) => {
-		const userId = req.user ? req.user._id : '-1';
+		const userId = req.user ? req.user._id : 'anonymous';
+		const event = await EventService.getEventById(req.params.id);
 		const recommendations = await cacheService.remember(
-			`user.${userId}events.${req.params.id}.recommendations`,
-			'3600',
-			async () => EventService.getRecommendationsForEvent(req.params.id, req.user),
+			`user.${userId}.events.${event._id}.recommendations`,
+			3600,
+			async () => EventService.getRecommendationsForEvent(event, req.user),
 		);
 		res.send(recommendations);
 	},
