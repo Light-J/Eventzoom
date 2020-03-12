@@ -46,6 +46,21 @@ describe('testing getSeriesByUser', () => {
 	});
 });
 
+describe('testing getSeries', () => {
+	it('should work successfully', async () => {
+		series.find = jest.fn().mockImplementation(() => ({ limit: jest.fn().mockImplementation(() => 'test result') }));
+		await expect(await seriesService.getSeries('test')).toEqual('test result');
+	});
+	it('should work successfully without providing a query', async () => {
+		series.find = jest.fn().mockImplementation(() => ({ limit: jest.fn().mockImplementation(() => 'test result') }));
+		await expect(await seriesService.getSeries()).toEqual('test result');
+	});
+	it('should throw an error', async () => {
+		series.find = jest.fn().mockImplementation(async () => { throw Error('Some kind of mongoose error'); });
+		await expect(seriesService.getSeries()).rejects.toEqual(new Error('Error while querying for series'));
+	});
+});
+
 describe('testing getUserSubscriptions', () => {
 	it('should work successfully', async () => {
 		// eslint-disable-next-line max-len
