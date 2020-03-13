@@ -32,8 +32,11 @@ class SeriesResults extends Component {
 	};
 
 	render() {
+		// This sets the height of the slides in the carousel
+		// It is a required value https://www.npmjs.com/package/pure-react-carousel
+		// and I have no idea how to set it using CSS media queries
 		let naturalSlideHeight = 200;
-		if (this.state.width <= 375) {
+		if (this.state.width <= 991) {
 			naturalSlideHeight = 300;
 		} else if (this.state.width <= 1200) {
 			naturalSlideHeight = 240;
@@ -52,8 +55,8 @@ class SeriesResults extends Component {
 				naturalSlideWidth={400}
 				naturalSlideHeight={naturalSlideHeight}
 				infinite
-				hasMasterSpinner={this.props.isLoading} >
-				<div className="container">
+				hasMasterSpinner={this.props.isLoading}>
+				<div className="container mb-2">
 					<Slider>
 						{this.props.results.map((result, index) => {
 							const {
@@ -73,9 +76,9 @@ class SeriesResults extends Component {
 									}} />
 									<div className="card-body d-flex flex-column align-items-start">
 										<h3 className="mb-0">
-											<a className="text-dark" href="#">No more results to show</a>
+											No more results
 										</h3>
-										<p className="card-text mb-auto">Try changing your search query to find more results</p>
+										<p className="card-text mb-auto">Try changing your search to find more results</p>
 									</div>
 								</div>
 							</div>
