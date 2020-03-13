@@ -132,7 +132,7 @@ class Event extends Component {
 							<h3 className="m-2">You may also like</h3>
 							<SearchResults results={this.firstThreeRecommendations()} isLoading={false}/>
 						</Conditional>
-						<p className="lead">Discussion board</p>
+						<h3>Discussion board</h3>
 						<DiscussionEmbed
 							config={this.getDisqusConfig()}
 							shortname={this.state.disqusShortname}
