@@ -27,8 +27,9 @@ class SeriesResults extends React.Component {
 				image, title, description, _id,
 			} = result;
 			return (
-			// eslint-disable-next-line react/jsx-key,max-len
-				<Slide index={index}><SeriesResult key={_id} image={image} title={title} description={description} id={_id}/></Slide>
+				<Slide index={index} key={_id}>
+					<SeriesResult image={image} title={title} description={description} id={_id}/>
+				</Slide>
 			);
 		})}
 		<Slide index={-1}>
