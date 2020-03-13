@@ -163,12 +163,12 @@ const averageEvents = (eventsToAverage) => {
 };
 
 const getRecommendationsForEvent = async (event, user) => {
-	const events = authorizationService.filterInaccessible((await getEvents('', 'date', 'asc')), user).map((e) => e.toJSON());
+	const events = authorizationService.filterInaccessible((await getEvents('', 'date', 'asc')), user)
+		.map((e) => e.toJSON());
 	const centroids = events.filter(
 		(e, index) => index % recommendationsConfig.numberOfRecommendations === 0,
 	);
 	const result = kmeans.calculate(events, centroids, compareTwoEvents, averageEvents);
-
 	return result.find(
 		(e) => e.some(
 			(foundEvent) => foundEvent._id.toString() === event._id.toString(),
@@ -187,4 +187,6 @@ export default {
 	eventAtCapacity,
 	sortEventQuery,
 	getRecommendationsForEvent,
+	averageEvents,
+	compareTwoEvents,
 };
