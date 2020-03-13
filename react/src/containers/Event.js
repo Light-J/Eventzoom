@@ -109,7 +109,10 @@ class Event extends Component {
 										<p>Location: {this.state.vagueLocation}</p>
 										{
 											this.state.organiser
-												? <p>Organiser: {this.state.organiser.email}</p>
+												? <p>Organiser:
+													<a href={`mailto:${this.state.organiser.email}`}>
+														{this.state.organiser.name || this.state.organiser.email}</a>
+												</p>
 												: <p>No organiser</p>
 										}
 										{
