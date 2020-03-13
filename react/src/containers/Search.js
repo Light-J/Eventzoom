@@ -101,7 +101,7 @@ class Search extends Component {
 		/>
 		<div className="row mt-3">
 			<Conditional if={this.state.showSidebar}>
-				<div className="col-md-4">
+				<div className="col-md-4 mb-3">
 					<SearchSidebar
 						updateInput={this.updateAdvancedSearchInput}
 						updateDates={this.updateAdvancedSearchDates}
