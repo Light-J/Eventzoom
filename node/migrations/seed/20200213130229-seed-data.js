@@ -17,6 +17,165 @@ exports.setup = function(options, seedLink) {
 exports.up = async function (db) {
 
   await db.insert('series', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    title: "CUBRIC Weekly",
+    description: "These are the weekly series for CUBRIC.",
+    image: "https://i.imgur.com/epMSRQH.png",
+    events: [mongoose.Types.ObjectId('5e595ce2d8118f0888f56271'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56272'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56273'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56274'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56275'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56276'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56277'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56278'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56279'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56280')], //FILL ME IN YOU MORON
+    user: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56271'),
+    title: "How do signals from the body shape out actions (and our inactions)?",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/dc1PU8j.jpeg",
+    speaker: "Jiaxiang Zhang",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-01T14:00:00.000Z"),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56275'),
+    title: "From blood to neuron: how close can we get with BOLD fMRI at 7T",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/u4qSjQL.jpeg",
+    speaker: "Jiaxiang Zhang",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-02T14:00:00.000Z"),
+  });
+
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56272'),
+    title: "Affective episodic simulations",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/BBcy6Wc.jpeg",
+    speaker: "Kevin Murphy",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-03T14:00:00.000Z"),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56273'),
+    title: "Psychedelics: therapeutic mechanisms",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/8mpGUSt.jpeg",
+    speaker: "Holly Rossiter",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-04T14:00:00.000Z"),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56274'),
+    title: "Rethinking some of MR with MR Fingerprinting.",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/mZXIf0I.png",
+    speaker: "Derek Jones",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-05T14:00:00.000Z"),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56276'),
+    title: "fMRI across the lifespan: is it good enough to be BOLD?",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/9wGJWa0.png",
+    speaker: "Matthias Treder",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-06T14:00:00.000Z"),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56277'),
+    title: "Dysconnectivity as a driver of treatment resistance in Schizophrenia",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/0cptOAb.jpeg",
+    speaker: "Derek Jones",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-07T14:00:00.000Z"),
+  });
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56278'),
+    title: "Technologies for closed loop wearable EEG",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/a3algoY.jpeg",
+    speaker: "Penny Lewis",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-08T14:00:00.000Z"),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56279'),
+    title: "Investigating the mechanisms of spatial navigation in humans using fMRI",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/r1L3ZR9.jpeg",
+    speaker: "Carl",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-09T14:00:00.000Z"),
+  });
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56280'),
+    title: "Knowing our own minds: Metacognitive drivers of belief change",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/Lxg6TaU.jpeg",
+    speaker: "Jiaxiang Zhang",
+    vagueLocation: "CUBRIC, Cardiff",
+    specificLocation: "Seminar Room 2",
+    disabilityAccess: true,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 90,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
+    date: new Date("2020-05-11T14:00:00.000Z"),
+  });
+
+  await db.insert('series', {
     _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56150'),
     title: "Cat test series 1",
     description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
