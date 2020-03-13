@@ -8,6 +8,7 @@ import AttendButton from '../components/AttendButton';
 import serverConfig from '../config/server';
 import disqusConfig from '../config/disqus';
 import Conditional from '../components/Conditional';
+import SearchResults from '../components/SearchResults';
 
 class Event extends Component {
 	state = {
@@ -17,23 +18,41 @@ class Event extends Component {
 		disqusShortname: disqusConfig.shortname,
 		userAttending: false,
 		userCancelled: false,
+		recommendations: [],
 	};
 
 	static propTypes = {
 		eventId: PropTypes.string.isRequired,
 	};
 
-	componentDidMount() {
+	firstThreeRecommendations = () => this.state.recommendations.filter((v, i) => i < 3);
+
+	updateComponent = () => {
 		axios.get(`${serverConfig.url}events/${this.props.eventId}`)
 			.then((res) => {
 				this.setState({ isLoaded: true, ...res.data });
 			}).catch(() => {
 				this.setState({ error: true });
 			});
+		axios.get(`${serverConfig.url}events/${this.props.eventId}/recommendations`)
+			.then((res) => {
+				this.setState({ recommendations: res.data });
+			});
+
 		axios.get(`${serverConfig.url}events/${this.props.eventId}/user-attending`)
 			.then((result) => {
 				this.setState({ userAttending: result.data });
 			});
+	}
+
+	componentDidMount = () => {
+		this.updateComponent();
+	}
+
+	componentDidUpdate = () => {
+		if (this.state._id !== this.props.eventId) {
+			this.updateComponent();
+		}
 	}
 
 	onAttendChange = () => {
@@ -109,6 +128,10 @@ class Event extends Component {
 								</div>
 							</div>
 						</div>
+						<Conditional if={this.state.recommendations.length !== 0}>
+							<h3 className="m-2">You may also like</h3>
+							<SearchResults results={this.firstThreeRecommendations()} isLoading={false}/>
+						</Conditional>
 						<p className="lead">Discussion board</p>
 						<DiscussionEmbed
 							config={this.getDisqusConfig()}
