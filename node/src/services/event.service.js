@@ -1,8 +1,12 @@
 import escapeStringRegexp from 'escape-string-regexp';
 import * as ics from 'ics';
+import stringSimilaritiy from 'string-similarity';
 import Event from '../models/event.model';
+import kmeans from './kmeans.service';
 import Series from '../models/series.model';
 import emailService from './email.service';
+import authorizationService from './authorization.service';
+import recommendationsConfig from '../../config/recommendations';
 
 
 // eslint-disable-next-line max-len
@@ -119,6 +123,59 @@ const eventAtCapacity = async (eventId) => {
 	}
 };
 
+const compareTwoEvents = (event1, event2) => {
+	const attendanceSimilarity =			(
+		event1.attendeesAmount / event1.capacity
+			- event2.attendeesAmount / event2.capacity
+	)
+		/ 100;
+	const titleSimilarity = 1 - stringSimilaritiy.compareTwoStrings(
+		event1.title.toLowerCase(),
+		event2.title.toLowerCase(),
+	);
+	const descriptionSimilarity = 1 - stringSimilaritiy.compareTwoStrings(
+		event1.description.toLowerCase(),
+		event2.description.toLowerCase(),
+	);
+	return attendanceSimilarity + titleSimilarity + descriptionSimilarity;
+};
+
+const averageEvents = (eventsToAverage) => {
+	// average out these two
+	const attendeesAmount = eventsToAverage.reduce((init, e) => init + e.attendeesAmount, 0)
+	/ eventsToAverage.length;
+	const capacity = eventsToAverage.reduce((init, e) => init + e.capacity, 0)
+	/ eventsToAverage.length;
+	// this just picks out a random title
+	// ideally this would be some form of average
+	// like https://link.springer.com/article/10.1007/s10044-002-0184-4
+	// unfortunately I don't understand what this paper says.
+	const title = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].title;
+	// eslint-disable-next-line max-len
+	const description = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].description;
+	return {
+		...eventsToAverage[0],
+		attendeesAmount,
+		title,
+		description,
+		capacity,
+	};
+};
+
+const getRecommendationsForEvent = async (event, user) => {
+	const events = authorizationService.filterInaccessible((await getEvents('', 'date', 'asc')), user)
+		.map((e) => e.toJSON());
+	const centroids = events.filter(
+		(e, index) => index % recommendationsConfig.numberOfRecommendations === 0,
+	);
+	const result = kmeans.calculate(events, centroids, compareTwoEvents, averageEvents);
+	return result.find(
+		(e) => e.some(
+			(foundEvent) => foundEvent._id.toString() === event._id.toString(),
+		),
+	).filter((e) => e._id.toString() !== event._id.toString());
+};
+
 
 export default {
 	getEvents,
@@ -129,4 +186,7 @@ export default {
 	userAttending,
 	eventAtCapacity,
 	sortEventQuery,
+	getRecommendationsForEvent,
+	averageEvents,
+	compareTwoEvents,
 };

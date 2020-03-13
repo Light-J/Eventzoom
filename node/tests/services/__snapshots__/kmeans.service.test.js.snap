@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`calculate should calculate 1`] = `
+Array [
+  Array [
+    1,
+  ],
+  Array [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+  ],
+]
+`;
