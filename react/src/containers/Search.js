@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { CarouselProvider } from 'pure-react-carousel';
 import SearchBar from '../components/SearchBar';
 import SearchSidebar from '../components/SearchSidebar';
 import Conditional from '../components/Conditional';
@@ -35,6 +36,7 @@ class Search extends Component {
 				searchMethod: this.updateEventsResults,
 			});
 		}
+		window.addEventListener('resize', this.updateWindowDimensions);
 		this.updateResults();
 	}
 
@@ -114,37 +116,67 @@ class Search extends Component {
 		this.updateSeriesResults();
 	};
 
-	render = () => <div className="container mt-3">
-		<SearchBar
-			toggle={this.onToggle}
-			search={this.updateResults}
-			updateQuery={this.updateQuery} />
-		<SortButton
-			selectSort={this.selectSort}
-			sortable={this.state.sort}
-			direction={this.state.direction}
-		/>
-		<div className="row mt-3">
-			<Conditional if={this.state.showSidebar}>
-				<div className="col-md-4">
-					<SearchSidebar
-						updateInput={this.updateAdvancedSearchInput}
-						updateDates={this.updateAdvancedSearchDates}
-						startDate={this.state.advancedSearchQuery.startDate}
-						endDate={this.state.advancedSearchQuery.endDate}
-						search={this.updateAdvancedResults} />
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.updateWindowDimensions);
+	}
+
+	updateWindowDimensions = () => {
+		this.setState({ width: window.innerWidth, height: window.innerHeight });
+	};
+
+	render() {
+		// This sets the height of the slides in the carousel
+		// It is a required value https://www.npmjs.com/package/pure-react-carousel
+		// and I have no idea how to set it using CSS media queries
+		let naturalSlideHeight = 200;
+		if (this.state.width <= 991) {
+			naturalSlideHeight = 300;
+		} else if (this.state.width <= 1200) {
+			naturalSlideHeight = 240;
+		}
+
+
+		return <div className="container mt-3">
+			<SearchBar
+				toggle={this.onToggle}
+				search={this.updateResults}
+				updateQuery={this.updateQuery} />
+			<SortButton
+				selectSort={this.selectSort}
+				sortable={this.state.sort}
+				direction={this.state.direction}
+			/>
+			<div className="row mt-3">
+				<Conditional if={this.state.showSidebar}>
+					<div className="col-md-4">
+						<SearchSidebar
+							updateInput={this.updateAdvancedSearchInput}
+							updateDates={this.updateAdvancedSearchDates}
+							startDate={this.state.advancedSearchQuery.startDate}
+							endDate={this.state.advancedSearchQuery.endDate}
+							search={this.updateAdvancedResults} />
+					</div>
+				</Conditional>
+				<div className={this.state.showSidebar ? 'col-md-8' : 'col-md-12'}>
+					<CarouselProvider
+						visibleSlides={this.state.width < 767 ? 1 : 2}
+						totalSlides={this.state.seriesSearchResults.length + 1}
+						step={1}
+						naturalSlideWidth={400}
+						naturalSlideHeight={naturalSlideHeight}
+						infinite
+						hasMasterSpinner={this.state.isLoadingSeries}>
+						<SeriesResults
+							results={this.state.seriesSearchResults}
+							isLoading={this.state.isLoadingSeries} />
+					</CarouselProvider>
+					<SearchResults
+						results={this.state.eventSearchResults}
+						isLoading={this.state.isLoadingEvents}/>
 				</div>
-			</Conditional>
-			<div className={this.state.showSidebar ? 'col-md-8' : 'col-md-12'}>
-				<SeriesResults
-					results={this.state.seriesSearchResults}
-					isLoading={this.state.isLoadingSeries} />
-				<SearchResults
-					results={this.state.eventSearchResults}
-					isLoading={this.state.isLoadingEvents}/>
 			</div>
-		</div>
-	</div>
+		</div>;
+	}
 }
 
 export default Search;
