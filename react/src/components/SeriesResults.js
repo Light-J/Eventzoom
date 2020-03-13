@@ -21,35 +21,33 @@ class SeriesResults extends React.Component {
 		}
 	}
 
-	render() {
-		return <Slider className="container">
-			{this.props.results.map((result, index) => {
-				const {
-					image, title, description, _id,
-				} = result;
-				return (
-					// eslint-disable-next-line react/jsx-key,max-len
-					<Slide index={index}><SeriesResult key={_id} image={image} title={title} description={description} id={_id}/></Slide>
-				);
-			})}
-			<Slide index={-1}>
-				<div className="col">
-					<div className="card flex-md-row mb-4 box-shadow">
-						<img className="d-none d-md-block" src="https://pluspng.com/img-png/kitten-png--243.png" alt="sad kitten" style={{
-							width: '200px',
-							height: '250px',
-						}} />
-						<div className="card-body d-flex flex-column align-items-start">
-							<h3 className="mb-0">
+	render = () => <Slider className="container">
+		{this.props.results.map((result, index) => {
+			const {
+				image, title, description, _id,
+			} = result;
+			return (
+			// eslint-disable-next-line react/jsx-key,max-len
+				<Slide index={index}><SeriesResult key={_id} image={image} title={title} description={description} id={_id}/></Slide>
+			);
+		})}
+		<Slide index={-1}>
+			<div className="col">
+				<div className="card flex-md-row mb-4 box-shadow">
+					<img className="d-none d-md-block" src="https://pluspng.com/img-png/kitten-png--243.png" alt="sad kitten" style={{
+						width: '200px',
+						height: '250px',
+					}} />
+					<div className="card-body d-flex flex-column align-items-start">
+						<h3 className="mb-0">
 											No more results
-							</h3>
-							<p className="card-text mb-auto">Try changing your search to find more results</p>
-						</div>
+						</h3>
+						<p className="card-text mb-auto">Try changing your search to find more results</p>
 					</div>
 				</div>
-			</Slide>
-		</Slider>;
-	}
+			</div>
+		</Slide>
+	</Slider>;
 }
 
 export default WithStore(SeriesResults);
