@@ -8,6 +8,8 @@ import Event from '../models/event.model';
 import authorizationService from '../services/authorization.service';
 import isAllowedToView from '../middleware/isAllowedToView';
 import isStaff from '../middleware/isStaff';
+import cacheService from '../services/cache.service';
+
 
 const router = express.Router();
 const upload = multer();
@@ -64,6 +66,22 @@ router.get(
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
+	},
+);
+
+router.get(
+	'/:id/recommendations',
+	passport.authenticate(['jwt', 'anonymous'], { session: false }),
+	isAllowedToView(Event, 'id'),
+	async (req, res) => {
+		const userId = req.user ? req.user._id : 'anonymous';
+		const event = await EventService.getEventById(req.params.id);
+		const recommendations = await cacheService.remember(
+			`user.${userId}.events.${event._id}.recommendations`,
+			3600,
+			async () => EventService.getRecommendationsForEvent(event, req.user),
+		);
+		res.send(recommendations);
 	},
 );
 

@@ -2,11 +2,14 @@ import eventModel from '../../src/models/event.model';
 import seriesModel from '../../src/models/series.model';
 import eventService from '../../src/services/event.service';
 import emailService from '../../src/services/email.service';
+import authorizationService from '../../src/services/authorization.service';
+import kmeans from '../../src/services/kmeans.service';
 
 const mockSave = jest.fn();
 jest.mock('../../src/models/event.model', () => jest.fn().mockImplementation(() => ({ save: mockSave })));
 jest.mock('../../src/models/series.model');
 jest.mock('../../src/services/email.service');
+jest.mock('../../src/services/kmeans.service');
 
 // cause we mock it later on
 const realSortEventQuery = eventService.sortEventQuery;
@@ -161,5 +164,74 @@ describe('testing sortEventQuery', () => {
 				{ sort: jest.fn().mockImplementation(() => ({ exec: jest.fn().mockImplementation(() => 'test result') })) }
 			));
 		expect(await realSortEventQuery('qweasd', 'qweasd', 'qweasd')).toEqual('test result');
+	});
+});
+
+
+describe('getting recommendations', () => {
+	it('matches snapshots', async () => {
+		authorizationService.filterInaccessible = jest.fn().mockImplementation((events) => events);
+		eventModel.find = jest.fn()
+			.mockImplementation(() => (
+				{
+					sort: jest.fn().mockImplementation(
+						() => ({
+							exec: jest.fn().mockImplementation(
+								() => [
+									{ toJSON: () => ({ _id: '123' }) },
+									{ toJSON: () => ({ _id: '123' }) },
+								],
+							),
+						}),
+					),
+				}
+			));
+		kmeans.calculate = jest.fn().mockImplementation(() => [[{ _id: '123' }, { _id: 'potato' }], [{ _id: '1234' }, { _id: 'carrot' }]]);
+		const rs = await eventService.getRecommendationsForEvent({ _id: '123' });
+		expect(kmeans.calculate.mock.calls[0]).toMatchSnapshot();
+		expect(rs).toMatchSnapshot();
+	});
+});
+
+
+describe('averaging events', () => {
+	it('averages right', async () => {
+		const events = [
+			{
+				attendeesAmount: 5,
+				capacity: 5,
+				title: 'qweasd',
+				description: '123456',
+			},
+			{
+				attendeesAmount: 5,
+				capacity: 5,
+				title: 'qweasd',
+				description: '123456',
+			},
+		];
+		expect(eventService.averageEvents(events).attendeesAmount).toBe(5);
+		expect(eventService.averageEvents(events).capacity).toBe(5);
+	});
+});
+
+
+describe('comparing two events', () => {
+	it('compares right', async () => {
+		const events = [
+			{
+				attendeesAmount: 5,
+				capacity: 5,
+				title: 'qweasd',
+				description: '123456',
+			},
+			{
+				attendeesAmount: 5,
+				capacity: 5,
+				title: 'qweasd',
+				description: '123456',
+			},
+		];
+		expect(eventService.compareTwoEvents(events[0], events[1])).toBe(0);
 	});
 });
