@@ -13,6 +13,7 @@ import './helpers/winston';
 import passport from './services/passport.service';
 import email from './controllers/email.controller';
 
+
 winston.info(`Client project URL is ${clientConfig.url}`);
 
 const app = express();

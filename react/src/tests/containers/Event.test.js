@@ -8,7 +8,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe('Tests correct loading', () => {
 	it('Sets isLoaded to true without error', async () => {
-		axios.get = jest.fn().mockImplementation(async () => ({ data: { title: 'Example Title' } }));
+		axios.get = jest.fn().mockImplementation(async () => ({ data: { title: 'Example Title', _id: '2' } }));
 		const wrapper = Enzyme.shallow(<Event eventId="2"/>);
 		await wrapper.instance().componentDidMount();
 		expect(wrapper.state().isLoaded).toEqual(true);
