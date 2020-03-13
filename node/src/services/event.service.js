@@ -146,11 +146,13 @@ const averageEvents = (eventsToAverage) => {
 	/ eventsToAverage.length;
 	const capacity = eventsToAverage.reduce((init, e) => init + e.capacity, 0)
 	/ eventsToAverage.length;
-	// pick out a random number here.
+	// this just picks out a random title
+	// ideally this would be some form of average
+	// like https://link.springer.com/article/10.1007/s10044-002-0184-4
+	// unfortunately I don't understand what this paper says.
 	const title = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].title;
 	// eslint-disable-next-line max-len
 	const description = eventsToAverage[Math.floor(Math.random() * eventsToAverage.length)].description;
-	// eslint-disable-next-line max-len
 	return {
 		...eventsToAverage[0],
 		attendeesAmount,

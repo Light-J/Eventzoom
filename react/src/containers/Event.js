@@ -50,7 +50,7 @@ class Event extends Component {
 	}
 
 	componentDidUpdate = () => {
-		if (this.state._id !== this.props.eventId) {
+		if (this.state._id && this.state._id !== this.props.eventId) {
 			this.updateComponent();
 		}
 	}
