@@ -19,12 +19,14 @@ class SearchResult extends Component {
 		this.setState({ showSidebar: !this.state.showSidebar });
 	};
 
+	shortenedTitle = () => (this.props.title.length > 45 ? `${this.props.title.substr(0, 40)}...` : this.props.title);
+
 	render = () => <div className="col-md-4 mb-1">
 		<Link to={`/events/${this.props.id}`}>
 			<div className="card card-default">
 				<div className={`card-body ${classes.cardBody}`} style={this.backgroundColor()}>
 					<div className={classes.cardText}>
-						<h3>{this.props.title}</h3>
+						<h3>{this.shortenedTitle()}</h3>
 						<h4>{this.props.author}</h4>
 					</div>
 				</div>
