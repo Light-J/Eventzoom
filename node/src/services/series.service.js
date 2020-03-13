@@ -50,7 +50,7 @@ const getUserSubscriptions = async (user) => {
 	return foundSeries;
 };
 
-const getSeries = async (query = '') => {
+const getSeriesByKeyword = async (query = '') => {
 	try {
 		const escapedQuery = escapeStringRegexp(query);
 		const regSearch = new RegExp(escapedQuery, 'i');
@@ -67,7 +67,7 @@ const getSeries = async (query = '') => {
 };
 
 export default {
-	getSeries,
+	getSeriesByKeyword,
 	createSeries,
 	getSeriesForUser,
 	getSeriesById,

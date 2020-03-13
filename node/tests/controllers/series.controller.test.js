@@ -32,22 +32,22 @@ describe('/', () => {
 
 describe('/', () => {
 	it('should get service and return the series', async () => {
-		seriesService.getSeries = jest.fn().mockImplementation(async () => (['series1', 'series2']));
+		seriesService.getSeriesByKeyword = jest.fn().mockImplementation(async () => (['series1', 'series2']));
 		const res = await request(index.app)
 			.get('/series/')
 			.send();
 		await expect(res.status).toBe(200);
 		await expect(res.body).toEqual(['series1', 'series2']);
-		await expect(seriesService.getSeries.mock.calls[0]).toEqual([undefined]);
+		await expect(seriesService.getSeriesByKeyword.mock.calls[0]).toEqual([undefined]);
 	});
 	it('should get service and return all the series with a query param', async () => {
-		seriesService.getSeries = jest.fn().mockImplementation(async () => (['series1', 'series2']));
+		seriesService.getSeriesByKeyword = jest.fn().mockImplementation(async () => (['series1', 'series2']));
 		const res = await request(index.app)
 			.get('/series/?query=example')
 			.send();
 		await expect(res.status).toBe(200);
 		await expect(res.body).toEqual(['series1', 'series2']);
-		await expect(seriesService.getSeries.mock.calls[0]).toEqual(['example']);
+		await expect(seriesService.getSeriesByKeyword.mock.calls[0]).toEqual(['example']);
 	});
 });
 
