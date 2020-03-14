@@ -21,7 +21,7 @@ p {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     max-width: 80%;
-    -webkit-line-clamp: 5; /* number of lines to show */
+    -webkit-line-clamp: 4; /* number of lines to show */
 }
 
 
@@ -50,3 +50,26 @@ p {
     overflow: hidden;
     outline:none;
 }
+
+.restrictImageMobile {
+    height: 50%;
+}
+
+@media only screen and (max-width: 1200px) {
+    .restrictImageMobile {
+        height: 40%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .restrictImageMobile {
+        height: 50%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .restrictImageMobile {
+        height: 40%;
+    }
+}
+

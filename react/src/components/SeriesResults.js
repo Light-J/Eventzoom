@@ -12,6 +12,7 @@ class SeriesResults extends React.Component {
 		results: PropTypes.array,
 		carouselStore: PropTypes.object,
 		setStoreState: PropTypes.func,
+		height: PropTypes.number,
 	};
 
 
@@ -28,7 +29,8 @@ class SeriesResults extends React.Component {
 			} = result;
 			return (
 				<Slide index={index} key={_id}>
-					<SeriesResult image={image} title={title} description={description} id={_id}/>
+					{/* eslint-disable-next-line max-len */}
+					<SeriesResult image={image} title={title} description={description} id={_id} height={this.props.height}/>
 				</Slide>
 			);
 		})}
@@ -39,7 +41,7 @@ class SeriesResults extends React.Component {
 						width: '200px',
 						height: '250px',
 					}} />
-					<div className="card-body d-flex flex-column align-items-start">
+					<div className="card-body d-flex flex-column align-items-start" style={{ height: `${this.props.height}px` }}>
 						<h3 className="mb-0">
 											No more results
 						</h3>

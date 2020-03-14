@@ -31,15 +31,15 @@ class SeriesCarousel extends Component {
 		// This sets the height of the slides in the carousel
 		// It is a required value https://www.npmjs.com/package/pure-react-carousel
 		// and I have no idea how to set it using CSS media queries
-		let naturalSlideHeight = 200;
+		let naturalSlideHeight = 400;
 		if (this.state.width <= 991) {
-			naturalSlideHeight = 300;
+			naturalSlideHeight = 400;
 		} else if (this.state.width <= 1200) {
-			naturalSlideHeight = 240;
+			naturalSlideHeight = 340;
 		}
 
-		return <CarouselProvider
-			visibleSlides={this.state.width < 767 ? 1 : 2}
+		return <CarouselProvider style={{ paddingBottom: '40px' }}
+			visibleSlides={this.state.width < 768 ? 1 : 3}
 			totalSlides={this.props.results.length + 1}
 			step={1}
 			naturalSlideWidth={400}
@@ -47,6 +47,7 @@ class SeriesCarousel extends Component {
 			infinite
 			hasMasterSpinner={this.props.isLoading}>
 			<SeriesResults
+				height={naturalSlideHeight}
 				results={this.props.results}
 				isLoading={this.props.isLoading} />
 			<ButtonBack className={classes.buttonBack}><i className={classes.left} /></ButtonBack>

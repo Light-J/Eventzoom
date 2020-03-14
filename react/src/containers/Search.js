@@ -136,9 +136,11 @@ class Search extends Component {
 				</div>
 			</Conditional>
 			<div className={this.state.showSidebar ? 'col-md-8' : 'col-md-12'}>
-				<SeriesCarousel
-					results={this.state.seriesSearchResults}
-					isLoading={this.state.isLoadingSeries}/>
+				<Conditional if={!this.state.showSidebar}>
+					<SeriesCarousel
+						results={this.state.seriesSearchResults}
+						isLoading={this.state.isLoadingSeries}/>
+				</Conditional>
 				<SearchResults
 					results={this.state.eventSearchResults}
 					isLoading={this.state.isLoadingEvents}/>

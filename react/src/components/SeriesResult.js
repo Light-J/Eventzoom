@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import classes from './SeriesResult.module.css';
 
 class SeriesResult extends Component {
 	static propTypes = {
@@ -8,27 +9,22 @@ class SeriesResult extends Component {
 		image: PropTypes.string.isRequired,
 		title: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
+		height: PropTypes.number,
 	};
 
-	thumbnailBGImage = () => ({
-		backgroundImage: `url(${this.props.image})`,
+
+	backgroundColor = () => ({
+		backgroundImage: `background-repeat:no-repeat; background-position: center; background-image:url(${this.props.image}); background-size: cover;`,
 	});
 
 
 	render = () => <div className="col">
 		<Link className="text-decoration-none text-reset" to={`/series/${this.props.id}`} >
-			<div className="card flex-md-row box-shadow align-items-stretch">
-				<div className="d-none d-md-block" style={{
-					width: '2500px',
-					height: '250px',
-					background: `url(${this.props.image}) 50% 80% no-repeat`,
-				}}/>
-				<div className="card-body d-flex flex-column align-items-start">
-					<h3 className="mb-0">
-						<a className="text-dark" href="#">{this.props.title}</a>
-					</h3>
-					<p className="card-text mb-auto">{this.props.description}</p>
-					<a href="#">Continue reading</a>
+			<div className="card" style={{ height: `${this.props.height}px` }}>
+				<img className={`card-img-top ${classes.restrictImageMobile}`} src={this.props.image} alt="Card image cap" />
+				<div className="card-body" style={{ height: `${this.props.height}px` }}>
+					<h5 className="card-title">{this.props.title}</h5>
+					<p className="card-text">{this.props.description}</p>
 				</div>
 			</div>
 		</Link>
