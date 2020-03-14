@@ -14,6 +14,12 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.plugin(uniqueEnforce);
+
+UserSchema.methods.toJSON = function removePassword() {
+	const object = this.toObject();
+	delete object.password;
+	return object;
+};
 const User = mongoose.model('User', UserSchema);
 
 export default User;
