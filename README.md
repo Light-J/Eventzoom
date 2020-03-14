@@ -94,3 +94,8 @@ The changes needed to the develop pipeline are removing the `db:drop` command an
 
 You will need to ping the `/emails` URL with the parameters described in the `json` set at a regular interval. We highly recommend the lambda approach.
 
+### Creating migrations
+
+In the `node/` project, run `npm run create-migration -- <name>` to create a migration.
+
+Run `npm run create-seeder -- <name>` to create a seeder.
