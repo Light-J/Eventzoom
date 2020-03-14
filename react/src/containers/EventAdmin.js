@@ -15,6 +15,7 @@ class EventAdmin extends Component {
 
 	state = {
 		isLoaded: false,
+		attendees: [],
 	};
 
 	componentDidMount() {
@@ -32,6 +33,10 @@ class EventAdmin extends Component {
 			}).catch(() => {
 				this.setState({ error: true });
 			});
+		axios.get(`${serverConfig.url}events/${this.props.eventId}/attendees`)
+			.then((result) => {
+				this.setState({ attendees: result.data });
+			});
 	}
 
 	backgroundColor = () => ({
@@ -46,7 +51,7 @@ class EventAdmin extends Component {
 				<h1>Admin page | {this.state.title}</h1>
 				<p>{this.state.description}</p>
 			</div>
-			<AttendeesList eventId={this.props.eventId} />
+			<AttendeesList attendees={this.state.attendees} />
 		</Conditional>
 	</div>
 }
