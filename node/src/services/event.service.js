@@ -185,7 +185,11 @@ const getEventsAttendeesById = async (id) => {
 	}
 };
 
-
+const getUserAttendingEvents = async (user) => {
+	let foundEvents = await sortEventQuery({ attendees: user._id }, 'date', 'asc');
+	foundEvents = await authorizationService.filterInaccessible(foundEvents, user);
+	return foundEvents;
+};
 export default {
 	getEvents,
 	getEventById,
@@ -198,5 +202,6 @@ export default {
 	getRecommendationsForEvent,
 	averageEvents,
 	compareTwoEvents,
+	getUserAttendingEvents,
 	getEventsAttendeesById,
 };
