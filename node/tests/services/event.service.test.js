@@ -235,3 +235,28 @@ describe('comparing two events', () => {
 		expect(eventService.compareTwoEvents(events[0], events[1])).toBe(0);
 	});
 });
+
+
+describe('getting user events', () => {
+	it('matches snapshots', async () => {
+		authorizationService.filterInaccessible = jest.fn().mockImplementation((events) => events);
+		eventModel.find = jest.fn()
+			.mockImplementation(() => (
+				{
+					sort: jest.fn().mockImplementation(
+						() => ({
+							exec: jest.fn().mockImplementation(
+								() => [
+									'event1',
+									'event2',
+								],
+							),
+						}),
+					),
+				}
+			));
+		const rs = await eventService.getUserAttendingEvents({ _id: '123' });
+		await expect(eventModel.find.mock.calls[0]).toMatchSnapshot();
+		return expect(rs).toMatchSnapshot();
+	});
+});
