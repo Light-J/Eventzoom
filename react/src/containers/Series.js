@@ -37,7 +37,7 @@ class Series extends Component {
 		<SeriesInfo
 			seriesId={this.props.seriesId}
 			title={this.state.title}
-			author={this.state.user.email}
+			author={this.state.user}
 			description={this.state.description}
 			image={this.state.image}
 
