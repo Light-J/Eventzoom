@@ -10,16 +10,11 @@ const isOwner = (model, paramId, isValidated) => async (req, res, next) => {
 	}
 
 	// Accommodates both events and series
-	if (instance.organiser) {
-		if (instance.organiser.equals(req.user._id)) {
-			return next();
-		}
-	} else if (instance.user) {
-		if (instance.user.equals(req.user._id)) {
-			return next();
-		}
+	if (
+		(instance.organiser && instance.organiser.equals(req.user._id))
+			|| (instance.user && instance.user.equals(req.user._id))) {
+		return next();
 	}
-
 
 	return res.json({ success: false });
 };
