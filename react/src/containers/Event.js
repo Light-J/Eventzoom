@@ -98,7 +98,7 @@ export class Event extends Component {
 				</Conditional>
 				<Conditional if={this.state.isLoaded}>
 					<div className="card-body p-5">
-						<h1 className="font-weight-light">{this.state.title}  </h1>
+						<h1 className="font-weight-light">{this.state.title}</h1>
 						<div className='row'>
 							<div className='col-md-7'>
 								<p>{this.state.attendeesAmount} out of {this.state.capacity} attending</p>
