@@ -12,8 +12,8 @@ describe('Tests correct loading', () => {
 		axios.get = jest.fn().mockImplementation(async () => ({ data }));
 		const wrapper = Enzyme.shallow(<Search/>);
 		await wrapper.instance().componentDidMount();
-		expect(wrapper.state().isLoading).toEqual(false);
-		expect(wrapper.state().searchResults[0].entry).toEqual(true);
+		expect(wrapper.state().isLoadingEvents).toEqual(false);
+		expect(wrapper.state().eventSearchResults[0].entry).toEqual(true);
 	});
 });
 
@@ -23,7 +23,7 @@ describe('Tests sidebar', () => {
 		axios.get = jest.fn().mockImplementation(async () => ({ data }));
 		const wrapper = Enzyme.shallow(<Search/>);
 		await wrapper.instance().componentDidMount();
-		expect(wrapper.state().isLoading).toEqual(false);
+		expect(wrapper.state().isLoadingEvents).toEqual(false);
 		wrapper.instance().onToggle();
 		expect(wrapper.state().showSidebar).toEqual(true);
 	});
