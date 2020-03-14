@@ -2,10 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 import { setUser } from '../store/actions/actions';
+import EventList from '../components/EventList';
 
 export class Profile extends React.Component {
 	static propTypes = {
@@ -25,6 +25,7 @@ export class Profile extends React.Component {
 		passwordChanged: false,
 		passwordChangeFailure: false,
 		events: [],
+		date: new Date(),
 	};
 
 	componentDidMount = () => {
@@ -73,11 +74,10 @@ export class Profile extends React.Component {
 		}
 	};
 
-	loopEvents = () => this.state.events.map((event) => <li key={event._id} className="list-group-item">
-		<Link to={`/events/${event._id}`}>
-			{event.title} - {new Date(event.date).toLocaleDateString()}
-		</Link>
-	</li>);
+
+	pastEvents = () => this.state.events.filter((e) => new Date(e.date) < this.state.date);
+
+	futureEvents = () => this.state.events.filter((e) => new Date(e.date) >= this.state.date);
 
 
 	render() {
@@ -144,19 +144,8 @@ export class Profile extends React.Component {
 						</form>
 					</div>
 				</Conditional>
-				<div className="card mb-2">
-					<div className="card-header">Attended events</div>
-					<Conditional if={!this.state.events.length}>
-						<div className="card-body">
-						No events to show!
-						</div>
-					</Conditional>
-					<Conditional if={this.state.events.length > 0}>
-						<ul className="list-group list-group-flush">
-							{this.loopEvents()}
-						</ul>
-					</Conditional>
-				</div>
+				<EventList title="Attended events" events={this.pastEvents()} />
+				<EventList title="Future events" events={this.futureEvents()} />
 			</div>
 		);
 	}
