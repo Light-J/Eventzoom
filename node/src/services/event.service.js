@@ -176,6 +176,15 @@ const getRecommendationsForEvent = async (event, user) => {
 	).filter((e) => e._id.toString() !== event._id.toString());
 };
 
+const getEventsAttendeesById = async (id) => {
+	try {
+		const event = await Event.findById(id).populate('attendees');
+		return event.attendees;
+	} catch (e) {
+		throw Error('Error while getting attendees');
+	}
+};
+
 const getUserAttendingEvents = async (user) => {
 	let foundEvents = await sortEventQuery({ attendees: user._id }, 'date', 'asc');
 	foundEvents = await authorizationService.filterInaccessible(foundEvents, user);
@@ -194,4 +203,5 @@ export default {
 	averageEvents,
 	compareTwoEvents,
 	getUserAttendingEvents,
+	getEventsAttendeesById,
 };

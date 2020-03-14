@@ -13,7 +13,7 @@ const EventSchema = new mongoose.Schema({
 	capacity: { type: Number, required: true, min: [1, 'You need at least 1 person'] },
 	date: { type: Date },
 	series: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Series' },
-	attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+	attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 	filterable: { ...filterableFields },
 
 });

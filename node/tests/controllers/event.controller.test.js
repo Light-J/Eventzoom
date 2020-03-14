@@ -7,6 +7,7 @@ import cacheService from '../../src/services/cache.service';
 import authorizationService from '../../src/services/authorization.service';
 // this horrific line mocks the validator middleware, and makes it skip everything
 jest.mock('../../src/middleware/isAllowedToView', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
+jest.mock('../../src/middleware/isOwner', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
 jest.mock('../../src/middleware/isStaff', () => jest.fn().mockImplementation((req, res, next) => next()));
 jest.mock('../../src/services/authorization.service');
 jest.mock('../../src/services/event.service');
@@ -154,5 +155,25 @@ describe('testing events/id/recommendations', () => {
 			.send();
 		await expect(res.body).toEqual({});
 		return expect(eventService.getRecommendationsForEvent.mock.calls.length).toEqual(1);
+	});
+});
+
+describe('testing events/id/attendees', () => {
+	it('should call the controller successfully', async () => {
+		eventService.getEventsAttendeesById = jest.fn().mockImplementation(async () => ({ test: 'test' }));
+		const res = await request(index.app)
+			.get('/events/123/attendees')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send();
+		await expect(res.body).toEqual({ test: 'test' });
+		return expect(eventService.getEventsAttendeesById.mock.calls.length).toEqual(1);
+	});
+	it('should fail the call successfully no user', async () => {
+		eventService.getEventsAttendeesById = jest.fn().mockImplementation(async () => ({ test: 'test' }));
+		const res = await request(index.app)
+			.get('/events/123/attendees')
+			.send();
+		await expect(res.body).toEqual({});
+		return expect(eventService.getEventsAttendeesById.mock.calls.length).toEqual(0);
 	});
 });
