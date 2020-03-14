@@ -10,6 +10,6 @@ describe('Tests loading of attendees list', () => {
 		const wrapper = Enzyme.shallow(
 			<AttendeesList attendees={[{ _id: 123, email: 'test' }]} />,
 		);
-		expect(wrapper.contains(<li key={123} className="list-group-item">test</li>)).toEqual(true);
+		expect(wrapper.contains(<li key={123} className="list-group-item"><a href='mailto:test'>test</a></li>)).toEqual(true);
 	});
 });
