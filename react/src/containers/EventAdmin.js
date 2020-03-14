@@ -43,6 +43,7 @@ export class EventAdmin extends Component {
 		backgroundImage: `linear-gradient(rgba(0,0,0, 0) 0%,rgba(0,0,0, 1) 150%), url(${this.state.image})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: '100%',
+		backgroundPosition: 'center',
 	});
 
 	render = () => <div className='container'>
