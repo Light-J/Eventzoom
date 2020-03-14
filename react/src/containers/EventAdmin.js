@@ -31,7 +31,7 @@ export class EventAdmin extends Component {
 			});
 	}
 
-	backgroundColor = () => ({
+	background = () => ({
 		backgroundImage: `linear-gradient(rgba(0,0,0, 0) 0%,rgba(0,0,0, 1) 150%), url(${this.state.image})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: '100%',
@@ -40,7 +40,7 @@ export class EventAdmin extends Component {
 
 	render = () => <div className='container'>
 		<Conditional if={this.state.isLoaded}>
-			<div className={`jumbotron ${classes.clearText}`} style={this.backgroundColor()}>
+			<div className={`jumbotron ${classes.clearText}`} style={this.background()}>
 				<h1>Admin page | {this.state.title}</h1>
 				<p>{this.state.description}</p>
 			</div>
