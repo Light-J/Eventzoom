@@ -167,6 +167,17 @@ describe('testing sortEventQuery', () => {
 	});
 });
 
+describe('testing getEventsAttendeesById', () => {
+	it('should run successfully', async () => {
+		eventModel.findById = jest.fn()
+			.mockImplementation(() => (
+				{ populate: jest.fn().mockImplementation(() => ({ attendees: [1, 2, 3] })) }
+			));
+		const attendeesList = await eventService.getEventById('123');
+		expect(attendeesList).toEqual({ attendees: [1, 2, 3] });
+	});
+});
+
 
 describe('getting recommendations', () => {
 	it('matches snapshots', async () => {

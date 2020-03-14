@@ -9,6 +9,7 @@ import authorizationService from '../services/authorization.service';
 import isAllowedToView from '../middleware/isAllowedToView';
 import isStaff from '../middleware/isStaff';
 import cacheService from '../services/cache.service';
+import isOwner from '../middleware/isOwner';
 
 
 const router = express.Router();
@@ -82,6 +83,15 @@ router.get(
 			async () => EventService.getRecommendationsForEvent(event, req.user),
 		);
 		res.send(recommendations);
+	},
+);
+
+router.get(
+	'/:id/attendees',
+	passport.authenticate(['jwt'], { session: false }),
+	isOwner(Event, 'id'),
+	async (req, res) => {
+		res.send(await EventService.getEventsAttendeesById(req.params.id));
 	},
 );
 
