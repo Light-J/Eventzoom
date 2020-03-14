@@ -98,7 +98,7 @@ export class Event extends Component {
 				</Conditional>
 				<Conditional if={this.state.isLoaded}>
 					<div className="card-body p-5">
-						<h1 className="font-weight-light">{this.state.title}</h1>
+						<h1 className="font-weight-light">{this.state.title}  </h1>
 						<div className='row'>
 							<div className='col-md-7'>
 								<p>{this.state.attendeesAmount} out of {this.state.capacity} attending</p>
@@ -134,10 +134,10 @@ export class Event extends Component {
 											userCancelled={this.state.userCancelled}
 											onAttendChange={this.onAttendChange}/>
 									</div>
-									<Conditional if={this.state.userOwner}>
-										<Link to={`/events/admin/${this.props.eventId}`} className="btn btn-primary">Go to admin view</Link>
-									</Conditional>
 								</div>
+								<Conditional if={this.state.userOwner}>
+									<Link to={`/events/admin/${this.props.eventId}`} className="btn btn-primary mt-2">Go to admin view</Link>
+								</Conditional>
 							</div>
 						</div>
 						<Conditional if={this.state.recommendations.length !== 0}>

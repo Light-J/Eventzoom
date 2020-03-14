@@ -21,11 +21,6 @@ export class EventAdmin extends Component {
 	componentDidMount() {
 		axios.get(`${serverConfig.url}events/${this.props.eventId}`)
 			.then((res) => {
-				// This is not a security measure. It is a UX feature
-				// Authorisation is handled on the server
-				if (this.props.user.email !== res.data.organiser.email) {
-					window.location.href = '/';
-				}
 				this.setState({ isLoaded: true, ...res.data });
 			}).catch(() => {
 				this.setState({ error: true });
