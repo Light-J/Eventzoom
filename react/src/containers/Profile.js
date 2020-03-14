@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 import { setUser } from '../store/actions/actions';
@@ -23,11 +24,16 @@ export class Profile extends React.Component {
 		profileSaveFailure: false,
 		passwordChanged: false,
 		passwordChangeFailure: false,
+		events: [],
 	};
 
-	componentDidMount() {
+	componentDidMount = () => {
 		this.setState({ email: this.props.user.email });
 		this.setState({ name: this.props.user.name });
+		axios.get(`${serverConfig.url}users/me/attending`)
+			.then((res) => {
+				this.setState({ events: res.data });
+			});
 	}
 
 	handleChange = (e) => {
@@ -66,6 +72,12 @@ export class Profile extends React.Component {
 			this.setState({ passwordChangeFailure: true });
 		}
 	};
+
+	loopEvents = () => this.state.events.map((event) => <li key={event._id} className="list-group-item">
+		<Link to={`/events/${event._id}`}>
+			{event.title} - {new Date(event.date).toLocaleDateString()}
+		</Link>
+	</li>);
 
 
 	render() {
@@ -132,6 +144,19 @@ export class Profile extends React.Component {
 						</form>
 					</div>
 				</Conditional>
+				<div className="card mb-2">
+					<div className="card-header">Attended events</div>
+					<Conditional if={!this.state.events.length}>
+						<div className="card-body">
+						No events to show!
+						</div>
+					</Conditional>
+					<Conditional if={this.state.events.length > 0}>
+						<ul className="list-group list-group-flush">
+							{this.loopEvents()}
+						</ul>
+					</Conditional>
+				</div>
 			</div>
 		);
 	}
