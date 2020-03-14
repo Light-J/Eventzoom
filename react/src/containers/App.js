@@ -18,7 +18,7 @@ import Profile from './Profile';
 class App extends Component {
 	static propTypes = {
 		isLoggedIn: PropTypes.bool.isRequired,
-		user: PropTypes.object.isRequired,
+		user: PropTypes.object,
 	};
 
 	render = () => <div>
