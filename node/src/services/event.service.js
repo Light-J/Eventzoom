@@ -176,6 +176,15 @@ const getRecommendationsForEvent = async (event, user) => {
 	).filter((e) => e._id.toString() !== event._id.toString());
 };
 
+const getEventsAttendeesById = async (id) => {
+	try {
+		const event = await Event.findById(id).populate('attendees');
+		return event.attendees;
+	} catch (e) {
+		throw Error('Error while getting attendees');
+	}
+};
+
 
 export default {
 	getEvents,
@@ -189,4 +198,5 @@ export default {
 	getRecommendationsForEvent,
 	averageEvents,
 	compareTwoEvents,
+	getEventsAttendeesById,
 };

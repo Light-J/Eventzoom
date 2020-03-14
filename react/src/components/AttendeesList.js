@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import Conditional from './Conditional';
+import serverConfig from '../config/server';
 
 class AttendeesList extends Component {
 	static propTypes = {
@@ -10,6 +12,13 @@ class AttendeesList extends Component {
 	state = {
 		attendees: [],
 	};
+
+	componentDidMount() {
+		axios.get(`${serverConfig.url}events/${this.props.eventId}/attendees`)
+			.then((result) => {
+				this.setState({ attendees: result.data });
+			});
+	}
 
 
 	render = () => <div className="card mb-2">
