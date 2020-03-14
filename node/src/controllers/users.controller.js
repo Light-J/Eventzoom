@@ -23,9 +23,7 @@ router.post(
 );
 
 router.get('/me', passport.authenticate('jwt'), async (req, res) => {
-	const user = req.user;
-	delete user.password;
-	res.json({ user });
+	res.json({ user: req.user });
 });
 
 router.put('/me', passport.authenticate('jwt'), isNotSsoUser,
