@@ -27,3 +27,18 @@ Array [
   },
 ]
 `;
+
+exports[`getting user events matches snapshots 1`] = `
+Array [
+  Object {
+    "attendees": "123",
+  },
+]
+`;
+
+exports[`getting user events matches snapshots 2`] = `
+Array [
+  "event1",
+  "event2",
+]
+`;

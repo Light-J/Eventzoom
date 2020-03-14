@@ -6,6 +6,7 @@ import isNotSsoUser from '../middleware/isNotSsoUser';
 import userService from '../services/user.service';
 import passportJs from '../services/passport.service';
 import clientConfig from '../../config/client';
+import eventService from '../services/event.service';
 
 const router = express.Router();
 
@@ -83,5 +84,8 @@ router.post('/saml/callback', passport.authenticate('saml', {
 	res.redirect(`${clientConfig.url}#/jwt/${await passportJs.getJwtToken(req.user.id)}`);
 });
 
+router.get('/me/attending', passport.authenticate('jwt'), async (req, res) => {
+	res.send(await eventService.getUserAttendingEvents(req.user));
+});
 
 export default router;
