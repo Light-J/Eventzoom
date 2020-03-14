@@ -7,7 +7,7 @@ import serverConfig from '../config/server';
 import Conditional from '../components/Conditional';
 import classes from './EventAdmin.module.css';
 
-class EventAdmin extends Component {
+export class EventAdmin extends Component {
 	static propTypes = {
 		eventId: PropTypes.string.isRequired,
 		user: PropTypes.object.isRequired,
@@ -19,7 +19,7 @@ class EventAdmin extends Component {
 	};
 
 	componentDidMount() {
-		// This is no a security measure. It is a UX feature
+		// This is not a security measure. It is a UX feature
 		// Authorisation is handled on the server
 		if (!this.props.user) {
 			window.location.href = '/';

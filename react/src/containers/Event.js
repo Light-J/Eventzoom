@@ -11,7 +11,7 @@ import disqusConfig from '../config/disqus';
 import Conditional from '../components/Conditional';
 import SearchResults from '../components/SearchResults';
 
-class Event extends Component {
+export class Event extends Component {
 	state = {
 		isLoaded: false,
 		date: '1970-01-01',
