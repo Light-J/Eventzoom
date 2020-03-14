@@ -136,7 +136,7 @@ export class Event extends Component {
 									</div>
 								</div>
 								<Conditional if={this.state.userOwner}>
-									<Link to={`/events/admin/${this.props.eventId}`} className="btn btn-primary mt-2">Go to admin view</Link>
+									<Link to={`/events/admin/${this.props.eventId}`} className="btn btn-primary mt-2 d-block">Go to admin view</Link>
 								</Conditional>
 							</div>
 						</div>
