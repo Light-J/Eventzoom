@@ -17,7 +17,7 @@ class AttendeesList extends Component {
 		</Conditional>
 		<Conditional if={this.props.attendees.length > 0}>
 			<ul className="list-group list-group-flush">
-				{this.props.attendees.map((user) => <li key={user._id} className="list-group-item">{user.email}</li>)}
+				{this.props.attendees.map((user) => <li key={user._id} className="list-group-item"><a href={`mailto:${user.email}`}>{user.name || user.email}</a></li>)}
 			</ul>
 		</Conditional>
 	</div>
