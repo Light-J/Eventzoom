@@ -20,7 +20,6 @@ class AttendeesList extends Component {
 			});
 	}
 
-
 	render = () => <div className="card mb-2">
 		<div className="card-header">Users attending</div>
 		<Conditional if={!this.state.attendees.length}>
@@ -30,11 +29,7 @@ class AttendeesList extends Component {
 		</Conditional>
 		<Conditional if={this.state.attendees.length > 0}>
 			<ul className="list-group list-group-flush">
-				<li className="list-group-item">Cras justo odio</li>
-				<li className="list-group-item">Dapibus ac facilisis in</li>
-				<li className="list-group-item">Morbi leo risus</li>
-				<li className="list-group-item">Porta ac consectetur ac</li>
-				<li className="list-group-item">Vestibulum at eros</li>
+				{this.state.attendees.map((user) => <li key={user._id} className="list-group-item">{user.email}</li>)}
 			</ul>
 		</Conditional>
 	</div>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { DiscussionEmbed } from 'disqus-react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import DisabilityAccess from '../components/DisabilityAccess';
 import AttendButton from '../components/AttendButton';
 import serverConfig from '../config/server';
@@ -19,10 +20,12 @@ class Event extends Component {
 		userAttending: false,
 		userCancelled: false,
 		recommendations: [],
+		userOwner: false,
 	};
 
 	static propTypes = {
 		eventId: PropTypes.string.isRequired,
+		user: PropTypes.object,
 	};
 
 	firstThreeRecommendations = () => this.state.recommendations.filter((v, i) => i < 3);
@@ -30,6 +33,9 @@ class Event extends Component {
 	updateComponent = () => {
 		axios.get(`${serverConfig.url}events/${this.props.eventId}`)
 			.then((res) => {
+				if (this.props.user) {
+					this.setState({ userOwner: this.props.user.email === res.data.organiser.email });
+				}
 				this.setState({ isLoaded: true, ...res.data });
 			}).catch(() => {
 				this.setState({ error: true });
@@ -43,11 +49,11 @@ class Event extends Component {
 			.then((result) => {
 				this.setState({ userAttending: result.data });
 			});
-	}
+	};
 
 	componentDidMount = () => {
 		this.updateComponent();
-	}
+	};
 
 	componentDidUpdate = () => {
 		if (this.state._id && this.state._id !== this.props.eventId) {
@@ -128,8 +134,10 @@ class Event extends Component {
 											userCancelled={this.state.userCancelled}
 											onAttendChange={this.onAttendChange}/>
 									</div>
+									<Conditional if={this.state.userOwner}>
+										<Link to={`/events/admin/${this.props.eventId}`} className="btn btn-primary">Go to admin view</Link>
+									</Conditional>
 								</div>
-								<Link to={`/events/admin/${this.props.eventId}`} className="btn btn-primary">Go to admin view</Link>
 							</div>
 						</div>
 						<Conditional if={this.state.recommendations.length !== 0}>
@@ -148,4 +156,8 @@ class Event extends Component {
 	</div>
 }
 
-export default Event;
+const mapStateToProps = (state) => ({
+	user: state.userReducer.user,
+});
+
+export default connect(mapStateToProps)(Event);
