@@ -1,0 +1,75 @@
+i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 5px;
+}
+
+.right {
+    transform: rotate(-45deg) translate(-10px, -5px);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg) translate(-10px, -5px);
+    -webkit-transform: rotate(135deg);
+}
+
+p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    max-width: 80%;
+    -webkit-line-clamp: 4; /* number of lines to show */
+}
+
+
+.buttonBack {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+.buttonNext {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+.restrictImageMobile {
+    height: 50%;
+}
+
+@media only screen and (max-width: 1200px) {
+    .restrictImageMobile {
+        height: 40%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .restrictImageMobile {
+        height: 50%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .restrictImageMobile {
+        height: 40%;
+    }
+}
+

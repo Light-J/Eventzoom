@@ -39,6 +39,20 @@ router.post(
 	},
 );
 
+router.get(
+	'/',
+	passport.authenticate(['jwt', 'anonymous'], { session: false }),
+	async (req, res) => {
+		try {
+			const { query } = req.query;
+			const series = await seriesService.getSeriesByKeyword(query);
+			return res.send(authorizationService.filterInaccessible(series, req.user));
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
 
 router.get(
 	'/mine',
