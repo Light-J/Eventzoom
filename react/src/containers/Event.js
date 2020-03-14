@@ -53,7 +53,7 @@ class Event extends Component {
 		if (this.state._id && this.state._id !== this.props.eventId) {
 			this.updateComponent();
 		}
-	}
+	};
 
 	onAttendChange = () => {
 		axios.post(`${serverConfig.url}events/${this.props.eventId}/attend`,
@@ -129,6 +129,7 @@ class Event extends Component {
 											onAttendChange={this.onAttendChange}/>
 									</div>
 								</div>
+								<Link to={`/events/admin/${this.props.eventId}`} className="btn btn-primary">Go to admin view</Link>
 							</div>
 						</div>
 						<Conditional if={this.state.recommendations.length !== 0}>

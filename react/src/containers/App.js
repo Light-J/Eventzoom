@@ -14,6 +14,7 @@ import AddEvent from './AddEvent';
 import Conditional from '../components/Conditional';
 import Subscriptions from './Subscriptions';
 import Profile from './Profile';
+import EventAdmin from './EventAdmin';
 
 class App extends Component {
 	static propTypes = {
@@ -27,6 +28,7 @@ class App extends Component {
 			<Search />
 		</Route>
 		<Route exact path="/events/:eventId" component={(props) => <Event {...props.match.params} /> } />
+		<Route exact path="/events/admin/:eventId" component={(props) => <EventAdmin {...props.match.params} /> } />
 		<Route exact path="/jwt/:jwt" component={(props) => <Jwt {...props.match.params} /> } />
 
 		<Route exact path="/register" render={(props) => <Registration {...props} />} />
