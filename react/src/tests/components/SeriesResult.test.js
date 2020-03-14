@@ -10,6 +10,6 @@ describe('Tests loading of series result', () => {
 		const wrapper = Enzyme.shallow(
 			<SeriesResult id={'123'} image={'none'} title={'This is my test title'} description={'test description'} />,
 		);
-		expect(wrapper.contains(<a className="text-dark" href="#">This is my test title</a>)).toEqual(true);
+		expect(wrapper.contains(<h5 className="card-title">This is my test title</h5>)).toEqual(true);
 	});
 });
