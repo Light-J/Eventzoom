@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 import { setUser } from '../store/actions/actions';
+import EventList from '../components/EventList';
 
 export class Profile extends React.Component {
 	static propTypes = {
@@ -23,11 +24,17 @@ export class Profile extends React.Component {
 		profileSaveFailure: false,
 		passwordChanged: false,
 		passwordChangeFailure: false,
+		events: [],
+		date: new Date(),
 	};
 
-	componentDidMount() {
+	componentDidMount = () => {
 		this.setState({ email: this.props.user.email });
 		this.setState({ name: this.props.user.name });
+		axios.get(`${serverConfig.url}users/me/attending`)
+			.then((res) => {
+				this.setState({ events: res.data });
+			});
 	}
 
 	handleChange = (e) => {
@@ -66,6 +73,11 @@ export class Profile extends React.Component {
 			this.setState({ passwordChangeFailure: true });
 		}
 	};
+
+
+	pastEvents = () => this.state.events.filter((e) => new Date(e.date) < this.state.date);
+
+	futureEvents = () => this.state.events.filter((e) => new Date(e.date) >= this.state.date);
 
 
 	render() {
@@ -132,6 +144,8 @@ export class Profile extends React.Component {
 						</form>
 					</div>
 				</Conditional>
+				<EventList title="Attended events" events={this.pastEvents()} />
+				<EventList title="Future events" events={this.futureEvents()} />
 			</div>
 		);
 	}
