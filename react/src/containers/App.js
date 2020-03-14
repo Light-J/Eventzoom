@@ -28,7 +28,7 @@ class App extends Component {
 			<Search />
 		</Route>
 		<Route exact path="/events/:eventId" component={(props) => <Event {...props.match.params} /> } />
-		<Route exact path="/events/admin/:eventId" component={(props) => <EventAdmin {...props.match.params} /> } />
+
 		<Route exact path="/jwt/:jwt" component={(props) => <Jwt {...props.match.params} /> } />
 
 		<Route exact path="/register" render={(props) => <Registration {...props} />} />
@@ -43,6 +43,7 @@ class App extends Component {
 			>
 				<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
 				<Route exact path="/add-event" render={(props) => <AddEvent {...props} />} />
+				<Route exact path="/events/admin/:eventId" component={(props) => <EventAdmin {...props.match.params} /> } />
 			</Conditional>
 			<Route exact path="/profile" render={(props) => <Profile {...props} />} />
 		</Conditional>

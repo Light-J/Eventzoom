@@ -19,13 +19,10 @@ export class EventAdmin extends Component {
 	};
 
 	componentDidMount() {
-		// This is not a security measure. It is a UX feature
-		// Authorisation is handled on the server
-		if (!this.props.user) {
-			window.location.href = '/';
-		}
 		axios.get(`${serverConfig.url}events/${this.props.eventId}`)
 			.then((res) => {
+				// This is not a security measure. It is a UX feature
+				// Authorisation is handled on the server
 				if (this.props.user.email !== res.data.organiser.email) {
 					window.location.href = '/';
 				}
