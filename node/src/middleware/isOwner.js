@@ -16,7 +16,7 @@ const isOwner = (model, paramId, isValidated) => async (req, res, next) => {
 		return next();
 	}
 
-	return res.json({ success: false });
+	return res.json({ success: false }, 400);
 };
 
 export default isOwner;

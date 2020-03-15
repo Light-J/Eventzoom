@@ -6,7 +6,7 @@ const hasCorrectToken = (req, res, next) => {
 	}
 	return res.json({
 		success: false,
-	});
+	}, 400);
 };
 
 export default hasCorrectToken;
