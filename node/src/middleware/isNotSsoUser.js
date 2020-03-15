@@ -4,7 +4,7 @@ const isNotSsoUser = (req, res, next) => {
 	}
 	return res.json({
 		success: false,
-	});
+	}, 400);
 };
 
 export default isNotSsoUser;
