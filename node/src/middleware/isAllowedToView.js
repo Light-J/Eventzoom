@@ -11,7 +11,7 @@ const isAllowedToView = (model, paramId, isValidated = false) => async (req, res
 	if (authorizationService.canAccessResource(instance, req.user)) {
 		return next();
 	}
-	return res.json({ success: false });
+	return res.json({ success: false }, 401);
 };
 
 export default isAllowedToView;
