@@ -4,7 +4,7 @@ const isStaff = (req, res, next) => {
 	}
 	return res.json({
 		success: false,
-	}, 400);
+	}, 401);
 };
 
 export default isStaff;
