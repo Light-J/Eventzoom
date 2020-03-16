@@ -212,15 +212,14 @@ const removeAttachmentFromEvent = async (eventId, attachmentId) => {
 	try {
 		const attachment = await Attachment.findById(attachmentId);
 		const removed = await fileService.removeFile(attachment.location);
-		console.log(removed);
 		if (removed) {
 			const event = await getEventById(eventId);
-			// event.attachments.pull(attachmentId);
+			event.attachments.pull(attachmentId);
 			event.save();
 		}
 		return removed;
 	} catch (e) {
-		throw Error('Error while removing attachment' + e.stack);
+		throw Error('Error while removing attachment');
 	}
 };
 

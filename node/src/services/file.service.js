@@ -28,13 +28,13 @@ const removeFile = (file) => new Promise((resolve, reject) => {
 		secretAccessKey: s3config.secretAccessKey,
 	});
 	// I understand that this is not good and will break if we introduce folders
+	// however in the current setup we dont so no more logic is required for finding the key
 	const parts = file.split('/');
 
 	const params = { Bucket: s3config.publicBucket, Key: parts[parts.length - 1] };
 
-	s3.deleteObject(params, (err, data) => {
-		if (err) { console.log(err, err.stack); return reject(err); } // error
-		console.log(data);
+	s3.deleteObject(params, (err) => {
+		if (err) { return reject(err); } // error
 		return resolve(true);
 	});
 });
