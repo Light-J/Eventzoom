@@ -5,8 +5,10 @@ import emailService from '../../src/services/email.service';
 import authorizationService from '../../src/services/authorization.service';
 import kmeans from '../../src/services/kmeans.service';
 
-const mockSave = jest.fn();
+// Mock save. Mongoose save returns the Id of the document saved
+const mockSave = jest.fn().mockImplementation(() => (1234));
 jest.mock('../../src/models/event.model', () => jest.fn().mockImplementation(() => ({ save: mockSave })));
+jest.mock('../../src/models/attachment.model', () => jest.fn().mockImplementation(() => ({ save: mockSave })));
 jest.mock('../../src/models/series.model');
 jest.mock('../../src/services/email.service');
 jest.mock('../../src/services/kmeans.service');
@@ -157,6 +159,7 @@ describe('testing user attending an event', () => {
 	});
 });
 
+
 describe('testing sortEventQuery', () => {
 	it('should run successfully', async () => {
 		eventModel.find = jest.fn()
@@ -173,8 +176,8 @@ describe('testing getEventsAttendeesById', () => {
 			.mockImplementation(() => (
 				{ populate: jest.fn().mockImplementation(() => ({ attendees: [1, 2, 3] })) }
 			));
-		const attendeesList = await eventService.getEventById('123');
-		expect(attendeesList).toEqual({ attendees: [1, 2, 3] });
+		const attendeesList = await eventService.getEventsAttendeesById('123');
+		expect(attendeesList).toEqual([1, 2, 3]);
 	});
 });
 
@@ -269,5 +272,24 @@ describe('getting user events', () => {
 		const rs = await eventService.getUserAttendingEvents({ _id: '123' });
 		await expect(eventModel.find.mock.calls[0]).toMatchSnapshot();
 		return expect(rs).toMatchSnapshot();
+	});
+});
+
+describe('testing attachments with an event', () => {
+	it('Adding attachment to an event', async () => {
+		const event = {
+			attachments: [],
+			save() {
+				return 321;
+			},
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => event);
+
+		const attachment = {
+			filename: 'test',
+			location: 'www.google.com',
+		};
+		const returnedId = await eventService.addAttachmentToEvent(123, attachment);
+		expect(returnedId).toEqual(1234);
 	});
 });

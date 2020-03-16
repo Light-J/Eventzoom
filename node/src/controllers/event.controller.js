@@ -174,11 +174,12 @@ router.post(
 	async (req, res) => {
 		try {
 			const location = await fileService.uploadFile(req.validated.file, req.validated.filename);
-			const attachmentId = await EventService.addAttachmentToEvent(req.params.id, {
+			const result = await EventService.addAttachmentToEvent(req.params.id, {
 				filename: req.validated.filename,
 				location,
 			});
-			return res.send({ _id: attachmentId, filename: req.validated.filename, location });
+			console.log(result);
+			return res.send(result);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}

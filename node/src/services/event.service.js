@@ -195,16 +195,17 @@ const getUserAttendingEvents = async (user) => {
 
 const addAttachmentToEvent = async (eventId, _attachment) => {
 	try {
-		const event = await getEventById(eventId);
+		const event = await Event.findById(eventId);
 		const attachment = Attachment();
 		attachment.filename = _attachment.filename;
 		attachment.location = _attachment.location;
 		const result = await attachment.save();
+		console.log(result);
 		event.attachments.push(result);
 		event.save();
-		return attachment._id;
+		return result;
 	} catch (e) {
-		throw Error('Error while adding attachment');
+		throw Error('Error while adding attachment' +e.stack);
 	}
 };
 

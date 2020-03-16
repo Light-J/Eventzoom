@@ -187,7 +187,7 @@ describe('testing /events/id/attachments', () => {
 			.set('Authorization', `Bearer ${await getValidJwt()}`)
 			.attach('file', `${__dirname}/image.png`)
 			.field('filename', 'filename');
-		await expect(res.body).toEqual({ _id: 123, filename: 'filename', location: 'http://google.com' });
+		await expect(res.body).toEqual(123);
 		return expect(eventService.addAttachmentToEvent.mock.calls.length).toEqual(1);
 	});
 	it('should send delete to controller successfully', async () => {
