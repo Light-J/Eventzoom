@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class AddAttachment extends Component {
 	static propTypes = {
-		add: PropTypes.string.isRequired,
+		add: PropTypes.func.isRequired,
 	};
 
 	state = {
