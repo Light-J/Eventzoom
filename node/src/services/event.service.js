@@ -66,7 +66,7 @@ const getEventById = async (id) => {
 	try {
 		return await Event.findById(id).populate('series organiser attachments');
 	} catch (e) {
-		throw Error('Error while getting single event' + e.stack);
+		throw Error('Error while getting single event');
 	}
 };
 
@@ -192,11 +192,20 @@ const getUserAttendingEvents = async (user) => {
 	return foundEvents;
 };
 
-const addAttachmentToEvent = async (eventId, attachment) => {
-	const event = getEventById(eventId);
-	// TODO upload file to S3 and get the location
-	event.attachments.push(attachment);
-	event.save();
+const addAttachmentToEvent = async (eventId, _attachment) => {
+	try {
+		const event = await getEventById(eventId);
+		const attachment = Attachment();
+		attachment.filename = _attachment.filename;
+		attachment.location = _attachment.location;
+		const result = await attachment.save();
+		// TODO upload file to S3 and get the location
+		event.attachments.push(result);
+		event.save();
+		return true;
+	} catch (e) {
+		throw Error('Error while adding attachment');
+	}
 };
 
 const removeAttachmentFromEvent = async (eventId, attachment) => {

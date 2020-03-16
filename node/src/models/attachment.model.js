@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const AttachmentSchema = new mongoose.Schema({
-	fileName: { type: String, required: true },
+	filename: { type: String, required: true },
 	location: { type: String, required: true },
 });
 

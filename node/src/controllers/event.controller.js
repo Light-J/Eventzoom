@@ -163,4 +163,39 @@ router.get(
 	},
 );
 
+router.post(
+	'/:id/attachment/add',
+	upload.single('file'),
+	passport.authenticate('jwt', { session: false }),
+	validator('required', { field: 'filename' }),
+	// TODO allow validation for various files like audio, docs etc
+	validator('fileType', { file: 'file', types: 'image/*' }),
+	isOwner(Event, 'id'),
+	async (req, res) => {
+		try {
+			// const location = fileService.uploadFile(req.validated.file, req.validated.filename);
+			const success = await EventService.addAttachmentToEvent(req.params.id, {
+				filename: req.validated.filename,
+				location: 'www.google.com',
+			});
+			return res.send({ success });
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
+router.post(
+	'/:id/attachment/remove',
+	passport.authenticate('jwt', { session: false }),
+	isOwner(Event, 'id'),
+	async (req, res) => {
+		try {
+			return res.send('place holder');
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
 export default router;
