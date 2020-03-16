@@ -18,7 +18,7 @@ exports.up = async function (db) {
 
   await db.insert('attachments', {
     _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56170'),
-    fileName: 'Extra picture',
+    filename: 'Extra picture',
     location: 'https://i.imgur.com/vgZrB5U.jpg'
   });
 
