@@ -22,5 +22,21 @@ const uploadFile = (file) => new Promise((resolve, reject) => {
 	});
 });
 
+const removeFile = (file) => new Promise((resolve, reject) => {
+	const s3 = new AWS.S3({
+		accessKeyId: s3config.accessKeyId,
+		secretAccessKey: s3config.secretAccessKey,
+	});
 
-export default { uploadFile };
+	s3.deleteObject({
+		Bucket: s3config.publicBucket, Key: file,
+	}, (error, result) => {
+		if (error) {
+			return reject(error);
+		}
+		return resolve(result);
+	});
+});
+
+
+export default { uploadFile, removeFile };

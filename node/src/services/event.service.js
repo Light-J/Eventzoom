@@ -8,6 +8,7 @@ import emailService from './email.service';
 import authorizationService from './authorization.service';
 import recommendationsConfig from '../../config/recommendations';
 import Attachment from '../models/attachment.model';
+import fileService from './file.service';
 
 
 // eslint-disable-next-line max-len
@@ -199,20 +200,28 @@ const addAttachmentToEvent = async (eventId, _attachment) => {
 		attachment.filename = _attachment.filename;
 		attachment.location = _attachment.location;
 		const result = await attachment.save();
-		// TODO upload file to S3 and get the location
 		event.attachments.push(result);
 		event.save();
-		return true;
+		return attachment._id;
 	} catch (e) {
 		throw Error('Error while adding attachment');
 	}
 };
 
-const removeAttachmentFromEvent = async (eventId, attachment) => {
-	const event = getEventById(eventId);
-	// TODO delete attachment from S3 first
-	event.attachments.pull(attachment);
-	event.save();
+const removeAttachmentFromEvent = async (eventId, attachmentId) => {
+	try {
+		const attachment = await Attachment.findById(attachmentId);
+		const removed = await fileService.removeFile(attachment.location);
+		console.log(removed);
+		if (removed) {
+			const event = await getEventById(eventId);
+			// event.attachments.pull(attachmentId);
+			event.save();
+		}
+		return removed;
+	} catch (e) {
+		throw Error('Error while removing attachment' + e.stack);
+	}
 };
 
 export default {

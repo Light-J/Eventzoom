@@ -39,8 +39,14 @@ export class EventAdmin extends Component {
 		backgroundPosition: 'center',
 	});
 
-	deleteAttachment = (id) => {
-		console.log(`Deleting an attachment${id}`);
+	deleteAttachment = (_id) => {
+		axios.post(`${serverConfig.url}events/${this.props.eventId}/attachment/remove`, { attachmentId: _id })
+			.then((result) => {
+				const attachments = this.state.attachments;
+				const index = attachments.map((x) => x._id).indexOf(_id);
+				attachments.splice(index, 1);
+				this.setState({ attachments });
+			});
 	};
 
 	addAttachment = (filename, file) => {
@@ -52,9 +58,8 @@ export class EventAdmin extends Component {
 				'Content-type': 'multipart/form-data',
 			},
 		}).then((result) => {
-			console.log(result);
 			const attachments = this.state.attachments;
-			attachments.push({ _id: '123', filename, location: 'www.google.com' });
+			attachments.push(result.data);
 			this.setState({ attachments });
 		});
 	};

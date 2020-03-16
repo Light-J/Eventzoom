@@ -173,12 +173,12 @@ router.post(
 	isOwner(Event, 'id'),
 	async (req, res) => {
 		try {
-			// const location = fileService.uploadFile(req.validated.file, req.validated.filename);
-			const success = await EventService.addAttachmentToEvent(req.params.id, {
+			const location = await fileService.uploadFile(req.validated.file, req.validated.filename);
+			const attachmentId = await EventService.addAttachmentToEvent(req.params.id, {
 				filename: req.validated.filename,
-				location: 'www.google.com',
+				location,
 			});
-			return res.send({ success });
+			return res.send({ _id: attachmentId, filename: req.validated.filename, location });
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
@@ -188,10 +188,13 @@ router.post(
 router.post(
 	'/:id/attachment/remove',
 	passport.authenticate('jwt', { session: false }),
+	validator('required', { field: 'attachmentId' }),
 	isOwner(Event, 'id'),
 	async (req, res) => {
 		try {
-			return res.send('place holder');
+			// eslint-disable-next-line max-len
+			const removed = await EventService.removeAttachmentFromEvent(req.params.id, req.validated.attachmentId);
+			return res.send(removed);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
