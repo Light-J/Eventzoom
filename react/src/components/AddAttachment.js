@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 class AddAttachment extends Component {
 	static propTypes = {
 		add: PropTypes.func.isRequired,
+		uploading: PropTypes.bool.isRequired,
 	};
 
 	state = {
@@ -34,7 +35,7 @@ class AddAttachment extends Component {
 			</div>
 
 			<div className="input-group col-md-2">
-				<button className="btn btn-success control-label" onClick={() => this.props.add(this.state.filename, this.state.file)}>Add</button>
+				<button className="btn btn-success control-label" disabled={!this.state.filename || !this.state.file || (this.props.uploading)} onClick={() => this.props.add(this.state.filename, this.state.file)}>{!this.props.uploading ? 'Add' : 'Uploading...'}</button>
 			</div>
 		</div>
 	</div>

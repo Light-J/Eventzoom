@@ -55,6 +55,7 @@ export class EventAdmin extends Component {
 	};
 
 	addAttachment = (filename, file) => {
+		this.setState({ uploadingFile: true });
 		const data = new FormData();
 		data.append('filename', filename);
 		data.append('file', file);
@@ -65,7 +66,7 @@ export class EventAdmin extends Component {
 		}).then((result) => {
 			const attachments = this.state.attachments;
 			attachments.push(result.data);
-			this.setState({ attachments });
+			this.setState({ attachments, uploadingFile: false });
 		});
 	};
 
@@ -84,7 +85,8 @@ export class EventAdmin extends Component {
 				attachments={this.state.attachments}
 				delete={this.deleteAttachment}
 				add={this.addAttachment}
-				handleChange={this.handleChange}/>
+				handleChange={this.handleChange}
+				uploadingFile={this.state.uploadingFile || false}/>
 		</Conditional>
 	</div>
 }

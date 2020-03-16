@@ -10,6 +10,7 @@ class AttachmentManagement extends Component {
 		delete: PropTypes.func.isRequired,
 		add: PropTypes.func.isRequired,
 		handleChange: PropTypes.func.isRequired,
+		uploadingFile: PropTypes.bool,
 	};
 
 	attachments = () => this.props.attachments.map((attachment) => <Attachment
@@ -27,7 +28,7 @@ class AttachmentManagement extends Component {
 				{this.attachments()}
 			</Conditional>
 			<li className="list-group-item">
-				<AddAttachment add={this.props.add} />
+				<AddAttachment add={this.props.add} uploading={this.props.uploadingFile} />
 			</li>
 		</ul>
 	</div>
