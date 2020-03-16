@@ -15,6 +15,7 @@ const EventSchema = new mongoose.Schema({
 	series: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Series' },
 	attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 	filterable: { ...filterableFields },
+	attachments: [{ type: mongoose.Schema.Types.ObjectID, ref: 'Attachment' }],
 
 });
 
