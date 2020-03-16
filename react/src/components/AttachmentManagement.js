@@ -23,12 +23,12 @@ class AttachmentManagement extends Component {
 		<div className="card-header">Attachments for this event</div>
 
 		<ul className="list-group list-group-flush">
-			<li className="list-group-item">
-				<AddAttachment add={this.props.add} />
-			</li>
 			<Conditional if={this.props.attachments.length > 0}>
 				{this.attachments()}
 			</Conditional>
+			<li className="list-group-item">
+				<AddAttachment add={this.props.add} />
+			</li>
 		</ul>
 	</div>
 }
