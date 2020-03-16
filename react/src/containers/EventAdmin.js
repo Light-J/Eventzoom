@@ -41,7 +41,7 @@ export class EventAdmin extends Component {
 	});
 
 	deleteAttachment = (_id) => {
-		axios.post(`${serverConfig.url}events/${this.props.eventId}/attachment/remove`, { attachmentId: _id })
+		axios.delete(`${serverConfig.url}events/${this.props.eventId}/attachments`, { data: { attachmentId: _id } })
 			.then((result) => {
 				if (result) {
 					const attachments = this.state.attachments;
@@ -58,7 +58,7 @@ export class EventAdmin extends Component {
 		const data = new FormData();
 		data.append('filename', filename);
 		data.append('file', file);
-		axios.post(`${serverConfig.url}events/${this.props.eventId}/attachment/add`, data, {
+		axios.post(`${serverConfig.url}events/${this.props.eventId}/attachments`, data, {
 			headers: {
 				'Content-type': 'multipart/form-data',
 			},

@@ -164,7 +164,7 @@ router.get(
 );
 
 router.post(
-	'/:id/attachment/add',
+	'/:id/attachments',
 	upload.single('file'),
 	passport.authenticate('jwt', { session: false }),
 	validator('required', { field: 'filename' }),
@@ -185,8 +185,8 @@ router.post(
 	},
 );
 
-router.post(
-	'/:id/attachment/remove',
+router.delete(
+	'/:id/attachments',
 	passport.authenticate('jwt', { session: false }),
 	validator('required', { field: 'attachmentId' }),
 	isOwner(Event, 'id'),
