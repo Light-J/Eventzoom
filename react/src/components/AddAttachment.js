@@ -29,7 +29,7 @@ class AddAttachment extends Component {
 			<div className="input-group col-md-5">
 				<div className="custom-file">
 					<input type="file" className="custom-file-input" id="inputGroupFile01" onChange={this.uploadFile} />
-					<label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
+					<label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.file ? this.state.file.name : 'Please choose a file'}</label>
 				</div>
 			</div>
 
