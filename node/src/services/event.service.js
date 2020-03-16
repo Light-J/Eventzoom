@@ -7,6 +7,7 @@ import Series from '../models/series.model';
 import emailService from './email.service';
 import authorizationService from './authorization.service';
 import recommendationsConfig from '../../config/recommendations';
+import Attachment from '../models/attachment.model';
 
 
 // eslint-disable-next-line max-len
@@ -63,9 +64,9 @@ const getEventsAdvanced = async (fields, sort, direction) => {
 
 const getEventById = async (id) => {
 	try {
-		return await Event.findById(id).populate('series organiser');
+		return await Event.findById(id).populate('series organiser attachments');
 	} catch (e) {
-		throw Error('Error while getting single event');
+		throw Error('Error while getting single event' + e.stack);
 	}
 };
 
@@ -190,6 +191,21 @@ const getUserAttendingEvents = async (user) => {
 	foundEvents = await authorizationService.filterInaccessible(foundEvents, user);
 	return foundEvents;
 };
+
+const addAttachmentToEvent = async (eventId, attachment) => {
+	const event = getEventById(eventId);
+	// TODO upload file to S3 and get the location
+	event.attachments.push(attachment);
+	event.save();
+};
+
+const removeAttachmentFromEvent = async (eventId, attachment) => {
+	const event = getEventById(eventId);
+	// TODO delete attachment from S3 first
+	event.attachments.pull(attachment);
+	event.save();
+};
+
 export default {
 	getEvents,
 	getEventById,
@@ -204,4 +220,6 @@ export default {
 	compareTwoEvents,
 	getUserAttendingEvents,
 	getEventsAttendeesById,
+	addAttachmentToEvent,
+	removeAttachmentFromEvent,
 };

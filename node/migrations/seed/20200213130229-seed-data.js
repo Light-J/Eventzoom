@@ -16,6 +16,12 @@ exports.setup = function(options, seedLink) {
 
 exports.up = async function (db) {
 
+  await db.insert('attachments', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56170'),
+    fileName: 'Extra picture',
+    location: 'https://i.imgur.com/vgZrB5U.jpg'
+  });
+
   await db.insert('series', {
     _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
     title: "CUBRIC Weekly",
@@ -38,6 +44,7 @@ exports.up = async function (db) {
     capacity: 90,
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56270'),
     date: new Date("2020-05-01T14:00:00.000Z"),
+    attachments: [mongoose.Types.ObjectId('5e595ce2d8118f0888f56170')]
   });
 
   await db.insert('events', {

@@ -22,4 +22,5 @@ const uploadFile = (file) => new Promise((resolve, reject) => {
 	});
 });
 
+
 export default { uploadFile };

@@ -5,6 +5,6 @@ const AttachmentSchema = new mongoose.Schema({
 	location: { type: String, required: true },
 });
 
-const Attachment = mongoose.model('attachments', AttachmentSchema);
+const Attachment = mongoose.model('Attachment', AttachmentSchema);
 
 export default Attachment;
