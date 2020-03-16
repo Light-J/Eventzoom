@@ -17,6 +17,7 @@ export class EventAdmin extends Component {
 	state = {
 		isLoaded: false,
 		attendees: [],
+		deletionFailure: false,
 	};
 
 	componentDidMount() {
@@ -42,10 +43,14 @@ export class EventAdmin extends Component {
 	deleteAttachment = (_id) => {
 		axios.post(`${serverConfig.url}events/${this.props.eventId}/attachment/remove`, { attachmentId: _id })
 			.then((result) => {
-				const attachments = this.state.attachments;
-				const index = attachments.map((x) => x._id).indexOf(_id);
-				attachments.splice(index, 1);
-				this.setState({ attachments });
+				if (result) {
+					const attachments = this.state.attachments;
+					const index = attachments.map((x) => x._id).indexOf(_id);
+					attachments.splice(index, 1);
+					this.setState({ attachments });
+				} else {
+					this.setState({ deletionFailure: true });
+				}
 			});
 	};
 
@@ -72,6 +77,9 @@ export class EventAdmin extends Component {
 				<p>{this.state.description}</p>
 			</div>
 			<AttendeesList attendees={this.state.attendees} />
+			<Conditional if={this.state.deletionFailure} >
+				<div className="alert alert-danger">Failed to delete attachment. Try again later</div>
+			</Conditional>
 			<AttachmentManagement
 				attachments={this.state.attachments}
 				delete={this.deleteAttachment}
