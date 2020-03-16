@@ -1,17 +1,21 @@
 import eventModel from '../../src/models/event.model';
 import seriesModel from '../../src/models/series.model';
+import attachmentModel from '../../src/models/attachment.model';
 import eventService from '../../src/services/event.service';
 import emailService from '../../src/services/email.service';
 import authorizationService from '../../src/services/authorization.service';
 import kmeans from '../../src/services/kmeans.service';
+import fileService from '../../src/services/file.service';
 
 // Mock save. Mongoose save returns the Id of the document saved
-const mockSave = jest.fn().mockImplementation(() => (1234));
+const mockSave = jest.fn();
 jest.mock('../../src/models/event.model', () => jest.fn().mockImplementation(() => ({ save: mockSave })));
 jest.mock('../../src/models/attachment.model', () => jest.fn().mockImplementation(() => ({ save: mockSave })));
 jest.mock('../../src/models/series.model');
+jest.mock('../../src/models/attachment.model');
 jest.mock('../../src/services/email.service');
 jest.mock('../../src/services/kmeans.service');
+jest.mock('../../src/services/file.service');
 
 // cause we mock it later on
 const realSortEventQuery = eventService.sortEventQuery;
@@ -276,7 +280,7 @@ describe('getting user events', () => {
 });
 
 describe('testing attachments with an event', () => {
-	it('Adding attachment to an event', async () => {
+	it('Should add an attachment to an event', async () => {
 		const event = {
 			attachments: [],
 			save() {
@@ -284,12 +288,29 @@ describe('testing attachments with an event', () => {
 			},
 		};
 		eventModel.findById = jest.fn().mockImplementation(() => event);
-
+		mockSave.mockImplementation(async () => ({ _id: 123 }));
 		const attachment = {
 			filename: 'test',
 			location: 'www.google.com',
 		};
 		const returnedId = await eventService.addAttachmentToEvent(123, attachment);
-		expect(returnedId).toEqual(1234);
+		expect(returnedId).toEqual({ _id: 123 });
+	});
+	it('Should remove an attachment from an event', async () => {
+		fileService.removeFile = jest.fn().mockImplementation(async () => true);
+		const event = {
+			attachments: [12345],
+			save() {
+				return true;
+			},
+		};
+		event.attachments.pull = jest.fn().mockImplementation(() => {
+			const index = event.attachments.indexOf(12345);
+			if (index !== -1) event.attachments.splice(index, 1);
+		});
+		eventModel.findById = jest.fn().mockImplementation(() => event);
+		attachmentModel.findById = jest.fn().mockImplementation(() => ({ location: 'irrelevent' }));
+		const returnedId = await eventService.removeAttachmentFromEvent(123, 12345);
+		expect(returnedId).toEqual(true);
 	});
 });

@@ -200,12 +200,11 @@ const addAttachmentToEvent = async (eventId, _attachment) => {
 		attachment.filename = _attachment.filename;
 		attachment.location = _attachment.location;
 		const result = await attachment.save();
-		console.log(result);
 		event.attachments.push(result);
 		event.save();
 		return result;
 	} catch (e) {
-		throw Error('Error while adding attachment' +e.stack);
+		throw Error('Error while adding attachment');
 	}
 };
 
@@ -214,7 +213,7 @@ const removeAttachmentFromEvent = async (eventId, attachmentId) => {
 		const attachment = await Attachment.findById(attachmentId);
 		const removed = await fileService.removeFile(attachment.location);
 		if (removed) {
-			const event = await getEventById(eventId);
+			const event = await Event.findById(eventId);
 			event.attachments.pull(attachmentId);
 			event.save();
 		}

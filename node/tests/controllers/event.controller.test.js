@@ -181,13 +181,13 @@ describe('testing events/id/attendees', () => {
 describe('testing /events/id/attachments', () => {
 	it('should send post to the controller successfully', async () => {
 		fileService.uploadFile = jest.fn().mockImplementation(async () => ('http://google.com'));
-		eventService.addAttachmentToEvent = jest.fn().mockImplementation(async () => 123);
+		eventService.addAttachmentToEvent = jest.fn().mockImplementation(async () => ({ _id: 123 }));
 		const res = await request(index.app)
 			.post('/events/123/attachments')
 			.set('Authorization', `Bearer ${await getValidJwt()}`)
 			.attach('file', `${__dirname}/image.png`)
 			.field('filename', 'filename');
-		await expect(res.body).toEqual(123);
+		await expect(res.body).toEqual({ _id: 123 });
 		return expect(eventService.addAttachmentToEvent.mock.calls.length).toEqual(1);
 	});
 	it('should send delete to controller successfully', async () => {
