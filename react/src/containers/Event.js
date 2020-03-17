@@ -10,6 +10,7 @@ import serverConfig from '../config/server';
 import disqusConfig from '../config/disqus';
 import Conditional from '../components/Conditional';
 import SearchResults from '../components/SearchResults';
+import Attachment from '../components/Attachment';
 
 export class Event extends Component {
 	state = {
@@ -21,6 +22,7 @@ export class Event extends Component {
 		userCancelled: false,
 		recommendations: [],
 		userOwner: false,
+		attachments: [],
 	};
 
 	static propTypes = {
@@ -84,6 +86,12 @@ export class Event extends Component {
 		this.setState({ attendeesAmount: this.state.attendeesAmount + amount });
 	};
 
+	attachments = () => this.state.attachments.map((attachment) => <Attachment
+		key={attachment._id}
+		filename={attachment.filename}
+		location={attachment.location}
+		_id={attachment._id} />);
+
 	render = () => <div className='container'>
 		<div className="container">
 			<div className="card border-0 shadow my-5">
@@ -135,6 +143,14 @@ export class Event extends Component {
 											onAttendChange={this.onAttendChange}/>
 									</div>
 								</div>
+								<Conditional if={this.state.attachments.length > 0}>
+									<div className="card mb-2 mt-2">
+										<div className="card-header">Attachments for this event</div>
+										<ul className="list-group list-group-flush">
+											{this.attachments()}
+										</ul>
+									</div>
+								</Conditional>
 								<Conditional if={this.state.userOwner}>
 									<Link to={`/events/admin/${this.props.eventId}`} className="btn btn-primary mt-2 d-block">Go to admin view</Link>
 								</Conditional>
