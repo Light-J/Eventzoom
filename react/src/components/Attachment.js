@@ -11,7 +11,7 @@ class Attachment extends Component {
 	};
 
 	render = () => <li className="list-group-item">
-		<a href={this.props.location}>{this.props.filename}</a>
+		<a href={this.props.location} download>{this.props.filename}</a>
 		<Conditional if={this.props.delete}>
 			<button className="btn btn-danger float-right" onClick={() => this.props.delete(this.props._id)}>Delete</button>
 		</Conditional>
