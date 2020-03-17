@@ -186,15 +186,14 @@ router.post(
 );
 
 router.delete(
-	'/:id/attachments',
+	'/:id/attachments/:attachmentId',
 	passport.authenticate('jwt', { session: false }),
-	validator('required', { field: 'attachmentId' }),
 	isOwner(Event, 'id'),
 	async (req, res) => {
 		try {
 			const removed = await EventService.removeAttachmentFromEvent(
 				req.params.id,
-				req.validated.attachmentId,
+				req.params.attachmentId,
 			);
 			return res.send(removed);
 		} catch (e) {

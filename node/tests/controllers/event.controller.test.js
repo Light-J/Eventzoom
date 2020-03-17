@@ -193,9 +193,9 @@ describe('testing /events/id/attachments', () => {
 	it('should send delete to controller successfully', async () => {
 		eventService.removeAttachmentFromEvent = jest.fn().mockImplementation(async () => true);
 		const res = await request(index.app)
-			.delete('/events/123/attachments')
+			.delete('/events/123/attachments/123')
 			.set('Authorization', `Bearer ${await getValidJwt()}`)
-			.send({ attachmentId: '123' });
+			.send();
 		await expect(res.body).toEqual(true);
 		return expect(eventService.removeAttachmentFromEvent.mock.calls.length).toEqual(1);
 	});

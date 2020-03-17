@@ -40,7 +40,7 @@ export class EventAdmin extends Component {
 	});
 
 	deleteAttachment = (_id) => {
-		axios.delete(`${serverConfig.url}events/${this.props.eventId}/attachments`, { data: { attachmentId: _id } })
+		axios.delete(`${serverConfig.url}events/${this.props.eventId}/attachments/${_id}`)
 			.then((result) => {
 				if (result) {
 					const attachments = this.state.attachments;
