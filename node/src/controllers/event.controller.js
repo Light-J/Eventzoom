@@ -173,7 +173,7 @@ router.post(
 	isOwner(Event, 'id'),
 	async (req, res) => {
 		try {
-			const location = await fileService.uploadFile(req.validated.file, req.validated.filename);
+			const location = await fileService.uploadFile(req.validated.file);
 			const result = await EventService.addAttachmentToEvent(req.params.id, {
 				filename: req.validated.filename,
 				location,
