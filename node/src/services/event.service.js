@@ -137,12 +137,23 @@ const eventAtCapacity = async (eventId) => {
 
 const sendReminders = async (eventId) => {
 	const event = await Event.findById(eventId).populate('attendees.user');
-	console.log(event.attendees);
+	let hours = event.date.getHours();
+	let minutes = event.date.getMinutes();
+	const ampm = hours >= 12 ? 'pm' : 'am';
+	hours %= 12;
+	hours = hours || 12;
+	minutes = minutes < 10 ? `0${minutes}` : minutes;
+	const strTime = `${hours}:${minutes}${ampm}`;
+	event.attendees.forEach((attendee) => {
+		if (attendee.reminding) {
+			textService.sendText(attendee.user.phoneNumber,
+				`Event reminder, ${event.title} is today at ${strTime}. Location: ${event.specificLocation}`);
+		}
+	});
 };
 
 const updateUserReminding = async (user, eventId, remind) => {
 	try {
-		// await textService.sendText('+447555717041', 'This is a test text');
 		sendReminders(eventId);
 		Event.updateOne({ _id: eventId, 'attendees.user': user._id }, { $set: { 'attendees.$.reminding': remind } }, (err) => !err);
 	} catch (e) {
