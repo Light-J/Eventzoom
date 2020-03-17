@@ -163,4 +163,43 @@ router.get(
 	},
 );
 
+router.post(
+	'/:id/attachments',
+	upload.single('file'),
+	passport.authenticate('jwt', { session: false }),
+	validator('required', { field: 'filename' }),
+	// This regex accepts all audio, image and video files as well as pdfs
+	validator('fileType', { file: 'file', types: 'video\\/[a-z]*|image\\/[a-z]*|application\\/pdf|audio\\/[a-z]*' }),
+	isOwner(Event, 'id'),
+	async (req, res) => {
+		try {
+			const location = await fileService.uploadFile(req.validated.file);
+			const result = await EventService.addAttachmentToEvent(req.params.id, {
+				filename: req.validated.filename,
+				location,
+			});
+			return res.send(result);
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
+router.delete(
+	'/:id/attachments/:attachmentId',
+	passport.authenticate('jwt', { session: false }),
+	isOwner(Event, 'id'),
+	async (req, res) => {
+		try {
+			const removed = await EventService.removeAttachmentFromEvent(
+				req.params.id,
+				req.params.attachmentId,
+			);
+			return res.send(removed);
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
 export default router;
