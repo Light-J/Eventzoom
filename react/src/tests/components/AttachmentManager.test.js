@@ -16,6 +16,6 @@ describe('Tests loading of an Attachment', () => {
 				handleChange={fakeFunc}
 				delete={fakeFunc}/>,
 		);
-		expect(wrapper.contains(<div className="card-header">Attachments for this event</div>)).toEqual(true);
+		expect(wrapper.contains(<div className="card-header">Attachments for this event (Accepted files: pdfs, images, audio and videos)</div>)).toEqual(true);
 	});
 });

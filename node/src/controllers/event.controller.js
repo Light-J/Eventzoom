@@ -168,6 +168,7 @@ router.post(
 	upload.single('file'),
 	passport.authenticate('jwt', { session: false }),
 	validator('required', { field: 'filename' }),
+	// This regex accepts all audio, image and video files as well as pdfs
 	validator('fileType', { file: 'file', types: 'video\\/[a-z]*|image\\/[a-z]*|application\\/pdf|audio\\/[a-z]*' }),
 	isOwner(Event, 'id'),
 	async (req, res) => {
