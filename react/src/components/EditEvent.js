@@ -86,7 +86,7 @@ render = () => (<form>
 	<Conditional if={this.state.availableSeries.length}>
 
 		<div className="card">
-			<div className="card-header"> Edit event</div>
+			<div className="card-header">Edit event</div>
 			<div className="card-body">
 				<Conditional if={this.state.success}>
 					<div className="alert alert-success">
