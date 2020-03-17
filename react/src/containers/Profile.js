@@ -75,6 +75,15 @@ export class Profile extends React.Component {
 		}
 	};
 
+	deletePhoneNumber = (event) => {
+		event.preventDefault();
+		axios.delete(`${serverConfig.url}users/me/phone-number`).then((result) => {
+			if (result.data.success) {
+				this.setState({ phoneNumber: '' });
+				this.props.setUser(result.data.user);
+			}
+		});
+	};
 
 	pastEvents = () => this.state.events.filter((e) => new Date(e.date) < this.state.date);
 
@@ -110,9 +119,11 @@ export class Profile extends React.Component {
 								<label className="col-form-label">Name</label>
 								<input className="form-control" type="text" name="name" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
 							</div>
-							<div className="form-group">
-								<label className="col-form-label">Phone number</label>
-								<input className="form-control" type="text" name="phoneNumber" placeholder="Phone number" defaultValue={this.props.user.phoneNumber} onChange={this.handleChange} />
+							<div className="input-group mb-3">
+								<input type="text" className="form-control" placeholder="Phone number" name="phoneNumber" value={this.state.phoneNumber} onChange={this.handleChange} />
+								<div className="input-group-append">
+									<button className="btn btn-outline-secondary" type="button" onClick={this.deletePhoneNumber}>Remove</button>
+								</div>
 							</div>
 							<div>
 								<button className="btn btn-success" onClick={this.submitProfileForm}>Save Profile</button>

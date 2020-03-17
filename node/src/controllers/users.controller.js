@@ -48,6 +48,24 @@ router.put('/me', passport.authenticate('jwt'), isNotSsoUser,
 		return res.json({ success: true, user });
 	});
 
+router.delete('/me/phone-number',
+	passport.authenticate('jwt'),
+	isNotSsoUser,
+	async (req, res) => {
+		try {
+			await userService.setUserProfileById(req.user.id, { phoneNumber: undefined });
+		} catch (e) {
+			return res.json({ success: false });
+		}
+		const user = await userService.getUserById(req.user.id);
+		await new Promise(((resolve, reject) => {
+			req.login(user, (err, data) => {
+				if (err) reject(err);
+				else resolve(data);
+			});
+		}));
+		return res.json({ success: true, user });
+	});
 
 router.put('/me/password', passport.authenticate('jwt'), isNotSsoUser,
 	validator('required', { field: 'currentPassword' }),
