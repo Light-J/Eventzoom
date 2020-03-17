@@ -192,8 +192,10 @@ router.delete(
 	isOwner(Event, 'id'),
 	async (req, res) => {
 		try {
-			// eslint-disable-next-line max-len
-			const removed = await EventService.removeAttachmentFromEvent(req.params.id, req.validated.attachmentId);
+			const removed = await EventService.removeAttachmentFromEvent(
+				req.params.id,
+				req.validated.attachmentId,
+			);
 			return res.send(removed);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
