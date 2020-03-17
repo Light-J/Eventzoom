@@ -154,7 +154,7 @@ export class Event extends Component {
 											onAttendChange={this.onAttendChange}
 											userReminding={this.state.reminding} />
 									</div>
-									<Conditional if={this.state.attending}>
+									<Conditional if={this.state.attending && this.props.user.phoneNumber}>
 										<RemindMeSwitch
 											reminding={this.state.reminding}
 											onRemindChange={this.remindMe} />

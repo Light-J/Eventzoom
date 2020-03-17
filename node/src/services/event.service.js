@@ -9,6 +9,7 @@ import authorizationService from './authorization.service';
 import recommendationsConfig from '../../config/recommendations';
 import Attachment from '../models/attachment.model';
 import fileService from './file.service';
+import textService from './text.service';
 
 
 // eslint-disable-next-line max-len
@@ -134,8 +135,15 @@ const eventAtCapacity = async (eventId) => {
 	}
 };
 
+const sendReminders = async (eventId) => {
+	const event = await Event.findById(eventId).populate('attendees.user');
+	console.log(event.attendees);
+};
+
 const updateUserReminding = async (user, eventId, remind) => {
 	try {
+		// await textService.sendText('+447555717041', 'This is a test text');
+		sendReminders(eventId);
 		Event.updateOne({ _id: eventId, 'attendees.user': user._id }, { $set: { 'attendees.$.reminding': remind } }, (err) => !err);
 	} catch (e) {
 		throw Error(`Error while setting reminding for user${e.stack}`);
@@ -197,7 +205,7 @@ const getRecommendationsForEvent = async (event, user) => {
 
 const getEventsAttendeesById = async (id) => {
 	try {
-		const event = await Event.findById(id).populate('attendees');
+		const event = await Event.findById(id).populate('attendees.user');
 		return event.attendees;
 	} catch (e) {
 		throw Error('Error while getting attendees');
