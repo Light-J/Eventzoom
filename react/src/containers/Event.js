@@ -11,6 +11,7 @@ import disqusConfig from '../config/disqus';
 import Conditional from '../components/Conditional';
 import SearchResults from '../components/SearchResults';
 import Attachment from '../components/Attachment';
+import RemindMeSwitch from '../components/RemindMeSwitch';
 
 export class Event extends Component {
 	state = {
@@ -76,6 +77,15 @@ export class Event extends Component {
 			});
 	};
 
+	remindMe = () => {
+		axios.put(`${serverConfig.url}events/${this.props.eventId}/remind`,
+			{ remind: !this.state.reminding })
+			.then(() => {
+				this.setState({
+					reminding: !this.state.reminding,
+				});
+			});
+	};
 
 	getDisqusConfig = () => ({
 		url: `${disqusConfig.domain}events/${this.props.eventId}`,
@@ -144,6 +154,11 @@ export class Event extends Component {
 											onAttendChange={this.onAttendChange}
 											userReminding={this.state.reminding} />
 									</div>
+									<Conditional if={this.state.attending}>
+										<RemindMeSwitch
+											reminding={this.state.reminding}
+											onRemindChange={this.remindMe} />
+									</Conditional>
 								</div>
 								<Conditional if={this.state.attachments.length > 0}>
 									<div className="card mb-2 mt-2">

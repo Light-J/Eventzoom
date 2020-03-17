@@ -12,7 +12,6 @@ export class AttendButton extends React.Component {
 		userAttending: PropTypes.bool,
 		userCancelled: PropTypes.bool,
 		onAttendChange: PropTypes.func,
-		userReminding: PropTypes.bool,
 	};
 
 	render() {
