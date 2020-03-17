@@ -144,8 +144,6 @@ router.put(
 	validator('required', { field: 'series' }),
 	validator('required', { field: 'capacity' }),
 	validator('required', { field: 'date' }),
-	validator('optional', { field: 'restrictToSchool' }),
-	validator('optional', { field: 'restrictToStaff' }),
 	validator('in', { field: 'sendUpdateEmail', matches: [true, false] }),
 	validator('validModel', { model: Event, excludedFields: ['image', 'organiser'] }),
 	async (req, res) => {

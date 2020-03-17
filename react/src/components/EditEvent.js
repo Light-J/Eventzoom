@@ -49,10 +49,6 @@ handleChange = (e) => {
 };
 
 
-updateParentState = (data) => {
-	this.setState(data);
-}
-
 componentDidMount = async () => {
 	const series = await axios.get(`${serverConfig.url}series/mine`);
 	this.setState({ availableSeries: series.data });
