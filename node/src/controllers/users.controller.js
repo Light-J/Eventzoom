@@ -30,6 +30,7 @@ router.get('/me', passport.authenticate('jwt'), async (req, res) => {
 router.put('/me', passport.authenticate('jwt'), isNotSsoUser,
 	validator('required', { field: 'email' }),
 	validator('required', { field: 'name' }),
+	validator('optional', { field: 'phoneNumber' }),
 	async (req, res) => {
 		try {
 			await userService.setUserProfileById(req.user.id, req.validated);

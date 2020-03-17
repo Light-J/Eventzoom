@@ -26,6 +26,7 @@ export class Profile extends React.Component {
 		passwordChangeFailure: false,
 		events: [],
 		date: new Date(),
+		phoneNumber: null,
 	};
 
 	componentDidMount = () => {
@@ -35,7 +36,7 @@ export class Profile extends React.Component {
 			.then((res) => {
 				this.setState({ events: res.data });
 			});
-	}
+	};
 
 	handleChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
@@ -108,6 +109,10 @@ export class Profile extends React.Component {
 							<div className="form-group">
 								<label className="col-form-label">Name</label>
 								<input className="form-control" type="text" name="name" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
+							</div>
+							<div className="form-group">
+								<label className="col-form-label">Phone number</label>
+								<input className="form-control" type="text" name="phoneNumber" placeholder="Phone number" defaultValue={this.props.user.phoneNumber} onChange={this.handleChange} />
 							</div>
 							<div>
 								<button className="btn btn-success" onClick={this.submitProfileForm}>Save Profile</button>
