@@ -21,7 +21,7 @@ class AttachmentManagement extends Component {
 		delete={this.props.delete} />);
 
 	render = () => <div className="card mb-2">
-		<div className="card-header">Attachments for this event</div>
+		<div className="card-header">Attachments for this event (Accepted files: pdfs, images, audio and videos)</div>
 
 		<ul className="list-group list-group-flush">
 			<Conditional if={this.props.attachments.length > 0}>

@@ -169,7 +169,7 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	validator('required', { field: 'filename' }),
 	// TODO allow validation for various files like audio, docs etc
-	validator('fileType', { file: 'file', types: 'video\\/[a-z]*|image\\/[a-z]*' }),
+	validator('fileType', { file: 'file', types: 'video\\/[a-z]*|image\\/[a-z]*|application\\/pdf|audio\\/[a-z]*' }),
 	isOwner(Event, 'id'),
 	async (req, res) => {
 		try {
