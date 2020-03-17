@@ -80,7 +80,6 @@ export class Profile extends React.Component {
 		axios.delete(`${serverConfig.url}users/me/phone-number`).then((result) => {
 			if (result.data.success) {
 				this.setState({ phoneNumber: '' });
-				this.props.setUser(result.data.user);
 			}
 		});
 	};
@@ -120,7 +119,7 @@ export class Profile extends React.Component {
 								<input className="form-control" type="text" name="name" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
 							</div>
 							<div className="input-group mb-3">
-								<input type="text" className="form-control" placeholder="Phone number" name="phoneNumber" value={this.state.phoneNumber} onChange={this.handleChange} />
+								<input type="text" className="form-control" placeholder="Phone number" name="phoneNumber" defaultValue={this.props.user.phoneNumber} value={this.state.phoneNumber} onChange={this.handleChange} />
 								<div className="input-group-append">
 									<button className="btn btn-outline-secondary" type="button" onClick={this.deletePhoneNumber}>Remove</button>
 								</div>
