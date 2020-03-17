@@ -86,7 +86,7 @@ const attendEvent = async (eventId, user, attend) => {
 		const event = await getEventById(eventId);
 		if (attend) {
 			if (event.attendees.length < event.capacity) {
-				event.attendees.push(user._id);
+				event.attendees.push({ user: user._id, reminding: false });
 				const icsString = await ics.createEvent(event.toICSFormat());
 				emailService.sendEmail(user.email, 'event-confirmation', { event }, {
 					icalEvent: {
@@ -98,7 +98,8 @@ const attendEvent = async (eventId, user, attend) => {
 				return false;
 			}
 		} else {
-			event.attendees.pull(user._id);
+			Event.findByIdAndUpdate(eventId,
+				{ $pull: { attendees: { user: user._id } } }, (err) => !err);
 		}
 		event.save();
 		return true;
@@ -110,7 +111,11 @@ const attendEvent = async (eventId, user, attend) => {
 const userAttending = async (eventId, user) => {
 	try {
 		const event = await getEventById(eventId);
-		return event.attendees.includes(user._id);
+		let attending = false;
+		event.attendees.forEach((attendee) => {
+			if (attendee.user.equals(user._id)) attending = true;
+		});
+		return attending;
 	} catch (e) {
 		throw Error('Error while retrieving data');
 	}

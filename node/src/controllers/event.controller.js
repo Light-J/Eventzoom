@@ -150,6 +150,7 @@ router.post(
 	},
 );
 
+
 router.get(
 	'/:id/user-attending',
 	passport.authenticate('jwt', { session: false }),
@@ -201,5 +202,6 @@ router.delete(
 		}
 	},
 );
+
 
 export default router;
