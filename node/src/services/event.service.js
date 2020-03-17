@@ -112,10 +112,14 @@ const userAttending = async (eventId, user) => {
 	try {
 		const event = await getEventById(eventId);
 		let attending = false;
+		let reminding = false;
 		event.attendees.forEach((attendee) => {
-			if (attendee.user.equals(user._id)) attending = true;
+			if (attendee.user.equals(user._id)) {
+				attending = true;
+				reminding = attendee.reminding;
+			}
 		});
-		return attending;
+		return { attending, reminding };
 	} catch (e) {
 		throw Error('Error while retrieving data');
 	}

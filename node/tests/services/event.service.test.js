@@ -104,25 +104,39 @@ describe('testing if user attending event', () => {
 		const fakeUser = { _id: 1 };
 		const result = {
 			populate: jest.fn().mockImplementation(async () => ({
-				attendees: [1, 2, 3],
+				attendees: [{
+					user: {
+						equals() {
+							return true;
+						},
+					},
+					reminding: true,
+				}],
 				capacity: 3,
 			})),
 		};
 		eventModel.findById = jest.fn().mockImplementation(() => result);
 		const response = await eventService.userAttending(123, fakeUser);
-		expect(response).toEqual(true);
+		expect(response).toEqual({ attending: true, reminding: true });
 	});
 	it('user is not attending so return false', async () => {
 		const fakeUser = { _id: 5 };
 		const result = {
 			populate: jest.fn().mockImplementation(async () => ({
-				attendees: [1, 2, 3],
+				attendees: [{
+					user: {
+						equals() {
+							return false;
+						},
+					},
+					reminding: false,
+				}],
 				capacity: 3,
 			})),
 		};
 		eventModel.findById = jest.fn().mockImplementation(() => result);
 		const response = await eventService.userAttending(123, fakeUser);
-		expect(response).toEqual(false);
+		expect(response).toEqual({ attending: false, reminding: false });
 	});
 });
 

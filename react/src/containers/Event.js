@@ -18,7 +18,8 @@ export class Event extends Component {
 		date: '1970-01-01',
 		error: false,
 		disqusShortname: disqusConfig.shortname,
-		userAttending: false,
+		attending: false,
+		reminding: false,
 		userCancelled: false,
 		recommendations: [],
 		userOwner: false,
@@ -49,7 +50,7 @@ export class Event extends Component {
 
 		axios.get(`${serverConfig.url}events/${this.props.eventId}/user-attending`)
 			.then((result) => {
-				this.setState({ userAttending: result.data });
+				this.setState(result.data);
 			});
 	};
 
@@ -65,13 +66,13 @@ export class Event extends Component {
 
 	onAttendChange = () => {
 		axios.post(`${serverConfig.url}events/${this.props.eventId}/attend`,
-			{ attend: !this.state.userAttending })
+			{ attend: !this.state.attending })
 			.then(() => {
 				this.setState({
-					userAttending: !this.state.userAttending,
-					userCancelled: this.state.userAttending,
+					attending: !this.state.attending,
+					userCancelled: this.state.attending,
 				});
-				this.updateAttendeesAmount(this.state.userAttending ? 1 : -1);
+				this.updateAttendeesAmount(this.state.attending ? 1 : -1);
 			});
 	};
 
@@ -138,9 +139,10 @@ export class Event extends Component {
 									<div className="card-footer text-center">
 										<AttendButton
 											full={this.state.capacity === this.state.attendeesAmount}
-											userAttending={this.state.userAttending}
+											userAttending={this.state.attending}
 											userCancelled={this.state.userCancelled}
-											onAttendChange={this.onAttendChange}/>
+											onAttendChange={this.onAttendChange}
+											userReminding={this.state.reminding} />
 									</div>
 								</div>
 								<Conditional if={this.state.attachments.length > 0}>
