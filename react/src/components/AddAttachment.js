@@ -22,12 +22,13 @@ class AddAttachment extends Component {
 
 	render = () => <div className="container-fluid">
 		<div className="row">
+			<p>Add an attachment:</p>
 
-			<div className="input-group col-md-5">
+			<div className="input-group col-md-4">
 				<input id="filenameInput" type="text" className="form-control control-label" placeholder="Name" onChange={this.updateFilename} />
 			</div>
 
-			<div className="input-group col-md-5">
+			<div className="input-group col-md-4">
 				<div className="custom-file">
 					<input type="file" className="custom-file-input" id="inputGroupFile01" onChange={this.uploadFile} />
 					<label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.file ? this.state.file.name : 'Please choose a file'}</label>
