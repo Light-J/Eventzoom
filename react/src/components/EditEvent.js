@@ -5,7 +5,6 @@ import enGB from 'date-fns/locale/en-GB';
 import PropTypes from 'prop-types';
 import Conditional from './Conditional';
 import serverConfig from '../config/server';
-import FilterableFields from './FilterableFields';
 import 'react-datepicker/dist/react-datepicker.css';
 import './EditEvent.css';
 
@@ -68,7 +67,7 @@ componentDidMount = async () => {
 		series: data.series._id,
 		capacity: data.capacity,
 		date: new Date(data.date),
-	 });
+	});
 };
 
 submitForm = async (e) => {
