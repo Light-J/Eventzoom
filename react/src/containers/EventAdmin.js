@@ -17,7 +17,6 @@ export class EventAdmin extends Component {
 	state = {
 		isLoaded: false,
 		attendees: [],
-		deletionFailure: false,
 	};
 
 	componentDidMount() {
@@ -66,7 +65,9 @@ export class EventAdmin extends Component {
 		}).then((result) => {
 			const attachments = this.state.attachments;
 			attachments.push(result.data);
-			this.setState({ attachments, uploadingFile: false });
+			this.setState({ attachments, uploadingFile: false, invalidFile: false });
+		}).catch((error) => {
+			if (error.response.data.error === 'fileType') this.setState({ invalidFile: true, uploadingFile: false });
 		});
 	};
 
@@ -78,8 +79,11 @@ export class EventAdmin extends Component {
 				<p>{this.state.description}</p>
 			</div>
 			<AttendeesList attendees={this.state.attendees} />
-			<Conditional if={this.state.deletionFailure} >
+			<Conditional if={this.state.deletionFailure || false} >
 				<div className="alert alert-danger">Failed to delete attachment. Try again later</div>
+			</Conditional>
+			<Conditional if={this.state.invalidFile || false}>
+				<div className="alert alert-danger">Invalid file</div>
 			</Conditional>
 			<AttachmentManagement
 				attachments={this.state.attachments}
