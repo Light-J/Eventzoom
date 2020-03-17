@@ -7,6 +7,8 @@ import Series from '../models/series.model';
 import emailService from './email.service';
 import authorizationService from './authorization.service';
 import recommendationsConfig from '../../config/recommendations';
+import Attachment from '../models/attachment.model';
+import fileService from './file.service';
 
 
 // eslint-disable-next-line max-len
@@ -63,7 +65,7 @@ const getEventsAdvanced = async (fields, sort, direction) => {
 
 const getEventById = async (id) => {
 	try {
-		return await Event.findById(id).populate('series organiser');
+		return await Event.findById(id).populate('series organiser attachments');
 	} catch (e) {
 		throw Error('Error while getting single event');
 	}
@@ -190,6 +192,35 @@ const getUserAttendingEvents = async (user) => {
 	foundEvents = await authorizationService.filterInaccessible(foundEvents, user);
 	return foundEvents;
 };
+
+const addAttachmentToEvent = async (eventId, _attachment) => {
+	try {
+		const event = await Event.findById(eventId);
+		const attachment = Attachment(_attachment);
+		const result = await attachment.save();
+		event.attachments.push(result);
+		event.save();
+		return result;
+	} catch (e) {
+		throw Error('Error while adding attachment');
+	}
+};
+
+const removeAttachmentFromEvent = async (eventId, attachmentId) => {
+	try {
+		const attachment = await Attachment.findById(attachmentId);
+		const removed = await fileService.removeFile(attachment.location);
+		if (removed) {
+			const event = await Event.findById(eventId);
+			event.attachments.pull(attachmentId);
+			event.save();
+		}
+		return removed;
+	} catch (e) {
+		throw Error('Error while removing attachment');
+	}
+};
+
 export default {
 	getEvents,
 	getEventById,
@@ -204,4 +235,6 @@ export default {
 	compareTwoEvents,
 	getUserAttendingEvents,
 	getEventsAttendeesById,
+	addAttachmentToEvent,
+	removeAttachmentFromEvent,
 };
