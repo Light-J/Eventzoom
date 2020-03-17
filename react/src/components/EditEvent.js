@@ -180,7 +180,7 @@ render = () => (<form>
 				</div>
 				<div className="form-check mt-2">
 					<input type="checkbox" className="form-check-input" id="sendUpdateEmail" name="sendUpdateEmail" checked={this.state.sendUpdateEmail} onChange={this.handleChange}/>
-					<label htmlFor="sendUpdateEmail">Send email to notify attendees of changes</label>
+					<label htmlFor="sendUpdateEmail" className="form-check-label">Send email to notify attendees of changes</label>
 				</div>
 				<div>
 					<button className="btn btn-success mt-2" onClick={this.submitForm} type="submit">Update Event</button>
