@@ -10,6 +10,6 @@ describe('Tests loading of an Attachment', () => {
 		const wrapper = Enzyme.shallow(
 			<Attachment filename={'Jacks file'} location="file.png" _id={123}/>,
 		);
-		expect(wrapper.contains(<a href='file.png' download>Jacks file</a>)).toEqual(true);
+		expect(wrapper.contains(<a href='file.png' download>Jacks file.png</a>)).toEqual(true);
 	});
 });

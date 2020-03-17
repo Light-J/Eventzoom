@@ -196,9 +196,7 @@ const getUserAttendingEvents = async (user) => {
 const addAttachmentToEvent = async (eventId, _attachment) => {
 	try {
 		const event = await Event.findById(eventId);
-		const attachment = Attachment();
-		attachment.filename = _attachment.filename;
-		attachment.location = _attachment.location;
+		const attachment = Attachment(_attachment);
 		const result = await attachment.save();
 		event.attachments.push(result);
 		event.save();
