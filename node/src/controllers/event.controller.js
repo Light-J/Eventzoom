@@ -131,6 +131,40 @@ router.post(
 	},
 );
 
+router.put(
+	'/:id',
+	passport.authenticate('jwt', { session: false }),
+	isOwner(Event, 'id'),
+	validator('required', { field: 'title' }),
+	validator('required', { field: 'description' }),
+	validator('required', { field: 'speaker' }),
+	validator('required', { field: 'vagueLocation' }),
+	validator('required', { field: 'specificLocation' }),
+	validator('required', { field: 'disabilityAccess' }),
+	validator('required', { field: 'series' }),
+	validator('required', { field: 'capacity' }),
+	validator('required', { field: 'date' }),
+	validator('in', { field: 'sendUpdateEmail', matches: [true, false] }),
+	validator('validModel', { model: Event, excludedFields: ['image', 'organiser'] }),
+	async (req, res) => {
+		try {
+			await EventService.updateEvent(
+				req.params.id,
+				{
+					...req.validated,
+				},
+			);
+			if (req.validated.sendUpdateEmail) {
+				EventService.sendUpdateEmail(req.params.id);
+			}
+			return res.json({ success: true });
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
+
 router.post(
 	'/:id/attend',
 	validator('required', { field: 'attend' }),
