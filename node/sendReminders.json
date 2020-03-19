@@ -1,0 +1,34 @@
+{
+  "path": "/events/send-reminders",
+  "httpMethod": "GET",
+  "headers": {
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Secret": "cats"
+  },
+  "multiValueHeaders": {
+    "Accept": [
+      "application/json, text/plain, */*"
+    ],
+    "Accept-Encoding": [
+      "gzip, deflate, br"
+    ],
+    "Accept-Language": [
+      "en-US,en;q=0.5"
+    ],
+    "CloudFront-Forwarded-Proto": [
+      "https"
+    ],
+    "Secret": [
+      "cats"
+    ]
+  },
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null,
+  "stageVariables": {
+    "lambdaVersion": "latest"
+  },
+  "body": null,
+  "isBase64Encoded": false
+}

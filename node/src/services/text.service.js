@@ -5,11 +5,9 @@ import twilioConfig from '../../config/twilio';
 // eslint-disable-next-line new-cap
 const client = new twilio(twilioConfig.account_sid, twilioConfig.auth_token);
 
-const sendText = async (to, body) => {
-	client.messages.create({
-		body,
-		to,
-		from: twilioConfig.number,
-	});
-};
+const sendText = async (to, body) => client.messages.create({
+	body,
+	to,
+	from: twilioConfig.number,
+});
 export default { sendText };

@@ -10,10 +10,24 @@ import isAllowedToView from '../middleware/isAllowedToView';
 import isStaff from '../middleware/isStaff';
 import cacheService from '../services/cache.service';
 import isOwner from '../middleware/isOwner';
+import hasCorrectToken from '../middleware/hasCorrectToken';
 
 
 const router = express.Router();
 const upload = multer();
+
+router.get(
+	'/send-reminders',
+	hasCorrectToken,
+	async (req, res) => {
+		const startDate = new Date();
+		const endDate = new Date();
+		endDate.setDate(endDate.getDate() + 1);
+		const events = await EventService.getEventsAdvanced({ startDate, endDate }, 'date', 'asc');
+		await Promise.all(events.map((event) => EventService.sendReminders(event._id)));
+		res.send({ success: true });
+	},
+);
 
 router.get(
 	'/',
@@ -69,6 +83,7 @@ router.get(
 		}
 	},
 );
+
 
 router.get(
 	'/:id/recommendations',
