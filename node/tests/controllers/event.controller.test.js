@@ -200,3 +200,30 @@ describe('testing /events/id/attachments', () => {
 		return expect(eventService.removeAttachmentFromEvent.mock.calls.length).toEqual(1);
 	});
 });
+
+
+describe('testing PUT events/id/', () => {
+	it('should call the controller successfully', async () => {
+		eventService.updateEvent = jest.fn();
+		eventService.sendUpdateEmail = jest.fn();
+		const res = await request(index.app)
+			.put('/events/123')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send({
+				sendUpdateEmail: true,
+				title: '123',
+				description: '123',
+				speaker: '123',
+				vagueLocation: '123',
+				specificLocation: '123',
+				disabilityAccess: true,
+				series: '5e595ce2d8118f0888f56150',
+				capacity: 69,
+				date: new Date().toString(),
+
+			});
+		await expect(res.body).toEqual({ success: true });
+		await expect(eventService.updateEvent.mock.calls.length).toEqual(1);
+		return expect(eventService.sendUpdateEmail.mock.calls.length).toEqual(1);
+	});
+});
