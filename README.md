@@ -59,7 +59,7 @@
 * Have the AWS CLI installed and configured.
 * Have the configurations being the same as if deploying on non-lambda
 * Ensure that the client url is configured correctly in .env.serverless
-* If you do not want to deploy to eu-west-3, ctrl+f for any eu=west-3 instances in node/ and replace them with your desired region.
+* If you do not want to deploy to eu-west-3, ctrl+f for any eu-west-3 instances in node/ and replace them with your desired region.
 
 ### Deploying node
 1. CD into `node/`
