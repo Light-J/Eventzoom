@@ -14,6 +14,8 @@ import isOwner from '../middleware/isOwner';
 import hasCorrectToken from '../middleware/hasCorrectToken';
 import isValidPayment from '../middleware/isValidPayment';
 import isEventPaid from '../middleware/isEventPaid';
+import logService from '../services/log.service';
+
 
 const router = express.Router();
 const upload = multer();
@@ -76,6 +78,9 @@ router.get(
 	async (req, res) => {
 		try {
 			const { query } = req.query;
+			if (query) {
+				await logService.logOccurence('search', { term: query });
+			}
 			const events = await EventService.getEvents(query, req.query.sort, req.query.direction);
 			return res.send(authorizationService.filterInaccessible(events, req.user));
 		} catch (e) {
@@ -95,6 +100,10 @@ router.get(
 	validator('in', { field: 'direction', matches: ['asc', 'desc'] }),
 	async (req, res) => {
 		try {
+			const term = req.validated.title || req.validated.speaker;
+			if (term) {
+				await logService.logOccurence('search', { term });
+			}
 			const events = await EventService.getEventsAdvanced(
 				req.validated,
 				req.validated.sort,
@@ -114,6 +123,7 @@ router.get(
 	async (req, res) => {
 		try {
 			const event = await EventService.getEventById(req.params.id);
+			await logService.logOccurence('visit', {}, event._id);
 			// eslint-disable-next-line max-len
 			event.series = authorizationService.canAccessResource(event.series, req.user) ? event.series : null;
 			return res.send(event);

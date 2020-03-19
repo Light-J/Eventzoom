@@ -11,6 +11,7 @@ import series from './controllers/series.controller';
 import './helpers/connectToDatabase';
 import './helpers/winston';
 import passport from './services/passport.service';
+import statisticsService from './services/statistics.service';
 import email from './controllers/email.controller';
 
 
@@ -28,6 +29,10 @@ app.use('/events', events);
 app.use('/users', users);
 app.use('/series', series);
 app.use('/emails', email);
+
+app.get('/statistics', async (req, res) => {
+	res.send(await statisticsService.getStatistics());
+});
 
 
 app.get('/', (req, res) => {
