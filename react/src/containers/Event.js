@@ -153,12 +153,14 @@ export class Event extends Component {
 											userCancelled={this.state.userCancelled}
 											onAttendChange={this.onAttendChange}
 											userReminding={this.state.reminding} />
+										<div className="mt-2">
+											<Conditional if={this.state.attending && this.props.user.phoneNumber}>
+												<RemindMeSwitch
+													reminding={this.state.reminding}
+													onRemindChange={this.remindMe} />
+											</Conditional>
+										</div>
 									</div>
-									<Conditional if={this.state.attending && this.props.user.phoneNumber}>
-										<RemindMeSwitch
-											reminding={this.state.reminding}
-											onRemindChange={this.remindMe} />
-									</Conditional>
 								</div>
 								<Conditional if={this.state.attachments.length > 0}>
 									<div className="card mb-2 mt-2">
