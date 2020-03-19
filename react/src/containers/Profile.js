@@ -119,6 +119,9 @@ export class Profile extends React.Component {
 								<input className="form-control" type="text" name="name" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
 							</div>
 							<div className="input-group mb-3">
+								<div className="input-group-prepend">
+									<span className="input-group-text">In UK international format</span>
+								</div>
 								<input type="text" className="form-control" placeholder="Phone number" name="phoneNumber" defaultValue={this.props.user.phoneNumber} value={this.state.phoneNumber} onChange={this.handleChange} />
 								<div className="input-group-append">
 									<button className="btn btn-outline-secondary" type="button" onClick={this.deletePhoneNumber}>Remove</button>
