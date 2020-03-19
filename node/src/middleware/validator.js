@@ -97,7 +97,7 @@ const validate = (validator, params) => async (req, res, next) => {
 	}
 
 	// if there are validation results, put them in
-	if (result.fieldName && result.fieldValue) {
+	if (result.fieldName && typeof result.fieldValue !== 'undefined') {
 		// the reason these are reattached
 		// is so that non-validated fields don't accidentally make it into the DB
 		req.validated[result.fieldName] = result.fieldValue;
