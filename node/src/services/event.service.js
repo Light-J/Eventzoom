@@ -137,7 +137,7 @@ const eventAtCapacity = async (eventId) => {
 
 const sendReminders = async (eventId) => {
 	const event = await Event.findById(eventId).populate('attendees.user');
-	// https://stackoverflow.com/a/18527956
+	// https://stackoverflow.com/a/18527956 nicely format the date
 	let hours = event.date.getHours();
 	let minutes = event.date.getMinutes();
 	const ampm = hours >= 12 ? 'pm' : 'am';
