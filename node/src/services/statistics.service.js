@@ -35,7 +35,6 @@ const getStatistics = async () => [
 			{ $group: { _id: { _id: '$_id', title: '$title' }, count: { $sum: 1 } } },
 			{ $sort: { count: -1 } },
 			{ $project: { _id: '$_id._id', title: '$_id.title', count: '$count' } },
-
 			{ $limit: 5 },
 
 		])),
