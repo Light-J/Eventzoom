@@ -22,7 +22,7 @@
     "create-seeder": "npx db-migrate create:seed",
     "create-migration": "npx db-migrate create",
     "create-email-scheduler": "node ./node_modules/claudia/bin/cmd.js add-scheduled-event --event sendMail.json --schedule \"rate(5 minutes)\" --name \"EmailScheduler\"",
-    "create-reminder-scheduler": "node ./node_modules/claudia/bin/cmd.js add-scheduled-event --event sendReminders.json --schedule \"cron(0 12 * * ? *)\" --name \"ReminderScheduler\"",
+    "create-reminder-scheduler": "node ./node_modules/claudia/bin/cmd.js add-scheduled-event --event sendReminders.json --schedule \"cron(0 9 * * ? *)\" --name \"ReminderScheduler\"",
     "destroy-email-scheduler": "node delete-scheduler.js EmailScheduler",
     "destroy-reminder-scheduler": "node delete-scheduler.js ReminderScheduler"
   },

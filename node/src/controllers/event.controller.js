@@ -20,9 +20,10 @@ router.get(
 	'/send-reminders',
 	hasCorrectToken,
 	async (req, res) => {
+		// Gets todays date and time and also todays date but till end of the day
 		const startDate = new Date();
 		const endDate = new Date();
-		endDate.setDate(endDate.getDate() + 1);
+		endDate.setDate(endDate.setHours(23, 59, 59, 999));
 		const events = await EventService.getEventsAdvanced({ startDate, endDate }, 'date', 'asc');
 		await Promise.all(events.map((event) => EventService.sendReminders(event._id)));
 		res.send({ success: true });

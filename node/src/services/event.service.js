@@ -148,7 +148,7 @@ const sendReminders = async (eventId) => {
 	await Promise.all(event.attendees.map(async (attendee) => {
 		if (attendee.reminding) {
 			await textService.sendText(attendee.user.phoneNumber,
-				`Event reminder, ${event.title} is today at ${strTime}. Location: ${event.specificLocation}`);
+				`Event reminder, ${event.title} is today  at ${strTime}. Location: ${event.specificLocation}`);
 		}
 		return true;
 	}));
