@@ -1,5 +1,5 @@
 {
-  "path": "/emails/",
+  "path": "/events/send-reminders",
   "httpMethod": "GET",
   "headers": {
     "Accept": "application/json, text/plain, */*",
@@ -20,7 +20,9 @@
     "CloudFront-Forwarded-Proto": [
       "https"
     ],
-    "Secret": ["cats"]
+    "Secret": [
+      "cats"
+    ]
   },
   "queryStringParameters": null,
   "multiValueQueryStringParameters": null,

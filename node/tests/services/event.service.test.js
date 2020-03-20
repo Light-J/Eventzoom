@@ -6,6 +6,7 @@ import emailService from '../../src/services/email.service';
 import authorizationService from '../../src/services/authorization.service';
 import kmeans from '../../src/services/kmeans.service';
 import fileService from '../../src/services/file.service';
+import textService from '../../src/services/text.service';
 
 // Mock save. Mongoose save returns the Id of the document saved
 const mockSave = jest.fn();
@@ -16,6 +17,7 @@ jest.mock('../../src/models/attachment.model');
 jest.mock('../../src/services/email.service');
 jest.mock('../../src/services/kmeans.service');
 jest.mock('../../src/services/file.service');
+jest.mock('../../src/services/text.service');
 
 // cause we mock it later on
 const realSortEventQuery = eventService.sortEventQuery;
@@ -104,25 +106,39 @@ describe('testing if user attending event', () => {
 		const fakeUser = { _id: 1 };
 		const result = {
 			populate: jest.fn().mockImplementation(async () => ({
-				attendees: [1, 2, 3],
+				attendees: [{
+					user: {
+						equals() {
+							return true;
+						},
+					},
+					reminding: true,
+				}],
 				capacity: 3,
 			})),
 		};
 		eventModel.findById = jest.fn().mockImplementation(() => result);
 		const response = await eventService.userAttending(123, fakeUser);
-		expect(response).toEqual(true);
+		expect(response).toEqual({ attending: true, reminding: true });
 	});
 	it('user is not attending so return false', async () => {
 		const fakeUser = { _id: 5 };
 		const result = {
 			populate: jest.fn().mockImplementation(async () => ({
-				attendees: [1, 2, 3],
+				attendees: [{
+					user: {
+						equals() {
+							return false;
+						},
+					},
+					reminding: false,
+				}],
 				capacity: 3,
 			})),
 		};
 		eventModel.findById = jest.fn().mockImplementation(() => result);
 		const response = await eventService.userAttending(123, fakeUser);
-		expect(response).toEqual(false);
+		expect(response).toEqual({ attending: false, reminding: false });
 	});
 });
 
@@ -333,7 +349,7 @@ describe('testing sendUpdateEMail', () => {
 
 		const result = {
 			populate: jest.fn().mockImplementation(async () => ({
-				attendees: [{ email: 'test@test.com' }],
+				attendees: [{ user: { email: 'test@test.com' } }],
 				capacity: 3,
 				save() {
 					return true;
@@ -347,5 +363,40 @@ describe('testing sendUpdateEMail', () => {
 		await eventService.sendUpdateEmail('123');
 		await expect(eventModel.findById.mock.calls.length).toEqual(1);
 		await expect(emailService.sendEmail.mock.calls.length).toEqual(1);
+	});
+});
+
+describe('testing send event reminder', () => {
+	it('should run successfully and send 1 text', async () => {
+		textService.sendText = jest.fn();
+		const result = {
+			populate: jest.fn().mockImplementation(async () => ({
+				title: 'irrelevent',
+				attendees: [{ user: { email: 'test@test.com', phoneNumber: 123 }, reminding: true }],
+				date: new Date(),
+				specificLocation: 'irrelevent',
+
+			})),
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => result);
+		await eventService.sendReminders('123');
+		await expect(eventModel.findById.mock.calls.length).toEqual(1);
+		await expect(textService.sendText.mock.calls.length).toEqual(1);
+	});
+	it('should run successfully but not send texts', async () => {
+		textService.sendText = jest.fn();
+		const result = {
+			populate: jest.fn().mockImplementation(async () => ({
+				title: 'irrelevent',
+				attendees: [{ user: { email: 'test@test.com', phoneNumber: 123 }, reminding: false }],
+				date: new Date(),
+				specificLocation: 'irrelevent',
+
+			})),
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => result);
+		await eventService.sendReminders('123');
+		await expect(eventModel.findById.mock.calls.length).toEqual(1);
+		await expect(textService.sendText.mock.calls.length).toEqual(0);
 	});
 });

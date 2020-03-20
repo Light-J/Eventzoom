@@ -1,5 +1,5 @@
 migrations/
 build/
 lambda.js
-delete-email-scheduler.js
+delete-scheduler.js
 dist/

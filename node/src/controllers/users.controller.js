@@ -30,6 +30,7 @@ router.get('/me', passport.authenticate('jwt'), async (req, res) => {
 router.put('/me', passport.authenticate('jwt'), isNotSsoUser,
 	validator('required', { field: 'email' }),
 	validator('required', { field: 'name' }),
+	validator('optional', { field: 'phoneNumber' }),
 	async (req, res) => {
 		try {
 			await userService.setUserProfileById(req.user.id, req.validated);
@@ -47,6 +48,17 @@ router.put('/me', passport.authenticate('jwt'), isNotSsoUser,
 		return res.json({ success: true, user });
 	});
 
+router.delete('/me/phone-number',
+	passport.authenticate('jwt'),
+	isNotSsoUser,
+	async (req, res) => {
+		try {
+			await userService.setUserProfileById(req.user.id, { phoneNumber: undefined });
+			return res.json({ success: true });
+		} catch (e) {
+			return res.json({ success: false });
+		}
+	});
 
 router.put('/me/password', passport.authenticate('jwt'), isNotSsoUser,
 	validator('required', { field: 'currentPassword' }),
