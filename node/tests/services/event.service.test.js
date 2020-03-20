@@ -328,3 +328,38 @@ describe('testing attachments with an event', () => {
 		expect(returnedId).toEqual(true);
 	});
 });
+
+
+describe('testing updateEvent', () => {
+	it('should run successfully', async () => {
+		eventModel.findByIdAndUpdate = jest.fn()
+			.mockImplementation(async () => ({ series: [1, 2, 3] }));
+		seriesModel.findByIdAndUpdate = jest.fn();
+		await eventService.updateEvent('123', { test: 'test', series: '123' });
+		await expect(eventModel.findByIdAndUpdate.mock.calls.length).toEqual(1);
+		expect(seriesModel.findByIdAndUpdate.mock.calls.length).toEqual(2);
+	});
+});
+
+describe('testing sendUpdateEMail', () => {
+	it('should run successfully', async () => {
+		emailService.sendEmail = jest.fn();
+
+		const result = {
+			populate: jest.fn().mockImplementation(async () => ({
+				attendees: [{ email: 'test@test.com' }],
+				capacity: 3,
+				save() {
+					return true;
+				},
+				toICSFormat() {
+					return { uid: 123 };
+				},
+			})),
+		};
+		eventModel.findById = jest.fn().mockImplementation(() => result);
+		await eventService.sendUpdateEmail('123');
+		await expect(eventModel.findById.mock.calls.length).toEqual(1);
+		await expect(emailService.sendEmail.mock.calls.length).toEqual(1);
+	});
+});

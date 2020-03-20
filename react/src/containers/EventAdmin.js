@@ -7,6 +7,7 @@ import serverConfig from '../config/server';
 import Conditional from '../components/Conditional';
 import classes from './EventAdmin.module.css';
 import AttachmentManagement from '../components/AttachmentManagement';
+import EditEvent from '../components/EditEvent';
 
 export class EventAdmin extends Component {
 	static propTypes = {
@@ -91,6 +92,7 @@ export class EventAdmin extends Component {
 				add={this.addAttachment}
 				handleChange={this.handleChange}
 				uploadingFile={this.state.uploadingFile || false}/>
+			<EditEvent eventId={this.props.eventId} />
 		</Conditional>
 	</div>
 }

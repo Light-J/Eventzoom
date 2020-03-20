@@ -109,6 +109,20 @@ const attendEvent = async (eventId, user, attend) => {
 	}
 };
 
+const sendUpdateEmail = async (eventId) => {
+	const event = await Event.findById(eventId).populate('attendees');
+	const icsString = await ics.createEvent(event.toICSFormat());
+	event.attendees.forEach((attendee) => {
+		emailService.sendEmail(attendee.email, 'event-update', { event },
+			{
+				icalEvent: {
+					method: 'update',
+					content: icsString.value,
+				},
+			});
+	});
+};
+
 const userAttending = async (eventId, user) => {
 	try {
 		const event = await getEventById(eventId);
@@ -201,6 +215,20 @@ const averageEvents = (eventsToAverage) => {
 	};
 };
 
+const updateEvent = async (id, eventDetails) => {
+	try {
+		// this will return the old event
+		const event = await Event.findByIdAndUpdate(id, eventDetails);
+		// remove from old series
+		await Series.findByIdAndUpdate(event.series, { $pull: { events: id } });
+		// append to new series
+		await Series.findByIdAndUpdate(eventDetails.series, { $push: { events: id } });
+		return event;
+	} catch (e) {
+		throw Error('Error while adding event');
+	}
+};
+
 const getRecommendationsForEvent = async (event, user) => {
 	const events = authorizationService.filterInaccessible((await getEvents('', 'date', 'asc')), user)
 		.map((e) => e.toJSON());
@@ -274,6 +302,8 @@ export default {
 	getEventsAttendeesById,
 	addAttachmentToEvent,
 	removeAttachmentFromEvent,
+	updateEvent,
+	sendUpdateEmail,
 	updateUserReminding,
 	sendReminders,
 };
