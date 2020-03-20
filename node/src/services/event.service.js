@@ -110,10 +110,10 @@ const attendEvent = async (eventId, user, attend) => {
 };
 
 const sendUpdateEmail = async (eventId) => {
-	const event = await Event.findById(eventId).populate('attendees');
+	const event = await Event.findById(eventId).populate('attendees.users');
 	const icsString = await ics.createEvent(event.toICSFormat());
 	event.attendees.forEach((attendee) => {
-		emailService.sendEmail(attendee.email, 'event-update', { event },
+		emailService.sendEmail(attendee.user.email, 'event-update', { event },
 			{
 				icalEvent: {
 					method: 'update',
