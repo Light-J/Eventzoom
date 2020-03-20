@@ -347,7 +347,7 @@ describe('testing sendUpdateEMail', () => {
 
 		const result = {
 			populate: jest.fn().mockImplementation(async () => ({
-				attendees: [{ email: 'test@test.com' }],
+				attendees: [{ user: { email: 'test@test.com' } }],
 				capacity: 3,
 				save() {
 					return true;
