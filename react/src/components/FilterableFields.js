@@ -37,7 +37,7 @@ class FilterableFields extends Component {
 
 
 	render = () => <div className="mt-2">
-		<p>Access controls:</p>
+		<h5>Access controls:</h5>
 		Whitelisted people (leave empty for everyone, comma seperated):
 		<input type="text" className="form-control" onChange={this.updateWhitelist} value={this.props.whitelist} placeholder="user@example.org, hello@example.org"/>
 		<div className="form-check">
