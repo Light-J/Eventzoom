@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing logOccurence should run successfully 1`] = `
+Array [
+  Object {
+    "name": "Most searched terms",
+    "results": "stuff",
+  },
+  Object {
+    "name": "Most viewed events",
+    "results": "stuff",
+  },
+  Object {
+    "name": "Events with most attendees",
+    "results": "stuff1",
+  },
+]
+`;
+
+exports[`testing logOccurence should run successfully 2`] = `
+Array [
+  Array [
+    Array [
+      Object {
+        "$match": Object {
+          "event": "search",
+        },
+      },
+      Object {
+        "$group": Object {
+          "_id": "$data.term",
+          "count": Object {
+            "$sum": 1,
+          },
+        },
+      },
+      Object {
+        "$sort": Object {
+          "count": -1,
+        },
+      },
+      Object {
+        "$limit": 5,
+      },
+      Object {
+        "$project": Object {
+          "count": "$count",
+          "title": "$_id",
+        },
+      },
+    ],
+  ],
+  Array [
+    Array [
+      Object {
+        "$match": Object {
+          "event": "visit",
+        },
+      },
+      Object {
+        "$group": Object {
+          "_id": "$referencedEvent",
+          "count": Object {
+            "$sum": 1,
+          },
+        },
+      },
+      Object {
+        "$sort": Object {
+          "count": -1,
+        },
+      },
+      Object {
+        "$lookup": Object {
+          "as": "event",
+          "foreignField": "_id",
+          "from": "events",
+          "localField": "_id",
+        },
+      },
+      Object {
+        "$project": Object {
+          "count": "$count",
+          "title": Object {
+            "$arrayElemAt": Array [
+              "$event.title",
+              0,
+            ],
+          },
+        },
+      },
+      Object {
+        "$limit": 5,
+      },
+    ],
+  ],
+]
+`;
+
+exports[`testing logOccurence should run successfully 3`] = `
+Array [
+  Array [
+    Array [
+      Object {
+        "$unwind": "$attendees",
+      },
+      Object {
+        "$group": Object {
+          "_id": Object {
+            "_id": "$_id",
+            "title": "$title",
+          },
+          "count": Object {
+            "$sum": 1,
+          },
+        },
+      },
+      Object {
+        "$sort": Object {
+          "count": -1,
+        },
+      },
+      Object {
+        "$project": Object {
+          "_id": "$_id._id",
+          "count": "$count",
+          "title": "$_id.title",
+        },
+      },
+      Object {
+        "$limit": 5,
+      },
+    ],
+  ],
+]
+`;
