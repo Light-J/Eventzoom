@@ -1,6 +1,5 @@
 {
-  "resource": "/{proxy+}",
-  "path": "/emails",
+  "path": "/emails/",
   "httpMethod": "GET",
   "headers": {
     "Accept": "application/json, text/plain, */*",
@@ -25,9 +24,6 @@
   },
   "queryStringParameters": null,
   "multiValueQueryStringParameters": null,
-  "pathParameters": {
-    "proxy": "emails"
-  },
   "stageVariables": {
     "lambdaVersion": "latest"
   },
