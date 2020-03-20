@@ -150,22 +150,26 @@ const eventAtCapacity = async (eventId) => {
 };
 
 const sendReminders = async (eventId) => {
-	const event = await Event.findById(eventId).populate('attendees.user');
-	// https://stackoverflow.com/a/18527956 nicely format the date
-	let hours = event.date.getHours();
-	let minutes = event.date.getMinutes();
-	const ampm = hours >= 12 ? 'pm' : 'am';
-	hours %= 12;
-	hours = hours || 12;
-	minutes = minutes < 10 ? `0${minutes}` : minutes;
-	const strTime = `${hours}:${minutes}${ampm}`;
-	await Promise.all(event.attendees.map(async (attendee) => {
-		if (attendee.reminding) {
-			await textService.sendText(attendee.user.phoneNumber,
-				`Event reminder, ${event.title} is today  at ${strTime}. Location: ${event.specificLocation}`);
-		}
-		return true;
-	}));
+	try {
+		const event = await Event.findById(eventId).populate('attendees.user');
+		// https://stackoverflow.com/a/18527956 nicely format the date
+		let hours = event.date.getHours();
+		let minutes = event.date.getMinutes();
+		const ampm = hours >= 12 ? 'pm' : 'am';
+		hours %= 12;
+		hours = hours || 12;
+		minutes = minutes < 10 ? `0${minutes}` : minutes;
+		const strTime = `${hours}:${minutes}${ampm}`;
+		await Promise.all(event.attendees.map(async (attendee) => {
+			if (attendee.reminding) {
+				await textService.sendText(attendee.user.phoneNumber,
+					`Event reminder, ${event.title} is today  at ${strTime}. Location: ${event.specificLocation}`);
+			}
+			return true;
+		}));
+	} catch (e) {
+		throw Error('Error whilst sending reminders');
+	}
 };
 
 const updateUserReminding = async (user, eventId, remind) => {
