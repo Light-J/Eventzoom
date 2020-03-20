@@ -24,6 +24,7 @@ router.post(
 	validator('optional', { field: 'restrictToSchool' }),
 	validator('optional', { field: 'restrictToStaff' }),
 	validator('optional', { field: 'noPublic' }),
+	validator('optional', { field: 'whitelist' }),
 	async (req, res) => {
 		const location = await fileService.uploadFile(req.validated.file);
 		await seriesService.createSeries(
