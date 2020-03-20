@@ -4,5 +4,4 @@ export default {
 	user: process.env.EMAIL_USER || 'b241a100676560',
 	pass: process.env.EMAIL_PASSWORD || 'b2456967a5a9c1',
 	from: process.env.EMAIL_FROM || 'me@hdimitrov.com',
-	secret: process.env.EMAIL_SECRET || 'cats',
 };

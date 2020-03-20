@@ -71,10 +71,13 @@ const initPassport = (app) => {
 			const email = profile[authConfig.saml.emailField];
 			const name = profile[authConfig.saml.nameField];
 			const school = profile[authConfig.saml.schoolField];
+			const phoneNumber = profile[authConfig.saml.phoneNumberField];
 			const staff = profile[authConfig.saml.typeField] === 'staff';
 			const samlUser = await userModel.findOneAndUpdate(
 				{ email },
-				{ name, filterable: { public: false, school, staff }, sso: true },
+				{
+					name, phoneNumber, filterable: { public: false, school, staff }, sso: true,
+				},
 				{ new: true, upsert: true },
 			);
 			done(null, samlUser);

@@ -66,8 +66,10 @@
 2. Remove the `claudia.json` file. 
 3. Run `npm run create-lambda`
 4. Modify the secret inside `sendMail.json` to be whatever secret you selected before and point to your lambda.
-5. Run `npm run create-email-scheduler`
-6. Updating is done by running `npm run update-lambda`
+5. Run `npm run create-email-scheduler` (Can be destroyed with `npm run destroy-email-scheduler`)
+6. Run `npm run create-reminder-scheduler` (Can be destroyed with `npm run destroy-reminder-scheduler`)
+7. Updating is done by running `npm run update-lambda`
+
 
 ### Deploying react
 1. Change the `.env.production` file to point to your lambda function

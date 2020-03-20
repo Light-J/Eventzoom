@@ -11,6 +11,7 @@ import disqusConfig from '../config/disqus';
 import Conditional from '../components/Conditional';
 import SearchResults from '../components/SearchResults';
 import Attachment from '../components/Attachment';
+import RemindMeSwitch from '../components/RemindMeSwitch';
 
 export class Event extends Component {
 	state = {
@@ -18,7 +19,8 @@ export class Event extends Component {
 		date: '1970-01-01',
 		error: false,
 		disqusShortname: disqusConfig.shortname,
-		userAttending: false,
+		attending: false,
+		reminding: false,
 		userCancelled: false,
 		recommendations: [],
 		userOwner: false,
@@ -32,13 +34,15 @@ export class Event extends Component {
 
 	firstThreeRecommendations = () => this.state.recommendations.filter((v, i) => i < 3);
 
-	updateComponent = () => {
-		axios.get(`${serverConfig.url}events/${this.props.eventId}`)
+	updateComponent = async () => {
+		await axios.get(`${serverConfig.url}events/${this.props.eventId}`)
 			.then((res) => {
 				if (this.props.user) {
 					this.setState({ userOwner: this.props.user.email === res.data.organiser.email });
 				}
-				this.setState({ isLoaded: true, ...res.data });
+				this.setState({
+					isLoaded: true, ...res.data, userCancelled: false, attending: false, reminding: false,
+				});
 			}).catch(() => {
 				this.setState({ error: true });
 			});
@@ -49,7 +53,7 @@ export class Event extends Component {
 
 		axios.get(`${serverConfig.url}events/${this.props.eventId}/user-attending`)
 			.then((result) => {
-				this.setState({ userAttending: result.data });
+				this.setState(result.data);
 			});
 	};
 
@@ -65,16 +69,25 @@ export class Event extends Component {
 
 	onAttendChange = () => {
 		axios.post(`${serverConfig.url}events/${this.props.eventId}/attend`,
-			{ attend: !this.state.userAttending })
+			{ attend: !this.state.attending })
 			.then(() => {
 				this.setState({
-					userAttending: !this.state.userAttending,
-					userCancelled: this.state.userAttending,
+					attending: !this.state.attending,
+					userCancelled: this.state.attending,
 				});
-				this.updateAttendeesAmount(this.state.userAttending ? 1 : -1);
+				this.updateAttendeesAmount(this.state.attending ? 1 : -1);
 			});
 	};
 
+	remindMe = () => {
+		axios.put(`${serverConfig.url}events/${this.props.eventId}/remind`,
+			{ remind: !this.state.reminding })
+			.then(() => {
+				this.setState({
+					reminding: !this.state.reminding,
+				});
+			});
+	};
 
 	getDisqusConfig = () => ({
 		url: `${disqusConfig.domain}events/${this.props.eventId}`,
@@ -138,9 +151,17 @@ export class Event extends Component {
 									<div className="card-footer text-center">
 										<AttendButton
 											full={this.state.capacity === this.state.attendeesAmount}
-											userAttending={this.state.userAttending}
+											userAttending={this.state.attending}
 											userCancelled={this.state.userCancelled}
-											onAttendChange={this.onAttendChange}/>
+											onAttendChange={this.onAttendChange}
+											userReminding={this.state.reminding} />
+										<div className="mt-2">
+											<Conditional if={this.state.attending && this.props.user.phoneNumber}>
+												<RemindMeSwitch
+													reminding={this.state.reminding}
+													onRemindChange={this.remindMe} />
+											</Conditional>
+										</div>
 									</div>
 								</div>
 								<Conditional if={this.state.attachments.length > 0}>
