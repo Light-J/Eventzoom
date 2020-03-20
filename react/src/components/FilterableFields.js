@@ -8,6 +8,7 @@ class FilterableFields extends Component {
 		restrictToSchool: PropTypes.number.isRequired,
 		restrictToStaff: PropTypes.number.isRequired,
 		updateParentState: PropTypes.func.isRequired,
+		whitelist: PropTypes.string.isRequired,
 	};
 
 
@@ -30,9 +31,15 @@ class FilterableFields extends Component {
 		}
 	}
 
+	updateWhitelist = (e) => {
+		this.props.updateParentState({ whitelist: e.target.value });
+	}
+
 
 	render = () => <div className="mt-2">
-		Access controls:
+		<p>Access controls:</p>
+		Whitelisted people (leave empty for everyone, comma seperated):
+		<input type="text" className="form-control" onChange={this.updateWhitelist} value={this.props.whitelist} placeholder="user@example.org, hello@example.org"/>
 		<div className="form-check">
 			<input className="form-check-input" id="noPublic" name="noPublic" checked={this.props.noPublic} type="checkbox" onChange={this.updatePublic}/>
 			<label className="form-check-label" htmlFor="noPublic">Block public from attending</label>

@@ -114,6 +114,7 @@ router.post(
 	validator('optional', { field: 'restrictToSchool' }),
 	validator('optional', { field: 'restrictToStaff' }),
 	validator('optional', { field: 'noPublic' }),
+	validator('optional', { field: 'whitelist' }),
 	validator('validModel', { model: Event, excludedFields: ['image', 'organiser'] }),
 	async (req, res) => {
 		try {

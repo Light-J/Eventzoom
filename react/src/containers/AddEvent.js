@@ -31,6 +31,7 @@ export default class AddEvent extends React.Component {
 		noPublic: 0,
 		restrictToSchool: 0,
 		restrictToStaff: 0,
+		whitelist: '',
 	}
 
 handleDate = (date) => {
@@ -193,6 +194,7 @@ render = () => (<form className="container">
 				noPublic={this.state.noPublic}
 				restrictToSchool={this.state.restrictToSchool}
 				restrictToStaff={this.state.restrictToStaff}
+				whitelist={this.state.whitelist}
 				updateParentState={this.updateParentState}
 			/>
 			<div>
