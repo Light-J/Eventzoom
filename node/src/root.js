@@ -4,14 +4,13 @@ import cors from 'cors';
 import Mongoose from 'mongoose';
 import winston from 'winston';
 import clientConfig from '../config/client';
-import hello from './controllers/hello';
+import statistics from './controllers/statistics.controller';
 import events from './controllers/event.controller';
 import users from './controllers/users.controller';
 import series from './controllers/series.controller';
 import './helpers/connectToDatabase';
 import './helpers/winston';
 import passport from './services/passport.service';
-import statisticsService from './services/statistics.service';
 import email from './controllers/email.controller';
 
 
@@ -24,15 +23,11 @@ passport.initPassport(app);
 app.use(cors({ origin: clientConfig.url }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // TODO: probably don't need this
-app.use('/hello', hello);
 app.use('/events', events);
 app.use('/users', users);
 app.use('/series', series);
 app.use('/emails', email);
-
-app.get('/statistics', async (req, res) => {
-	res.send(await statisticsService.getStatistics());
-});
+app.use('/statistics', statistics);
 
 
 app.get('/', (req, res) => {
