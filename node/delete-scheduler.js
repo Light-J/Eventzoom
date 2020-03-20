@@ -1,5 +1,6 @@
 const aws = require('aws-sdk');
-const rulename = 'EmailScheduler';
+const rulename = process.argv[2];
+console.log("Deleting AWS event: " + rulename);
 const instance = new aws.CloudWatchEvents({ region: 'eu-west-3' });
 instance.listRules((err, data) => {
 	console.log(err);
