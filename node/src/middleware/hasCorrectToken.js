@@ -1,7 +1,7 @@
-import emailConfig from '../../config/email';
+import serverConfig from '../../config/server';
 
 const hasCorrectToken = (req, res, next) => {
-	if (req.header('Secret') === emailConfig.secret) {
+	if (req.header('Secret') === serverConfig.secret) {
 		return next();
 	}
 	return res.json({

@@ -9,6 +9,7 @@ import authorizationService from './authorization.service';
 import recommendationsConfig from '../../config/recommendations';
 import Attachment from '../models/attachment.model';
 import fileService from './file.service';
+import textService from './text.service';
 
 
 // eslint-disable-next-line max-len
@@ -81,13 +82,12 @@ const addEvent = async (eventDetails) => {
 	}
 };
 
-
 const attendEvent = async (eventId, user, attend) => {
 	try {
 		const event = await getEventById(eventId);
 		if (attend) {
 			if (event.attendees.length < event.capacity) {
-				event.attendees.push(user._id);
+				event.attendees.push({ user: user._id, reminding: false });
 				const icsString = await ics.createEvent(event.toICSFormat());
 				emailService.sendEmail(user.email, 'event-confirmation', { event }, {
 					icalEvent: {
@@ -99,7 +99,8 @@ const attendEvent = async (eventId, user, attend) => {
 				return false;
 			}
 		} else {
-			event.attendees.pull(user._id);
+			Event.findByIdAndUpdate(eventId,
+				{ $pull: { attendees: { user: user._id } } }, (err) => !err);
 		}
 		event.save();
 		return true;
@@ -109,10 +110,10 @@ const attendEvent = async (eventId, user, attend) => {
 };
 
 const sendUpdateEmail = async (eventId) => {
-	const event = await Event.findById(eventId).populate('attendees');
+	const event = await Event.findById(eventId).populate('attendees.user');
 	const icsString = await ics.createEvent(event.toICSFormat());
 	event.attendees.forEach((attendee) => {
-		emailService.sendEmail(attendee.email, 'event-update', { event },
+		emailService.sendEmail(attendee.user.email, 'event-update', { event },
 			{
 				icalEvent: {
 					method: 'update',
@@ -125,7 +126,15 @@ const sendUpdateEmail = async (eventId) => {
 const userAttending = async (eventId, user) => {
 	try {
 		const event = await getEventById(eventId);
-		return event.attendees.includes(user._id);
+		let attending = false;
+		let reminding = false;
+		event.attendees.forEach((attendee) => {
+			if (attendee.user.equals(user._id)) {
+				attending = true;
+				reminding = attendee.reminding;
+			}
+		});
+		return { attending, reminding };
 	} catch (e) {
 		throw Error('Error while retrieving data');
 	}
@@ -137,6 +146,39 @@ const eventAtCapacity = async (eventId) => {
 		return (event.attendees.length >= event.capacity);
 	} catch (e) {
 		throw Error('Error while calculating events attendance');
+	}
+};
+
+const sendReminders = async (eventId) => {
+	try {
+		const event = await Event.findById(eventId).populate('attendees.user');
+		// https://stackoverflow.com/a/18527956 nicely format the date
+		let hours = event.date.getHours();
+		let minutes = event.date.getMinutes();
+		const ampm = hours >= 12 ? 'pm' : 'am';
+		hours %= 12;
+		hours = hours || 12;
+		minutes = minutes < 10 ? `0${minutes}` : minutes;
+		const strTime = `${hours}:${minutes}${ampm}`;
+		await Promise.all(event.attendees.map(async (attendee) => {
+			if (attendee.reminding) {
+				await textService.sendText(attendee.user.phoneNumber,
+					`Event reminder, ${event.title} is today  at ${strTime}. Location: ${event.specificLocation}`);
+			}
+			return true;
+		}));
+	} catch (e) {
+		throw Error('Error whilst sending reminders');
+	}
+};
+
+const updateUserReminding = async (user, eventId, remind) => {
+	try {
+		let error = false;
+		await Event.updateOne({ _id: eventId, 'attendees.user': user._id }, { $set: { 'attendees.$.reminding': remind } }, (err) => { error = !err; });
+		return error;
+	} catch (e) {
+		throw Error(`Error while setting reminding for user${e.stack}`);
 	}
 };
 
@@ -209,7 +251,7 @@ const getRecommendationsForEvent = async (event, user) => {
 
 const getEventsAttendeesById = async (id) => {
 	try {
-		const event = await Event.findById(id).populate('attendees');
+		const event = await Event.findById(id).populate('attendees.user');
 		return event.attendees;
 	} catch (e) {
 		throw Error('Error while getting attendees');
@@ -217,7 +259,7 @@ const getEventsAttendeesById = async (id) => {
 };
 
 const getUserAttendingEvents = async (user) => {
-	let foundEvents = await sortEventQuery({ attendees: user._id }, 'date', 'asc');
+	let foundEvents = await sortEventQuery({ 'attendees.user': user._id }, 'date', 'asc');
 	foundEvents = await authorizationService.filterInaccessible(foundEvents, user);
 	return foundEvents;
 };
@@ -268,4 +310,6 @@ export default {
 	removeAttachmentFromEvent,
 	updateEvent,
 	sendUpdateEmail,
+	updateUserReminding,
+	sendReminders,
 };

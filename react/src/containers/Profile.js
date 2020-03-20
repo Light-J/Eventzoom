@@ -26,6 +26,7 @@ export class Profile extends React.Component {
 		passwordChangeFailure: false,
 		events: [],
 		date: new Date(),
+		phoneNumber: null,
 	};
 
 	componentDidMount = () => {
@@ -35,7 +36,7 @@ export class Profile extends React.Component {
 			.then((res) => {
 				this.setState({ events: res.data });
 			});
-	}
+	};
 
 	handleChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
@@ -74,6 +75,14 @@ export class Profile extends React.Component {
 		}
 	};
 
+	deletePhoneNumber = (event) => {
+		event.preventDefault();
+		axios.delete(`${serverConfig.url}users/me/phone-number`).then((result) => {
+			if (result.data.success) {
+				this.setState({ phoneNumber: '' });
+			}
+		});
+	};
 
 	pastEvents = () => this.state.events.filter((e) => new Date(e.date) < this.state.date);
 
@@ -108,6 +117,15 @@ export class Profile extends React.Component {
 							<div className="form-group">
 								<label className="col-form-label">Name</label>
 								<input className="form-control" type="text" name="name" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
+							</div>
+							<div className="input-group mb-3">
+								<div className="input-group-prepend">
+									<span className="input-group-text">In UK international format</span>
+								</div>
+								<input type="text" className="form-control" placeholder="Phone number" name="phoneNumber" defaultValue={this.props.user.phoneNumber} value={this.state.phoneNumber} onChange={this.handleChange} />
+								<div className="input-group-append">
+									<button className="btn btn-outline-secondary" type="button" onClick={this.deletePhoneNumber}>Remove</button>
+								</div>
 							</div>
 							<div>
 								<button className="btn btn-success" onClick={this.submitProfileForm}>Save Profile</button>

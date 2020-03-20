@@ -10,10 +10,27 @@ import isAllowedToView from '../middleware/isAllowedToView';
 import isStaff from '../middleware/isStaff';
 import cacheService from '../services/cache.service';
 import isOwner from '../middleware/isOwner';
+import hasCorrectToken from '../middleware/hasCorrectToken';
 
 
 const router = express.Router();
 const upload = multer();
+
+router.get(
+	'/send-reminders',
+	hasCorrectToken,
+	async (req, res) => {
+		// Gets todays date and time and also todays date but till end of the day
+		// This works well for a UK timezone as it means reminders are sent at reasonable time
+		// The times are based off the server time so locks us to UK timezone at the moment
+		const startDate = new Date();
+		const endDate = new Date();
+		endDate.setHours(23, 59, 59, 999);
+		const events = await EventService.getEventsAdvanced({ startDate, endDate }, 'date', 'asc');
+		await Promise.all(events.map((event) => EventService.sendReminders(event._id)));
+		res.send({ success: true });
+	},
+);
 
 router.get(
 	'/',
@@ -69,6 +86,7 @@ router.get(
 		}
 	},
 );
+
 
 router.get(
 	'/:id/recommendations',
@@ -184,6 +202,18 @@ router.post(
 	},
 );
 
+router.put(
+	'/:id/remind',
+	passport.authenticate('jwt', { session: false }),
+	validator('required', { field: 'remind' }),
+	isAllowedToView(Event, 'id'),
+	async (req, res) => res.send(await EventService.updateUserReminding(
+		req.user,
+		req.params.id,
+		req.validated.remind,
+	)),
+);
+
 router.get(
 	'/:id/user-attending',
 	passport.authenticate('jwt', { session: false }),
@@ -235,5 +265,6 @@ router.delete(
 		}
 	},
 );
+
 
 export default router;
