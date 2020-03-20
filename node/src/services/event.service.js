@@ -110,7 +110,7 @@ const attendEvent = async (eventId, user, attend) => {
 };
 
 const sendUpdateEmail = async (eventId) => {
-	const event = await Event.findById(eventId).populate('attendees.users');
+	const event = await Event.findById(eventId).populate('attendees.user');
 	const icsString = await ics.createEvent(event.toICSFormat());
 	event.attendees.forEach((attendee) => {
 		emailService.sendEmail(attendee.user.email, 'event-update', { event },
@@ -253,7 +253,7 @@ const getEventsAttendeesById = async (id) => {
 };
 
 const getUserAttendingEvents = async (user) => {
-	let foundEvents = await sortEventQuery({ attendees: user._id }, 'date', 'asc');
+	let foundEvents = await sortEventQuery({ 'attendees.user': user._id }, 'date', 'asc');
 	foundEvents = await authorizationService.filterInaccessible(foundEvents, user);
 	return foundEvents;
 };
