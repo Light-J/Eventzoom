@@ -1,5 +1,5 @@
 const aws = require('aws-sdk');
-const rulename = process.argv.slice(2)[0];
+const rulename = process.argv[2];
 console.log("Deleting AWS event: " + rulename);
 const instance = new aws.CloudWatchEvents({ region: 'eu-west-3' });
 instance.listRules((err, data) => {
