@@ -4,16 +4,13 @@ import serverConfig from '../config/server';
 import SingleStatistic from '../components/SingleStatistic';
 
 export class Statistics extends Component {
-
 	state = {
 		statistics: [],
 	};
 
-	componentDidMount() {
-		axios.get(`${serverConfig.url}statistics`)
-			.then((res) => {
-				this.setState({ statistics: res.data });
-			});
+	componentDidMount = async () => {
+		const res = await axios.get(`${serverConfig.url}statistics`);
+		this.setState({ statistics: res.data });
 	}
 
 
