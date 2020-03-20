@@ -40,21 +40,23 @@ class FilterableFields extends Component {
 		<h5>Access controls:</h5>
 		Whitelisted people (leave empty for everyone, comma seperated):
 		<input type="text" className="form-control" onChange={this.updateWhitelist} value={this.props.whitelist} placeholder="user@example.org, hello@example.org"/>
-		<div className="form-check">
-			<input className="form-check-input" id="noPublic" name="noPublic" checked={this.props.noPublic} type="checkbox" onChange={this.updatePublic}/>
-			<label className="form-check-label" htmlFor="noPublic">Block public from attending</label>
-
-		</div>
-		<Conditional if={this.props.noPublic}>
+		<Conditional if={!this.props.whitelist || this.props.whitelist.length < 0}>
 			<div className="form-check">
-				<input className="form-check-input" id="restrictToSchool" name="restrictToSchool" type="checkbox" checked={this.props.restrictToSchool} onChange={this.handleChange}/>
-				<label className="form-check-label" htmlFor="restrictToSchool">Restrict to my school</label>
-			</div>
-			<div className="form-check">
-				<input className="form-check-input" name="restrictToStaff" id="restrictToStaff"type="checkbox" checked={this.props.restrictToStaff} onChange={this.handleChange}/>
-				<label className="form-check-label" htmlFor="restrictToStaff">Restrict to staff only</label>
-			</div>
+				<input className="form-check-input" id="noPublic" name="noPublic" checked={this.props.noPublic} type="checkbox" onChange={this.updatePublic}/>
+				<label className="form-check-label" htmlFor="noPublic">Block public from attending</label>
 
+			</div>
+			<Conditional if={this.props.noPublic}>
+				<div className="form-check">
+					<input className="form-check-input" id="restrictToSchool" name="restrictToSchool" type="checkbox" checked={this.props.restrictToSchool} onChange={this.handleChange}/>
+					<label className="form-check-label" htmlFor="restrictToSchool">Restrict to my school</label>
+				</div>
+				<div className="form-check">
+					<input className="form-check-input" name="restrictToStaff" id="restrictToStaff"type="checkbox" checked={this.props.restrictToStaff} onChange={this.handleChange}/>
+					<label className="form-check-label" htmlFor="restrictToStaff">Restrict to staff only</label>
+				</div>
+
+			</Conditional>
 		</Conditional>
 	</div>
 }

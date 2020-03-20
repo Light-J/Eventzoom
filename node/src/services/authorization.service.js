@@ -42,6 +42,7 @@ const generateFilterableField = ({
 	if (whitelist) {
 		// splits by commas and any surrounding whitespace
 		filterable.whitelist = whitelist.split(/\s*,\s*/);
+		filterable.whitelist.push(user.email);
 	}
 	return filterable;
 };

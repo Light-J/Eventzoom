@@ -53,7 +53,7 @@ describe('testing generateFilterableField', () => {
 		const instance = {
 			restrictToSchool: '1', restrictToStaff: '0', noPublic: '1', whitelist: 'user@example.org,hello@hello.com',
 		};
-		const user = { filterable: { school: 'comsc' } };
-		expect(authorizationService.generateFilterableField(instance, user)).toStrictEqual({ public: false, school: 'comsc', whitelist: ['user@example.org', 'hello@hello.com'] });
+		const user = { email: 'me@hdimitrov.com', filterable: { school: 'comsc' } };
+		expect(authorizationService.generateFilterableField(instance, user)).toStrictEqual({ public: false, school: 'comsc', whitelist: ['user@example.org', 'hello@hello.com', 'me@hdimitrov.com'] });
 	});
 });
