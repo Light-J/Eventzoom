@@ -16,7 +16,7 @@ export default class AddSeries extends React.Component {
 		noPublic: 0,
 		restrictToSchool: 0,
 		restrictToStaff: 0,
-
+		whitelist: '',
 	};
 
 
@@ -38,6 +38,7 @@ export default class AddSeries extends React.Component {
 		data.append('noPublic', this.state.noPublic);
 		data.append('restrictToSchool', this.state.restrictToSchool);
 		data.append('restrictToStaff', this.state.restrictToSchool);
+		data.append('whitelist', this.state.whitelist);
 		data.append('title', this.state.title);
 		data.append('description', this.state.description);
 		data.append('image', this.state.file);
@@ -93,6 +94,7 @@ export default class AddSeries extends React.Component {
 						restrictToSchool={this.state.restrictToSchool}
 						restrictToStaff={this.state.restrictToStaff}
 						updateParentState={this.updateParentState}
+						whitelist={this.state.whitelist}
 					/>
 
 					<button className={`btn btn-success ${this.state.success ? 'disabled' : ''} mt-5`} onClick={this.submitForm} type="submit">Add series</button>
