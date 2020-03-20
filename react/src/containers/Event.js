@@ -34,13 +34,15 @@ export class Event extends Component {
 
 	firstThreeRecommendations = () => this.state.recommendations.filter((v, i) => i < 3);
 
-	updateComponent = () => {
-		axios.get(`${serverConfig.url}events/${this.props.eventId}`)
+	updateComponent = async () => {
+		await axios.get(`${serverConfig.url}events/${this.props.eventId}`)
 			.then((res) => {
 				if (this.props.user) {
 					this.setState({ userOwner: this.props.user.email === res.data.organiser.email });
 				}
-				this.setState({ isLoaded: true, ...res.data });
+				this.setState({
+					isLoaded: true, ...res.data, userCancelled: false, attending: false, reminding: false,
+				});
 			}).catch(() => {
 				this.setState({ error: true });
 			});
