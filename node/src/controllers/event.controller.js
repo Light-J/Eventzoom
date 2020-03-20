@@ -21,6 +21,8 @@ router.get(
 	hasCorrectToken,
 	async (req, res) => {
 		// Gets todays date and time and also todays date but till end of the day
+		// This works well for a UK timezone as it means reminders are sent at reasonable time
+		// The times are based off the server time so locks us to UK timezone at the moment
 		const startDate = new Date();
 		const endDate = new Date();
 		endDate.setHours(23, 59, 59, 999);
