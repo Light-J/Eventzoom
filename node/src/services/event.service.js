@@ -174,7 +174,9 @@ const sendReminders = async (eventId) => {
 
 const updateUserReminding = async (user, eventId, remind) => {
 	try {
-		Event.updateOne({ _id: eventId, 'attendees.user': user._id }, { $set: { 'attendees.$.reminding': remind } }, (err) => !err);
+		let error = false;
+		await Event.updateOne({ _id: eventId, 'attendees.user': user._id }, { $set: { 'attendees.$.reminding': remind } }, (err) => { error = !err; });
+		return error;
 	} catch (e) {
 		throw Error(`Error while setting reminding for user${e.stack}`);
 	}

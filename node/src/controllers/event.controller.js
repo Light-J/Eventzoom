@@ -207,7 +207,7 @@ router.put(
 	passport.authenticate('jwt', { session: false }),
 	validator('required', { field: 'remind' }),
 	isAllowedToView(Event, 'id'),
-	async (req, res) => res.send(EventService.updateUserReminding(
+	async (req, res) => res.send(await EventService.updateUserReminding(
 		req.user,
 		req.params.id,
 		req.validated.remind,
