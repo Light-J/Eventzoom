@@ -14,7 +14,7 @@ export class Statistics extends Component {
 	}
 
 
-	render = () => <div className='container'>
+	render = () => <div className='container mt-5'>
 		{
 			this.state.statistics.map((value, key) => <SingleStatistic key={key} data={value} />)
 		}
