@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRss } from '@fortawesome/free-solid-svg-icons';
+import Modal from './Modal';
+import Pay from './Pay';
 
 export class AttendButton extends React.Component {
 	static propTypes = {
@@ -12,9 +14,23 @@ export class AttendButton extends React.Component {
 		userAttending: PropTypes.bool,
 		userCancelled: PropTypes.bool,
 		onAttendChange: PropTypes.func,
+		eventId: PropTypes.string.isRequired,
 	};
 
+	isPaying = true;
+
 	render() {
+		if (this.isPaying) {
+			return <div>
+				<Modal id="payModal" title="Pay" showButton={false}>
+					Please pay 69.69 to be able to attend this event.
+					<Pay eventId={this.props.eventId}/>
+				</Modal>
+				<button type="button" className="btn btn-primary" data-toggle="modal" data-target="#payModal">
+					Fuck you, pay me.
+				</button>
+			</div>;
+		}
 		if (this.props.userCancelled) {
 			return <button className="btn btn-info btn-lg btn-block">You have successfully cancelled</button>;
 		} if (this.props.userAttending) {

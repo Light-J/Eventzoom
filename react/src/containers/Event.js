@@ -154,7 +154,9 @@ export class Event extends Component {
 											userAttending={this.state.attending}
 											userCancelled={this.state.userCancelled}
 											onAttendChange={this.onAttendChange}
-											userReminding={this.state.reminding} />
+											userReminding={this.state.reminding}
+											eventId={this.props.eventId}
+										/>
 										<div className="mt-2">
 											<Conditional if={this.state.attending && this.props.user.phoneNumber}>
 												<RemindMeSwitch
@@ -182,10 +184,10 @@ export class Event extends Component {
 							<SearchResults results={this.firstThreeRecommendations()} isLoading={false}/>
 						</Conditional>
 						<h3>Discussion board</h3>
-						<DiscussionEmbed
+						{/* <DiscussionEmbed
 							config={this.getDisqusConfig()}
 							shortname={this.state.disqusShortname}
-						/>
+						/> */}
 					</div>
 				</Conditional>
 			</div>

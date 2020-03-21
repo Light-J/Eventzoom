@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import passport from 'passport';
+import stripeService from '../services/stripe.service';
 import validator from '../middleware/validator';
 import EventService from '../services/event.service';
 import fileService from '../services/file.service';
@@ -11,10 +12,41 @@ import isStaff from '../middleware/isStaff';
 import cacheService from '../services/cache.service';
 import isOwner from '../middleware/isOwner';
 import hasCorrectToken from '../middleware/hasCorrectToken';
-
+import isValidPayment from '../middleware/isValidPayment';
 
 const router = express.Router();
 const upload = multer();
+
+
+router.get(
+	'/:id/payment-intent',
+	passport.authenticate('jwt', { session: false }),
+	isAllowedToView(Event, 'id'),
+	async (req, res) => {
+		const response = await stripeService.generatePaymentIntent(2000, {
+			event: req.params.id,
+			user: req.user._id.toString(),
+		});
+		res.send({ secret: response.client_secret });
+	},
+);
+
+router.post(
+	'/:id/attend-paid',
+	passport.authenticate('jwt', { session: false }),
+	validator('required', { field: 'intent' }),
+	isAllowedToView(Event, 'id'),
+	isValidPayment,
+	async (req, res) => {
+		const result = await EventService.attendEvent(req.params.id, req.user, true);
+		if (!result) {
+			// If the result is false then the event was probably at capacity
+			stripeService.refund(req.validated.intent);
+			return res.json({ success: false });
+		}
+		res.send({ success: true });
+	},
+);
 
 router.get(
 	'/send-reminders',

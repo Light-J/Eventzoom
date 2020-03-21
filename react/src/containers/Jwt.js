@@ -11,7 +11,7 @@ class Jwt extends Component {
 		window.location.href = '/';
 	}
 
-	render = () => <marquee>You will be redirected shortly</marquee>
+	render = () => <div>You will be redirected shortly</div>
 }
 
 export default Jwt;
