@@ -14,7 +14,7 @@ const stripePromise = loadStripe(stripeConfig.url);
 const commonPropTypes = {
 	eventId: PropTypes.string.isRequired,
 };
-
+// this class has made itself very untestable because of the way stripe works
 const Pay = (props) => {
 	const stripe = useStripe();
 
@@ -46,6 +46,7 @@ const Pay = (props) => {
 			return;
 		}
 		setSuccess(true);
+		// as this deals with money, we want to have live data 100% of the time.
 		window.location.reload();
 	};
 
@@ -69,7 +70,7 @@ const Pay = (props) => {
 		<Conditional if={!success}>
 			<CardElement className={`m-2 ${styles.bigger}`}/>
 			<Conditional if={stripe && elements}>
-				<button onClick={takePayment} className="btn btn-success">Pay me</button>
+				<button onClick={takePayment} className="btn btn-success">Pay</button>
 			</Conditional>
 
 		</Conditional>

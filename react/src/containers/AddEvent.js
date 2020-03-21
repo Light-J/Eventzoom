@@ -1,16 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
-import enGB from 'date-fns/locale/en-GB';
+import DatePicker from 'react-datepicker';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 import FilterableFields from '../components/FilterableFields';
 import 'react-datepicker/dist/react-datepicker.css';
+import CurrencyInput from '../components/CurrencyInput';
 import './AddEvent.css';
-
-
-registerLocale('en-BB', enGB);
-setDefaultLocale('en-GB');
 
 export default class AddEvent extends React.Component {
 	state = {
@@ -32,6 +28,7 @@ export default class AddEvent extends React.Component {
 		restrictToSchool: 0,
 		restrictToStaff: 0,
 		whitelist: '',
+		price: 0,
 	}
 
 handleDate = (date) => {
@@ -87,7 +84,6 @@ render = () => (<form className="container">
 		<h1 className="mt-3">Please add a series first.</h1>
 	</Conditional>
 	<Conditional if={this.state.availableSeries.length}>
-
 		<div className="card border-0 shadow my-5 p-5">
 			<Conditional if={this.state.success}>
 				<div className="alert alert-success">
@@ -138,6 +134,15 @@ render = () => (<form className="container">
 				<input id="speaker" className="form-control" type="text" name="speaker" placeholder="Speaker"
 					value={this.state.speaker} onChange={this.handleChange} required />
 			</div>
+
+			<div className="form-group">
+				<label htmlFor="speaker" className="col-form-label">Payment amount</label>
+				<CurrencyInput className="form-control"
+					amount={this.state.price}
+					setAmount={(value) => this.setState({ price: value })}
+				/>
+			</div>
+
 
 			<div className="form-group">
 				<label htmlFor="vagueLocation" className="col-form-label">Vague Location</label>

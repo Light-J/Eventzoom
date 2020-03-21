@@ -152,6 +152,7 @@ export class Event extends Component {
 										<AttendButton
 											full={this.state.capacity === this.state.attendeesAmount}
 											userAttending={this.state.attending}
+											price={this.state.price}
 											userCancelled={this.state.userCancelled}
 											onAttendChange={this.onAttendChange}
 											userReminding={this.state.reminding}
@@ -184,10 +185,10 @@ export class Event extends Component {
 							<SearchResults results={this.firstThreeRecommendations()} isLoading={false}/>
 						</Conditional>
 						<h3>Discussion board</h3>
-						{/* <DiscussionEmbed
+						<DiscussionEmbed
 							config={this.getDisqusConfig()}
 							shortname={this.state.disqusShortname}
-						/> */}
+						/>
 					</div>
 				</Conditional>
 			</div>

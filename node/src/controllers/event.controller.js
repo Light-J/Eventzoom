@@ -13,6 +13,7 @@ import cacheService from '../services/cache.service';
 import isOwner from '../middleware/isOwner';
 import hasCorrectToken from '../middleware/hasCorrectToken';
 import isValidPayment from '../middleware/isValidPayment';
+import isEventPaid from '../middleware/isEventPaid';
 
 const router = express.Router();
 const upload = multer();
@@ -22,8 +23,10 @@ router.get(
 	'/:id/payment-intent',
 	passport.authenticate('jwt', { session: false }),
 	isAllowedToView(Event, 'id'),
+	isEventPaid(true),
 	async (req, res) => {
-		const response = await stripeService.generatePaymentIntent(2000, {
+		const event = await EventService.getEventById(req.params.id);
+		const response = await stripeService.generatePaymentIntent(event.price, {
 			event: req.params.id,
 			user: req.user._id.toString(),
 		});
@@ -36,6 +39,7 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	validator('required', { field: 'intent' }),
 	isAllowedToView(Event, 'id'),
+	isEventPaid(true),
 	isValidPayment,
 	async (req, res) => {
 		const result = await EventService.attendEvent(req.params.id, req.user, true);
@@ -44,7 +48,7 @@ router.post(
 			stripeService.refund(req.validated.intent);
 			return res.json({ success: false });
 		}
-		res.send({ success: true });
+		return res.send({ success: true });
 	},
 );
 
@@ -161,6 +165,7 @@ router.post(
 	validator('required', { field: 'series' }),
 	validator('required', { field: 'capacity' }),
 	validator('required', { field: 'date' }),
+	validator('required', { field: 'price' }),
 	validator('optional', { field: 'restrictToSchool' }),
 	validator('optional', { field: 'restrictToStaff' }),
 	validator('optional', { field: 'noPublic' }),
@@ -221,6 +226,7 @@ router.post(
 	validator('required', { field: 'attend' }),
 	passport.authenticate('jwt', { session: false }),
 	isAllowedToView(Event, 'id'),
+	isEventPaid(false),
 	async (req, res) => {
 		try {
 			const result = await EventService.attendEvent(req.params.id, req.user, req.validated.attend);

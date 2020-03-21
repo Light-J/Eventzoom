@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import SearchResult from './SearchResult';
 import Conditional from './Conditional';
 
 class Modal extends Component {

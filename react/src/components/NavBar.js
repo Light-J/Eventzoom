@@ -51,10 +51,10 @@ export class NavBar extends Component {
 				</li>
 				<Conditional if={this.props.user}>
 					<li className="nav-item">
-						<a className="nav-link" style={{ cursor: 'pointer' }} onClick={() => {
+						<button className="nav-link btn btn-link" style={{ cursor: 'pointer' }} onClick={() => {
 							localStorage.clear();
 							window.location.reload();
-						}}> Logout </a>
+						}}> Logout </button>
 					</li>
 				</Conditional>
 			</ul>
