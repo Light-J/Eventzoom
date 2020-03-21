@@ -5,10 +5,13 @@ import fileService from '../../src/services/file.service';
 import getValidJwt from './getValidJwt';
 import cacheService from '../../src/services/cache.service';
 import authorizationService from '../../src/services/authorization.service';
+import stripeService from '../../src/services/stripe.service';
 // this horrific line mocks the validator middleware, and makes it skip everything
 jest.mock('../../src/middleware/isAllowedToView', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
 jest.mock('../../src/middleware/isOwner', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
 jest.mock('../../src/middleware/isStaff', () => jest.fn().mockImplementation((req, res, next) => next()));
+jest.mock('../../src/middleware/isValidPayment', () => jest.fn().mockImplementation((req, res, next) => next()));
+
 jest.mock('../../src/middleware/isEventPaid', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
 
 jest.mock('../../src/services/authorization.service');
@@ -18,6 +21,48 @@ jest.mock('../../src/services/file.service');
 
 authorizationService.filterInaccessible = jest.fn().mockImplementation((events) => events);
 authorizationService.canAccessResource = jest.fn().mockImplementation(() => true);
+
+
+describe('testing GET /:id/payment-intent/', () => {
+	it('should call service and return', async () => {
+		eventService.getEventById = jest.fn().mockImplementation(async () => ({ price: 69 }));
+		stripeService.generatePaymentIntent = jest.fn().mockImplementation(() => ({ client_secret: 'benis' }));
+		const res = await request(index.app)
+			.get('/events/5/payment-intent')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send();
+		await expect(res.body).toEqual({ secret: 'benis' });
+	});
+});
+
+
+describe('testing POST /:id/payment-intent/', () => {
+	it('should call service and return', async () => {
+		eventService.attendEvent = jest.fn().mockImplementation(async () => true);
+		stripeService.refund = jest.fn();
+		const res = await request(index.app)
+			.post('/events/5/attend-paid')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send({
+				intent: '69',
+			});
+		expect(stripeService.refund.mock.calls.length).toEqual(0);
+		await expect(res.body).toEqual({ success: true });
+	});
+	it('should call service and reufnd if it returns false', async () => {
+		eventService.attendEvent = jest.fn().mockImplementation(async () => false);
+		stripeService.refund = jest.fn();
+		const res = await request(index.app)
+			.post('/events/5/attend-paid')
+			.set('Authorization', `Bearer ${await getValidJwt()}`)
+			.send({
+				intent: '69',
+			});
+		expect(stripeService.refund.mock.calls.length).toEqual(1);
+		await expect(res.body).toEqual({ success: false });
+	});
+});
+
 
 describe('testing GET events/', () => {
 	it('should fetch all event', async () => {
