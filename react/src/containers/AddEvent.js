@@ -136,7 +136,7 @@ render = () => (<form className="container">
 			</div>
 
 			<div className="form-group">
-				<label htmlFor="speaker" className="col-form-label">Payment amount</label>
+				<label className="col-form-label">Payment amount</label>
 				<CurrencyInput className="form-control"
 					amount={this.state.price}
 					setAmount={(value) => this.setState({ price: value })}

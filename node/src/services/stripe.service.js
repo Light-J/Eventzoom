@@ -1,11 +1,11 @@
 import stripe from 'stripe';
 import stripeConfig from '../../config/stripe';
 
-const stripeInstance = stripe('sk_test_4SxMLKjI5o0fnnDERCUkwssh00gObh24F7'); // TODO: config me
+const stripeInstance = stripe(stripeConfig.key);
 
 const generatePaymentIntent = async (amount, metadata) => stripeInstance.paymentIntents.create({
 	amount,
-	currency: stripeConfig.currency, // TODO: config me
+	currency: stripeConfig.currency,
 	payment_method_types: ['card'],
 	metadata,
 });
