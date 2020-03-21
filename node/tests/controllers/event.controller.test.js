@@ -9,6 +9,8 @@ import authorizationService from '../../src/services/authorization.service';
 jest.mock('../../src/middleware/isAllowedToView', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
 jest.mock('../../src/middleware/isOwner', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
 jest.mock('../../src/middleware/isStaff', () => jest.fn().mockImplementation((req, res, next) => next()));
+jest.mock('../../src/middleware/isEventPaid', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
+
 jest.mock('../../src/services/authorization.service');
 jest.mock('../../src/services/event.service');
 jest.mock('../../src/services/file.service');
@@ -102,6 +104,7 @@ describe(' testing POST events/', () => {
 			.field('disabilityAccess', '1')
 			.field('organiser', 'John')
 			.field('capacity', 2)
+			.field('price', 0)
 			.field('series', '5e595ce2d8118f0888f56150')
 			.field('date', date.toString());
 		await expect(res.body).toEqual({ success: true });
