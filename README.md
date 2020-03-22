@@ -14,6 +14,22 @@
 * Have a twilio instance set up (details in .env should be good enough)
 * Have a Stripe account set up (Demo details set up in config)
 
+
+### Sample accounts
+#### Non SSO-Account:
+
+user@example.org
+
+hello
+
+#### SSO Accounts
+
+comsc-student@hdimitrov.com
+
+comsc-staff@hdimitrov.com (can add events)
+
+qweasd123! is the password for both
+
 ### Setting up node
 1. Clone the project
 2. CD into `node/ `
