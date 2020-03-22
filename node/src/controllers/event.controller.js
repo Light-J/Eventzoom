@@ -100,9 +100,9 @@ router.get(
 	validator('in', { field: 'direction', matches: ['asc', 'desc'] }),
 	async (req, res) => {
 		try {
-			const term = (req.validated.title || req.validated.speaker).toLowerCase();
+			const term = (req.validated.title || req.validated.speaker);
 			if (term) {
-				await logService.logOccurence('search', { term });
+				await logService.logOccurence('search', { term: term.toLowerCase() });
 			}
 			const events = await EventService.getEventsAdvanced(
 				req.validated,
