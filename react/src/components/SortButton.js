@@ -24,9 +24,9 @@ class SortButton extends Component {
 				{this.buttonString()}
 			</button>
 			<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a className="dropdown-item" href="#" onClick={() => this.props.selectSort('attendees', 'asc')}>{this.strings.attendeesasc}</a>
-				<a className="dropdown-item" href="#" onClick={() => this.props.selectSort('attendees', 'desc')}>{this.strings.attendeesdesc}</a>
-				<a className="dropdown-item" href="#" onClick={() => this.props.selectSort('date', 'asc')}>{this.strings.dateasc}</a>
+				<button className="dropdown-item" href="#" onClick={() => this.props.selectSort('attendees', 'asc')}>{this.strings.attendeesasc}</button>
+				<button className="dropdown-item" href="#" onClick={() => this.props.selectSort('attendees', 'desc')}>{this.strings.attendeesdesc}</button>
+				<button className="dropdown-item" href="#" onClick={() => this.props.selectSort('date', 'asc')}>{this.strings.dateasc}</button>
 			</div>
 		</div>
 	</div>

@@ -11,6 +11,24 @@
 * Have a REDIS server set up (for now, the details provided in .env should be good enough)
 * Have a SAML provider configured that provides a name, email and role attribute (for noe, the defaults should be good enough)
 * A disqus instance (for now, a default is provided)
+* Have a twilio instance set up (details in .env should be good enough)
+* Have a Stripe account set up (Demo details set up in config)
+
+
+### Sample accounts
+#### Non SSO-Account:
+
+user@example.org
+
+hello
+
+#### SSO Accounts
+
+comsc-student@hdimitrov.com
+
+comsc-staff@hdimitrov.com (can add events)
+
+qweasd123! is the password for both
 
 ### Setting up node
 1. Clone the project

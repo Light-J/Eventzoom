@@ -15,6 +15,9 @@ const EventSchema = new mongoose.Schema({
 	series: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Series' },
 	attendees: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, reminding: { type: Boolean } }],
 	filterable: { ...filterableFields },
+	price: {
+		type: Number, required: true, min: [0, 'Negative prices aren\'t allowed'], default: 0,
+	},
 	attachments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Attachment' }],
 });
 
