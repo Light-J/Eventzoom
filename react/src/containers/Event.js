@@ -152,9 +152,12 @@ export class Event extends Component {
 										<AttendButton
 											full={this.state.capacity === this.state.attendeesAmount}
 											userAttending={this.state.attending}
+											price={this.state.price}
 											userCancelled={this.state.userCancelled}
 											onAttendChange={this.onAttendChange}
-											userReminding={this.state.reminding} />
+											userReminding={this.state.reminding}
+											eventId={this.props.eventId}
+										/>
 										<div className="mt-2">
 											<Conditional if={this.state.attending && this.props.user.phoneNumber}>
 												<RemindMeSwitch

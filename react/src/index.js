@@ -21,7 +21,7 @@ axios.get(`${serverConfig.url}users/me`).then((response) => {
 	if (response.data.user) {
 		store.dispatch(setUser(response.data.user));
 	}
-});
+}).catch(() => {});
 
 ReactDOM.render(
 	<Router>
