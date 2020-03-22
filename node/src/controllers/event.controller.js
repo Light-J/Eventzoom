@@ -79,7 +79,7 @@ router.get(
 		try {
 			const { query } = req.query;
 			if (query) {
-				await logService.logOccurence('search', { term: query });
+				await logService.logOccurence('search', { term: query.toLowerCase() });
 			}
 			const events = await EventService.getEvents(query, req.query.sort, req.query.direction);
 			return res.send(authorizationService.filterInaccessible(events, req.user));
@@ -100,7 +100,7 @@ router.get(
 	validator('in', { field: 'direction', matches: ['asc', 'desc'] }),
 	async (req, res) => {
 		try {
-			const term = req.validated.title || req.validated.speaker;
+			const term = (req.validated.title || req.validated.speaker).toLowerCase();
 			if (term) {
 				await logService.logOccurence('search', { term });
 			}
