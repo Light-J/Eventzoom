@@ -187,7 +187,7 @@ exports.up = async function (db) {
     title: "Cat test series 1",
     description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     image: "https://i.imgur.com/WsxRdVG.jpg",
-    events: [mongoose.Types.ObjectId('5e595ce2d8118f0888f56163'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56164')],
+    events: [mongoose.Types.ObjectId('5e595ce2d8118f0888f56163'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56164'), mongoose.Types.ObjectId('5e595ce2d8118f0888f56589')],
     user: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
   });
 
@@ -214,6 +214,7 @@ exports.up = async function (db) {
     series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56150'),
     date: new Date("2020-04-28T14:00:00.000Z"),
   });
+
   await db.insert('events', {
     _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56164'),
     title: "Cat Test Event 2",
@@ -229,6 +230,22 @@ exports.up = async function (db) {
     date: new Date("2020-04-25T17:00:00.000Z"),
   });
 
+
+  await db.insert('events', {
+    _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56589'),
+    title: "Expensive event!",
+    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    image: "https://i.imgur.com/vgZrB5U.jpg",
+    price: 5000,
+    speaker: "Cat-lanister",
+    vagueLocation: "Cardiff",
+    specificLocation: "10 Street, Cardiff, CF23 4QS",
+    disabilityAccess: false,
+    organiser: mongoose.Types.ObjectId('5e595ce2d8118f0888f56140'),
+    capacity: 46,
+    series: mongoose.Types.ObjectId('5e595ce2d8118f0888f56150'),
+    date: new Date("2020-04-25T17:00:00.000Z"),
+  });
   await db.insert('events', {
     _id: mongoose.Types.ObjectId('5e595ce2d8118f0888f56165'),
     title: "Are fat cats evil?",

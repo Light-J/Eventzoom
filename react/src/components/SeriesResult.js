@@ -21,7 +21,7 @@ class SeriesResult extends Component {
 	render = () => <div className="col">
 		<Link className="text-decoration-none text-reset" to={`/series/${this.props.id}`} >
 			<div className="card" style={{ height: `${this.props.height}px` }}>
-				<img className={`card-img-top ${classes.restrictImageMobile}`} src={this.props.image} alt="Card image cap" />
+				<img className={`card-img-top ${classes.restrictImageMobile}`} src={this.props.image} alt="Card cap" />
 				<div className="card-body" style={{ height: `${this.props.height}px` }}>
 					<h5 className="card-title">{this.props.title}</h5>
 					<p className="card-text">{this.props.description}</p>
