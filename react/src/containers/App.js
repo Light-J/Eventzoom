@@ -13,6 +13,7 @@ import Jwt from './Jwt';
 import AddEvent from './AddEvent';
 import Conditional from '../components/Conditional';
 import Subscriptions from './Subscriptions';
+import Statistics from './Statistics';
 import Profile from './Profile';
 import EventAdmin from './EventAdmin';
 
@@ -43,6 +44,7 @@ class App extends Component {
 			>
 				<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
 				<Route exact path="/add-event" render={(props) => <AddEvent {...props} />} />
+				<Route exact path="/statistics" render={(props) => <Statistics {...props} />} />
 				<Route exact path="/events/admin/:eventId" component={(props) => <EventAdmin {...props.match.params} /> } />
 			</Conditional>
 			<Route exact path="/profile" render={(props) => <Profile {...props} />} />

@@ -4,7 +4,7 @@ import cors from 'cors';
 import Mongoose from 'mongoose';
 import winston from 'winston';
 import clientConfig from '../config/client';
-import hello from './controllers/hello';
+import statistics from './controllers/statistics.controller';
 import events from './controllers/event.controller';
 import users from './controllers/users.controller';
 import series from './controllers/series.controller';
@@ -23,11 +23,11 @@ passport.initPassport(app);
 app.use(cors({ origin: clientConfig.url }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // TODO: probably don't need this
-app.use('/hello', hello);
 app.use('/events', events);
 app.use('/users', users);
 app.use('/series', series);
 app.use('/emails', email);
+app.use('/statistics', statistics);
 
 
 app.get('/', (req, res) => {
