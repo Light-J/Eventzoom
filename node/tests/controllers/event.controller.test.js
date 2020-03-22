@@ -11,6 +11,7 @@ jest.mock('../../src/middleware/isAllowedToView', () => jest.fn().mockImplementa
 jest.mock('../../src/middleware/isOwner', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
 jest.mock('../../src/middleware/isStaff', () => jest.fn().mockImplementation((req, res, next) => next()));
 jest.mock('../../src/middleware/isValidPayment', () => jest.fn().mockImplementation((req, res, next) => next()));
+jest.mock('../../src/middleware/isValidAttendance', () => jest.fn().mockImplementation((req, res, next) => next()));
 
 jest.mock('../../src/middleware/isEventPaid', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
 

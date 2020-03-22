@@ -15,6 +15,7 @@ import hasCorrectToken from '../middleware/hasCorrectToken';
 import isValidPayment from '../middleware/isValidPayment';
 import isEventPaid from '../middleware/isEventPaid';
 import logService from '../services/log.service';
+import isValidAttendance from '../middleware/isValidAttendance';
 
 
 const router = express.Router();
@@ -43,6 +44,7 @@ router.post(
 	isAllowedToView(Event, 'id'),
 	isEventPaid(true),
 	isValidPayment,
+	isValidAttendance,
 	async (req, res) => {
 		const result = await EventService.attendEvent(req.params.id, req.user, true);
 		if (!result) {
@@ -237,6 +239,7 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	isAllowedToView(Event, 'id'),
 	isEventPaid(false),
+	isValidAttendance,
 	async (req, res) => {
 		try {
 			const result = await EventService.attendEvent(req.params.id, req.user, req.validated.attend);
@@ -267,6 +270,7 @@ router.get(
 	'/:id/user-attending',
 	passport.authenticate('jwt', { session: false }),
 	isAllowedToView(Event, 'id'),
+
 	async (req, res) => {
 		try {
 			return res.send(await EventService.userAttending(req.params.id, req.user));

@@ -17,10 +17,14 @@ export class AttendButton extends React.Component {
 		onAttendChange: PropTypes.func,
 		eventId: PropTypes.string.isRequired,
 		price: PropTypes.number.isRequired,
+		date: PropTypes.string.isRequired,
 	};
 
 
 	render() {
+		if (new Date(this.props.date) < new Date()) {
+			return <button className="btn btn-info btn-lg btn-block">Event is now over</button>;
+		}
 		if (this.props.userCancelled) {
 			return <button className="btn btn-info btn-lg btn-block">You have successfully cancelled</button>;
 		}

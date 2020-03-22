@@ -157,6 +157,7 @@ export class Event extends Component {
 											onAttendChange={this.onAttendChange}
 											userReminding={this.state.reminding}
 											eventId={this.props.eventId}
+											date={this.state.date}
 										/>
 										<div className="mt-2">
 											<Conditional if={this.state.attending && this.props.user.phoneNumber}>
