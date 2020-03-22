@@ -73,6 +73,7 @@
     "redis": "^3.0.2",
     "regenerator-runtime": "^0.13.3",
     "string-similarity": "^4.0.1",
+    "stripe": "^8.33.0",
     "twilio": "^3.40.0",
     "uuid": "^3.4.0",
     "winston": "^3.2.1"
