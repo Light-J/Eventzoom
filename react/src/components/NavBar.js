@@ -17,17 +17,17 @@ export class NavBar extends Component {
 		</button>
 		<div className="collapse navbar-collapse" id="nav-collapse">
 			<ul className="navbar-nav mr-auto">
-				<li className="nav-item active">
-					<Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
+				<li className="nav-item">
+					<Link className="nav-link" to="/">Home</Link>
 				</li>
 				<Conditional if={!this.props.user}>
 					<li className="nav-item">
-						<Link className="nav-link" to="/register">Registration <span className="sr-only">(current)</span></Link>
+						<Link className="nav-link" to="/register">Registration</Link>
 					</li>
 				</Conditional>
 				<Conditional if={this.props.user}>
 					<li className="nav-item">
-						<Link className="nav-link" to="/subscriptions">My Subscriptions <span className="sr-only">(current)</span></Link>
+						<Link className="nav-link" to="/subscriptions">My Subscriptions</Link>
 					</li>
 					<Conditional if={
 						this.props.user
@@ -38,15 +38,19 @@ export class NavBar extends Component {
 							<Link className="nav-link" to="/add-series">Add Series</Link>
 						</li>
 						<li className="nav-item">
-							<Link className="nav-link" to="/add-event">Add Event <span className="sr-only">(current)</span></Link>
+							<Link className="nav-link" to="/add-event">Add Event</Link>
 						</li>
+						<li className="nav-item">
+							<Link className="nav-link" to="/statistics">Statistics</Link>
+						</li>
+
 					</Conditional>
 				</Conditional>
 			</ul>
 			<ul className="navbar-nav">
 				<li className="nav-item">
 					{
-						this.props.user ? <Link className="nav-link" to="/profile"> { this.props.user.email } <span className="sr-only">(current)</span></Link> : <Link className="nav-link" to="/login">Login <span className="sr-only">(current)</span></Link>
+						this.props.user ? <Link className="nav-link" to="/profile"> { this.props.user.email }</Link> : <Link className="nav-link" to="/login">Login</Link>
 					}
 				</li>
 				<Conditional if={this.props.user}>
