@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing logOccurence should run successfully 1`] = `
+Array [
+  Object {
+    "data": "test",
+    "event": "test",
+    "referencedEvent": null,
+  },
+]
+`;
