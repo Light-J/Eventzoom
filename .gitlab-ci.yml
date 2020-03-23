@@ -20,16 +20,20 @@ node-test:
    - cd node/
    - npm i
    - npm run seed
-   - npm run test -- --runInBand
+   - npm run test -- --runInBand --coverage
    - npm run lint
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+
 
 react-test:
   stage: test
   script:
    - cd react/
    - npm i
-   - npm test
+   - npm test -- --coverage
    - npm run lint
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+
 
 
 react-deploy:
