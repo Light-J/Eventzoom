@@ -17,7 +17,9 @@ describe('tests typing in search sidebar', () => {
 				search={search}
 				updateDates={updateDate}
 				startDate={date}
-				endDate={date}/>,
+				endDate={date}
+				toggle={jest.fn}/>
+			,
 		);
 		wrapper.find('input').first().simulate('change', { target: { value: 'test' } });
 		expect(updateInput.mock.calls.length).toBe(1);
@@ -33,9 +35,11 @@ describe('tests typing in search sidebar', () => {
 				search={search}
 				updateDates={updateDate}
 				startDate={date}
-				endDate={date}/>,
+				endDate={date}
+				toggle={jest.fn()}/>
+			,
 		);
-		wrapper.find('button').first().simulate('click');
+		wrapper.find('button').at(1).simulate('click');
 		expect(search.mock.calls.length).toBe(1);
 	});
 });

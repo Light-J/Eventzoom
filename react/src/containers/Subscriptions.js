@@ -21,7 +21,7 @@ class Subscriptions extends Component {
 
 	render = () => <div className="container mt-3">
 		<Conditional if={this.state.subscriptions.length === 0}>
-			<h1>No Subscriptions available</h1>
+			<h1>Please use the search page to subscribe to more series.</h1>
 		</Conditional>
 		{this.state.subscriptions.map((series) => <Subscription
 			key={series._id}
