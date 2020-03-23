@@ -31,6 +31,7 @@ class SubscribeSeriesButton extends Component {
 			.then(() => {
 				this.setState({ isSubscribed: !this.state.isSubscribed });
 				loadUser.refreshUser();
+				window.location.reload(); // makes sure weird one time bug doesn't happen
 			});
 	};
 
