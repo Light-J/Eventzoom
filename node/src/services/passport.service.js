@@ -5,9 +5,13 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import { Strategy as AnonymousStrategy } from 'passport-anonymous';
+// import { Strategy as GoogleStrategy } from 'passport-google-oauth';
 import authConfig from '../../config/auth';
 import userService from './user.service';
 import userModel from '../models/user.model';
+import googleConfig from '../../config/google';
+
+var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
 
 const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
@@ -83,6 +87,15 @@ const initPassport = (app) => {
 			done(null, samlUser);
 		}),
 	));
+	passport.use(new GoogleStrategy({
+		consumerKey: googleConfig.clientId,
+		consumerSecret: googleConfig.clientSecret,
+		callbackURL: googleConfig.callbackUrl,
+	},
+	((accessToken, refreshToken, profile, done) => {
+		User.findOrCreate({ googleId: profile.id }, (err, user) => done(err, user));
+	})));
 };
+
 
 export default { getJwtToken, initPassport };

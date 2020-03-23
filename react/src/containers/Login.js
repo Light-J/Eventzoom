@@ -43,6 +43,10 @@ export class Login extends React.Component {
 		window.location.href = `${serverConfig.url}users/saml/login`;
 	}
 
+	googleSignIn = () => {
+		window.location.href = `${serverConfig.url}users/auth/google`;
+	}
+
 	render() {
 		if (!this.props.user) {
 			return (
@@ -55,6 +59,8 @@ export class Login extends React.Component {
 						</Conditional>
 						<h1>Login</h1>
 						<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
+						<button type="button" className="btn btn-info mb-2" onClick={this.googleSignIn}>Log in with google</button>
+
 						<div className="form-group">
 							<label htmlFor="staticUsername" className="col-form-label">Username</label>
 							<input className="form-control" type="username" name="username" placeholder="Username" value={this.state.username} onChange={this.handleChange} required/>
