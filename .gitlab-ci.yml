@@ -32,7 +32,6 @@ react-test:
    - npm i
    - npm test -- --coverage
    - npm run lint
-  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
 
 
 
