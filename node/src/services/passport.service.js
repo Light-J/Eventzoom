@@ -5,13 +5,13 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import { Strategy as AnonymousStrategy } from 'passport-anonymous';
-// import { Strategy as GoogleStrategy } from 'passport-google-oauth';
+import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import authConfig from '../../config/auth';
 import userService from './user.service';
 import userModel from '../models/user.model';
 import googleConfig from '../../config/google';
 
-var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
+// const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
@@ -88,12 +88,15 @@ const initPassport = (app) => {
 		}),
 	));
 	passport.use(new GoogleStrategy({
-		consumerKey: googleConfig.clientId,
-		consumerSecret: googleConfig.clientSecret,
+		clientID: googleConfig.clientId,
+		clientSecret: googleConfig.clientSecret,
 		callbackURL: googleConfig.callbackUrl,
 	},
 	((accessToken, refreshToken, profile, done) => {
-		User.findOrCreate({ googleId: profile.id }, (err, user) => done(err, user));
+		console.log(profile._json.email);
+		const user = { email: profile };
+		done('error', user);
+		// User.findOrCreate({ googleId: profile.id }, (err, user) => done(err, user));
 	})));
 };
 
