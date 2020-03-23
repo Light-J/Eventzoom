@@ -5,8 +5,7 @@ import { Provider } from 'react-redux';
 import { HashRouter as Router } from 'react-router-dom';
 import App from './containers/App';
 import configureStore from './store/store';
-import { setUser } from './store/actions/actions';
-import serverConfig from './config/server';
+import loadUser from './utils/loadUser';
 import './scss/main.scss';
 
 axios.interceptors.request.use((config) => {
@@ -16,12 +15,8 @@ axios.interceptors.request.use((config) => {
 });
 
 const store = configureStore();
-
-axios.get(`${serverConfig.url}users/me`).then((response) => {
-	if (response.data.user) {
-		store.dispatch(setUser(response.data.user));
-	}
-}).catch(() => {});
+loadUser.setStore(store);
+loadUser.refreshUser();
 
 ReactDOM.render(
 	<Router>
