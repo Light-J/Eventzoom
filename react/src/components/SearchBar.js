@@ -13,7 +13,7 @@ class SearchBar extends Component {
 	render = () => <div>
 		<div className="input-group">
 			<span className="input-group-prepend">
-				<button onClick={this.props.toggle} className="btn btn-info" type="button"><FontAwesomeIcon icon={faFilter}/></button>
+				<button onClick={this.props.toggle} className="btn btn-info" type="button"><FontAwesomeIcon icon={faFilter}/> Advanced Search</button>
 			</span>
 			<input type="text" className="form-control" onChange={(event) => this.props.updateQuery(event)} />
 			<span className="input-group-append">

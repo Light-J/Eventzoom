@@ -12,11 +12,15 @@ class SearchSidebar extends Component {
 		search: PropTypes.func.isRequired,
 		startDate: PropTypes.object.isRequired,
 		endDate: PropTypes.object.isRequired,
+		toggle: PropTypes.func.isRequired,
 	};
 
 	render = () => <div className="card">
-		<div className="card-header">Search</div>
+		<div className="card-header">Advanced Search</div>
 		<div className="card-body">
+			<button className="btn btn-success btn-block mb-2" onClick={this.props.toggle}>
+				Back to basic search
+			</button>
 			Talk title:
 			<input type="text" className="form-control" placeholder="My new horse" id="title" onChange={(event) => this.props.updateInput(event)} />
 			Speaker:
