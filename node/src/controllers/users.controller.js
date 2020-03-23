@@ -97,12 +97,12 @@ router.post('/saml/callback', passport.authenticate('saml', {
 });
 
 router.get('/auth/google',
-	passport.authenticate('google', { scope: ['profile', 'email'] }));
+	passport.authenticate('google', { scope: ['profile', 'email', 'https://www.googleapis.com/auth/user.phonenumbers.read'] }));
 
 router.get('/auth/google/callback',
 	passport.authenticate('google', { failureRedirect: '/' }),
-	(req, res) => {
-		res.redirect('/');
+	async (req, res) => {
+		res.redirect(`${clientConfig.url}#/jwt/${await passportJs.getJwtToken(req.user.id)}`);
 	});
 
 router.get('/me/attending', passport.authenticate('jwt'), async (req, res) => {

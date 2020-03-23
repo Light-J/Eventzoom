@@ -92,11 +92,16 @@ const initPassport = (app) => {
 		clientSecret: googleConfig.clientSecret,
 		callbackURL: googleConfig.callbackUrl,
 	},
-	((accessToken, refreshToken, profile, done) => {
-		console.log(profile._json.email);
-		const user = { email: profile };
-		done('error', user);
-		// User.findOrCreate({ googleId: profile.id }, (err, user) => done(err, user));
+	(async (accessToken, refreshToken, profile, done) => {
+		try {
+			const email = profile.emails[0].value;
+			const user = await userModel.findOneAndUpdate({ email },
+				{ email, filterable: { public: true } },
+				{ new: true, upsert: true });
+			done(null, user);
+		} catch (e) {
+			done(e, null);
+		}
 	})));
 };
 
