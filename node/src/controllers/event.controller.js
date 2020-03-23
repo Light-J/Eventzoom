@@ -124,11 +124,17 @@ router.get(
 	isAllowedToView(Event, 'id'),
 	async (req, res) => {
 		try {
+			var eventData;
 			const event = await EventService.getEventById(req.params.id);
 			await logService.logOccurence('visit', {}, event._id);
 			// eslint-disable-next-line max-len
 			event.series = authorizationService.canAccessResource(event.series, req.user) ? event.series : null;
-			return res.send(event);
+			if (req.headers.authorization != 'Bearer null') {
+				eventData = event.tolocationlogin();
+			} else {
+				eventData = event.toJSON();
+			}
+			return res.send(eventData);
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });
 		}
