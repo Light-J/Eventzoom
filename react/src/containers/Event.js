@@ -133,7 +133,7 @@ export class Event extends Component {
 										<DisabilityAccess disabilityAccess={this.state.disabilityAccess} />
 										<p>Date: {new Date(this.state.date).toLocaleString()}</p>
 										<p>Speaker: {this.state.speaker}</p>
-										<p>Location: {this.state.vagueLocation}</p>
+										<p>Location: {this.state.location}</p>
 										{
 											this.state.organiser
 												? <p>Organiser:
