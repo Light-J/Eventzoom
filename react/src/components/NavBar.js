@@ -27,7 +27,7 @@ export class NavBar extends Component {
 				</Conditional>
 				<Conditional if={this.props.user}>
 					<li className="nav-item">
-						<Link className="nav-link" to="/subscriptions">My Subscriptions</Link>
+						<Link className="nav-link" to="/search">Search</Link>
 					</li>
 					<Conditional if={
 						this.props.user

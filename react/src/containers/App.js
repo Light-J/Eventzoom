@@ -12,10 +12,10 @@ import Series from './Series';
 import Jwt from './Jwt';
 import AddEvent from './AddEvent';
 import Conditional from '../components/Conditional';
-import Subscriptions from './Subscriptions';
 import Statistics from './Statistics';
 import Profile from './Profile';
 import EventAdmin from './EventAdmin';
+import Home from './Home';
 
 class App extends Component {
 	static propTypes = {
@@ -26,7 +26,7 @@ class App extends Component {
 	render = () => <div>
 		<NavBar />
 		<Route exact path="/" >
-			<Search />
+			<Home />
 		</Route>
 		<Route exact path="/events/:eventId" component={(props) => <Event {...props.match.params} /> } />
 
@@ -35,8 +35,8 @@ class App extends Component {
 		<Route exact path="/register" render={(props) => <Registration {...props} />} />
 		<Route exact path="/series/:seriesId" render={(props) => <Series {...props.match.params} />} />
 		<Route exact path="/login" render={(props) => <Login {...props} />} />
-		<Route exact path="/subscriptions" render={() => <Subscriptions />} />
 		<Conditional if={this.props.isLoggedIn}>
+			<Route exact path="/search" render={() => <Search />} />
 			<Conditional if={
 				this.props.user
 				&& this.props.user.filterable

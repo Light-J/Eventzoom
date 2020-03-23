@@ -6,7 +6,7 @@ import { faRss } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import serverConfig from '../config/server';
-
+import loadUser from '../utils/loadUser';
 
 class SubscribeSeriesButton extends Component {
 	static propTypes = {
@@ -30,6 +30,8 @@ class SubscribeSeriesButton extends Component {
 			{ seriesId: this.props.seriesId })
 			.then(() => {
 				this.setState({ isSubscribed: !this.state.isSubscribed });
+				loadUser.refreshUser();
+				window.location.reload(); // makes sure weird one time bug doesn't happen
 			});
 	};
 
