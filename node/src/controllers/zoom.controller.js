@@ -17,10 +17,8 @@ const router = express.Router();
 // looselsy based on https://github.com/zoom/zoom-oauth-sample-app
 // accessed 24 March 2020
 
-// most of this could be done on the front end, in fact it might be better
-// so you don't have to do the weird JWT stuff i'm doing
-// this is done server-side because it's a bit easier to read for someone
-// that doesn't understand oauth that much
+// most of this fuckery can be done on the front end if i wasn't using hashrouter
+// for s3's sake
 router.get(
 	'/',
 	passport.authenticate('jwt-query'),
