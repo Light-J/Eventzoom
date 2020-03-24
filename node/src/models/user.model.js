@@ -12,7 +12,6 @@ const UserSchema = new mongoose.Schema({
 	sso: { type: Boolean, required: false },
 	filterable: { ...filterableFields },
 	phoneNumber: { type: String, required: false },
-	provider: { type: String, required: false },
 });
 
 UserSchema.plugin(uniqueEnforce);
