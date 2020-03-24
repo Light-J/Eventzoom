@@ -7,9 +7,6 @@ const router = express.Router();
 
 // looselsy based on https://github.com/zoom/zoom-oauth-sample-app
 // accessed 24 March 2020
-
-// most of this fuckery can be done on the front end if i wasn't using hashrouter
-// for s3's sake
 router.get(
 	'/',
 	passport.authenticate('jwt-query'),
@@ -27,7 +24,18 @@ router.get(
 			req.query.code,
 		);
 		await userService.setUserProfileById(req.user._id, { zoom: { refreshToken } });
-		res.send('hello');
+		// this is where the sensible part of this ends
+		return res.send(await zoomService.getAccessToken(req.user));
+	},
+);
+
+
+router.get(
+	'/test',
+	passport.authenticate('jwt-query'),
+	async (req, res) => {
+		await zoomService.createMeeting(req.user);
+		return res.send(await zoomService.getMeetings(req.user));
 	},
 );
 export default router;

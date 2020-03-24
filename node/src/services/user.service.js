@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import User from '../models/user.model';
-
 const createUser = async (user) => {
 	let userToRegister;
 	if (user.password) {
@@ -44,8 +43,6 @@ const setUserProfileById = async (id, user) => {
 		throw Error('Error while setting profile for single user');
 	}
 };
-
-
 const getAllUsers = async () => User.find({});
 export default {
 	createUser, getUserByEmail, getUserById, setUserPasswordById, setUserProfileById, getAllUsers,
