@@ -59,7 +59,11 @@ export class Login extends React.Component {
 						</Conditional>
 						<h1>Login</h1>
 						<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
-
+						<buton className="btn btn-light" role="button" style={{ textDecoration: 'none' }} onClick={this.googleSignIn}>
+							<img width="20px" style={{ marginBottom: '3px', marginRight: '5px' }} alt="Google sign-in"
+								src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+							Sign in with Google
+						</buton>
 						<div className="form-group">
 							<label htmlFor="staticUsername" className="col-form-label">Username</label>
 							<input className="form-control" type="username" name="username" placeholder="Username" value={this.state.username} onChange={this.handleChange} required/>
@@ -69,19 +73,7 @@ export class Login extends React.Component {
 							<input className="form-control" type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
 						</div>
 						<div>
-							<div className="row">
-								<div className="col-md-1">
-									<button className="btn btn-success" onClick={this.submitForm}>Login</button>
-								</div>
-								<div className="col-md-3">
-									<buton className="btn btn-light" role="button" style={{ textDecoration: 'none' }} onClick={this.googleSignIn}>
-										<img width="20px" style={{ marginBottom: '3px', marginRight: '5px' }} alt="Google sign-in"
-											src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
-										Login with Google
-									</buton>
-								</div>
-							</div>
-
+							<button className="btn btn-success" onClick={this.submitForm}>Login</button>
 						</div>
 					</div>
 				</form>
