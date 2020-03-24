@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
 	sso: { type: Boolean, required: false },
 	filterable: { ...filterableFields },
 	phoneNumber: { type: String, required: false },
+	zoom: { refreshToken: { type: String, required: false } },
 });
 
 UserSchema.plugin(uniqueEnforce);

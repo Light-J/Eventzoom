@@ -34,6 +34,19 @@ const getJwtToken = async (userId, expiry = 3600) => jwt.sign({ id: userId },
 		expiresIn: expiry,
 	});
 
+const jwtRetrieve = async (jwtPayload, done) => {
+	try {
+		const user = await userService.getUserById(jwtPayload.id);
+		if (user) {
+			done(null, user);
+		} else {
+			done(null, false);
+		}
+	} catch (err) {
+		done(err);
+	}
+};
+
 const initPassport = (app) => {
 	app.use(passport.initialize());
 	app.use(passport.session());
@@ -50,18 +63,15 @@ const initPassport = (app) => {
 	passport.use(new AnonymousStrategy());
 	passport.use(
 		'jwt',
-		new JwtStrategy(JwtOptions, async (jwtPayload, done) => {
-			try {
-				const user = await userService.getUserById(jwtPayload.id);
-				if (user) {
-					done(null, user);
-				} else {
-					done(null, false);
-				}
-			} catch (err) {
-				done(err);
-			}
-		}),
+		new JwtStrategy(JwtOptions, jwtRetrieve),
+	);
+
+	// used for weird redirecty things
+	// like the zoom controller
+	const jwtQueryOptions = { ...JwtOptions, jwtFromRequest: ExtractJwt.fromUrlQueryParameter('jwt') };
+	passport.use(
+		'jwt-query',
+		new JwtStrategy(jwtQueryOptions, jwtRetrieve),
 	);
 	passport.use(new SamlStrategy(
 		{
