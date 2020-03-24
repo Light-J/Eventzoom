@@ -97,7 +97,7 @@ router.post('/saml/callback', passport.authenticate('saml', {
 });
 
 router.get('/auth/google',
-	passport.authenticate('google', { scope: ['profile', 'email', 'https://www.googleapis.com/auth/user.phonenumbers.read'] }));
+	passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/auth/google/callback',
 	passport.authenticate('google', { failureRedirect: '/' }),

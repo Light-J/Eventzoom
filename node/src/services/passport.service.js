@@ -11,8 +11,6 @@ import userService from './user.service';
 import userModel from '../models/user.model';
 import googleConfig from '../../config/google';
 
-// const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
 const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
 	if (!user) { return done(null, false); }
