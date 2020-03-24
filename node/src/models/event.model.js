@@ -44,16 +44,15 @@ EventSchema.methods.toJSON = function retractAttendeesList() {
 	object.attendeesAmount = object.attendees.length;
 	delete object.attendees;
 	delete object.specificLocation;
-	object.location = object.vagueLocation
+	object.location = object.vagueLocation;
 	return object;
 };
 
 EventSchema.methods.tolocationlogin = function retractAttendeesList() {
 	const object = this.toObject();
-	object.attendeesAmount = object.attendees.length;
 	delete object.attendees;
 	delete object.vagueLocation;
-	object.location = object.specificLocation
+	object.location = object.specificLocation;
 	return object;
 };
 

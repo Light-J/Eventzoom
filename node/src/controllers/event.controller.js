@@ -123,13 +123,13 @@ router.get(
 	passport.authenticate(['jwt', 'anonymous'], { session: false }),
 	isAllowedToView(Event, 'id'),
 	async (req, res) => {
+		let eventData;
 		try {
-			var eventData;
 			const event = await EventService.getEventById(req.params.id);
 			await logService.logOccurence('visit', {}, event._id);
 			// eslint-disable-next-line max-len
 			event.series = authorizationService.canAccessResource(event.series, req.user) ? event.series : null;
-			if (req.headers.authorization != 'Bearer null') {
+			if (req.headers.authorization !== 'Bearer null') {
 				eventData = event.tolocationlogin();
 			} else {
 				eventData = event.toJSON();
