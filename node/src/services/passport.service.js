@@ -93,8 +93,9 @@ const initPassport = (app) => {
 	(async (accessToken, refreshToken, profile, done) => {
 		try {
 			const email = profile.emails[0].value;
+			const name = profile.displayName;
 			const user = await userModel.findOneAndUpdate({ email },
-				{ email, filterable: { public: true } },
+				{ email, name, filterable: { public: true } },
 				{ new: true, upsert: true });
 			done(null, user);
 		} catch (e) {
