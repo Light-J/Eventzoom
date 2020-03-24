@@ -1,8 +1,8 @@
 import express from 'express';
 import axios from 'axios';
 
-const clientId = 'tTT3scdPRMSFg8AyhPdwA';
-const clientSecret = 'gtIwfzHh5bgUsQ0w2l54ExS0Gja5Wqvd';
+const clientId = 'rsWDemq2RKS8FMoKO7GkQ';
+const clientSecret = 'TgzoCdjZxwTdndiq5Huf1t55qnw1ALzo';
 const zoomAxios = axios.create({
 	auth: {
 		username: clientId,
