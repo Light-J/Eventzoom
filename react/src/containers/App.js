@@ -31,6 +31,7 @@ class App extends Component {
 		<Route exact path="/events/:eventId" component={(props) => <Event {...props.match.params} /> } />
 
 		<Route exact path="/jwt/:jwt" component={(props) => <Jwt {...props.match.params} /> } />
+		<Route exact path="/jwt/:jwt/:eventId" component={(props) => <Jwt {...props.match.params} /> } />
 
 		<Route exact path="/register" render={(props) => <Registration {...props} />} />
 		<Route exact path="/series/:seriesId" render={(props) => <Series {...props.match.params} />} />
