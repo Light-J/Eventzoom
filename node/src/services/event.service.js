@@ -10,6 +10,9 @@ import recommendationsConfig from '../../config/recommendations';
 import Attachment from '../models/attachment.model';
 import fileService from './file.service';
 import textService from './text.service';
+import urlService from './url.service';
+import clientConfig from '../../config/client';
+import passportService from './passport.service';
 
 
 // eslint-disable-next-line max-len
@@ -162,8 +165,12 @@ const sendReminders = async (eventId) => {
 		const strTime = `${hours}:${minutes}${ampm}`;
 		await Promise.all(event.attendees.map(async (attendee) => {
 			if (attendee.reminding) {
+				const eventUrl = `${clientConfig.url}/#/jwt/${await passportService.getJwtToken(attendee.user._id, 86400)}/${event._id}`;
 				await textService.sendText(attendee.user.phoneNumber,
-					`Event reminder, ${event.title} is today  at ${strTime}. Location: ${event.specificLocation}`);
+					// weird indentation because the spaces get sent over text.
+					`Event reminder, ${event.title} is today  at ${strTime}.
+Location: ${event.specificLocation}.
+More info: ${await urlService.shorten(eventUrl)}`);
 			}
 			return true;
 		}));

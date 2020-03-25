@@ -26,9 +26,11 @@ const JwtOptions = {
 	secretOrKey: authConfig.key,
 };
 
-const getJwtToken = async (userId) => jwt.sign({ id: userId }, JwtOptions.secretOrKey, {
-	expiresIn: 60 * 60,
-});
+const getJwtToken = async (userId, expiry = 3600) => jwt.sign({ id: userId },
+	JwtOptions.secretOrKey,
+	{
+		expiresIn: expiry,
+	});
 
 const initPassport = (app) => {
 	app.use(passport.initialize());
