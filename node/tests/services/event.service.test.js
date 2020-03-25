@@ -4,6 +4,8 @@ import attachmentModel from '../../src/models/attachment.model';
 import eventService from '../../src/services/event.service';
 import emailService from '../../src/services/email.service';
 import authorizationService from '../../src/services/authorization.service';
+import passportService from '../../src/services/passport.service';
+import urlService from '../../src/services/url.service';
 import kmeans from '../../src/services/kmeans.service';
 import fileService from '../../src/services/file.service';
 import textService from '../../src/services/text.service';
@@ -378,9 +380,14 @@ describe('testing send event reminder', () => {
 
 			})),
 		};
+		passportService.getJwtToken = jest.fn().mockImplementation(async () => '5');
+		urlService.shorten = jest.fn().mockImplementation(async () => '5');
 		eventModel.findById = jest.fn().mockImplementation(() => result);
 		await eventService.sendReminders('123');
 		await expect(eventModel.findById.mock.calls.length).toEqual(1);
+		await expect(passportService.getJwtToken.mock.calls.length).toEqual(1);
+		await expect(urlService.shorten.mock.calls.length).toEqual(1);
+
 		await expect(textService.sendText.mock.calls.length).toEqual(1);
 	});
 	it('should run successfully but not send texts', async () => {
