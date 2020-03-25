@@ -13,6 +13,7 @@
 * A disqus instance (for now, a default is provided)
 * Have a twilio instance set up (details in .env should be good enough)
 * Have a Stripe account set up (Demo details set up in config)
+* A bit.ly generic API token (one in config is fine)
 
 
 ### Sample accounts
