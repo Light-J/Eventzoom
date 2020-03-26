@@ -145,10 +145,10 @@ export class Event extends Component {
 
 										{
 											this.state.zoomUrl
-												? <p>Zoom:
-													<a href={this.state.zoomUrl}>
-														{this.state.zoomUrl}</a>
-												</p>
+												? <span>
+													<p>Zoom: <a href={this.state.zoomUrl}>{this.state.zoomUrl}</a></p>
+													<p className="font-italic small">Click link above to join meeting</p>
+												</span>
 												: null
 										}
 										{
