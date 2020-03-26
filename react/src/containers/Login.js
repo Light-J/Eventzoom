@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Conditional from '../components/Conditional';
@@ -50,9 +51,7 @@ export class Login extends React.Component {
 				<form className="container">
 					<div className="card border-0 shadow my-5 p-5">
 						<Conditional if={this.state.authenticationFailure}>
-							<div className="alert alert-danger">
-								The username and password are invalid. Please try again.
-							</div>
+							<div className="alert alert-danger">The username and password are invalid, or you have not verified your email. Please try again.</div>
 						</Conditional>
 						<h1>Login</h1>
 						<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
@@ -67,7 +66,10 @@ export class Login extends React.Component {
 						</div>
 						<div>
 							<button className="btn btn-success" onClick={this.submitForm}>Login</button>
-						</div>
+						</div><br /><br />
+
+						<Link to="/forgotten-password" class="btn btn-default btn-sm">I have forgotten my password</Link><br />
+						<Link to="/resend-verification" class="btn btn-default btn-sm">Resend verification email</Link>
 					</div>
 				</form>
 			);
