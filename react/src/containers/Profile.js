@@ -84,6 +84,14 @@ export class Profile extends React.Component {
 		});
 	};
 
+	deleteZoomIntegration = () => {
+		axios.delete(`${serverConfig.url}zoom`).then((result) => {
+			if (result.data.success) {
+				this.props.setUser({ ...this.props.user, zoom: undefined });
+			}
+		});
+	};
+
 	pastEvents = () => this.state.events.filter((e) => new Date(e.date) < this.state.date);
 
 	futureEvents = () => this.state.events.filter((e) => new Date(e.date) >= this.state.date);
@@ -160,6 +168,23 @@ export class Profile extends React.Component {
 								<button className="btn btn-success" onClick={this.submitChangePasswordForm}>Update Password</button>
 							</div>
 						</form>
+					</div>
+				</Conditional>
+				<Conditional if={this.props.user.sso && this.props.user.filterable.staff}>
+					<div className="card mb-2">
+						<div className="card-header">Integrate with Zoom</div>
+						<div className="card-body">
+						By integrating with Zoom, you will be able to organise remote events.
+							<Conditional if={!this.props.user.zoom}>
+								<div className="mt-2">
+									<a href={`${serverConfig.url}zoom?jwt=${localStorage.getItem('JWT')}`}className="btn btn-success">Integrate</a>
+								</div>
+							</Conditional>
+							<Conditional if={this.props.user.zoom}>
+								<div className="alert alert-success mb-2 mt-1">You have already connected with Zoom</div>
+								<button className="btn btn-danger" onClick={this.deleteZoomIntegration}>Delete Zoom integration</button>
+							</Conditional>
+						</div>
 					</div>
 				</Conditional>
 				<EventList title="Attended events" events={this.pastEvents()} />

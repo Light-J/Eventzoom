@@ -33,6 +33,7 @@ export default class EditEvent extends React.Component {
 		availableSeries: [],
 		series: '',
 		sendUpdateEmail: false,
+		remoteEvent: false,
 	}
 
 	static propTypes = {
@@ -63,6 +64,7 @@ componentDidMount = async () => {
 		series: data.series._id,
 		capacity: data.capacity,
 		date: new Date(data.date),
+		remoteEvent: data.remoteEvent,
 	});
 };
 
@@ -129,13 +131,13 @@ render = () => (<form>
 
 				<div className="form-group">
 					<label htmlFor="vagueLocation" className="col-form-label">Vague Location</label>
-					<input id="vagueLocation" className="form-control" type="text" name="vagueLocation" placeholder="Vague Location"
+					<input id="vagueLocation" disabled={this.state.remoteEvent} className="form-control" type="text" name="vagueLocation" placeholder="Vague Location"
 						value={this.state.vagueLocation} onChange={this.handleChange} required />
 				</div>
 
 				<div className="form-group">
 					<label htmlFor="specificLocation" className="col-form-label">Specific Location</label>
-					<input id="specificLocation" className="form-control" type="text" name="specificLocation" placeholder="Specific Location"
+					<input id="specificLocation" disabled={this.state.remoteEvent} className="form-control" type="text" name="specificLocation" placeholder="Specific Location"
 						value={this.state.specificLocation} onChange={this.handleChange} required />
 				</div>
 

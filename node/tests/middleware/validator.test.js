@@ -145,3 +145,29 @@ describe('testing in', () => {
 		expect(next.mock.calls.length).toEqual(0);
 	});
 });
+
+describe('testing boolean', () => {
+	it('should succeed if truthy', async () => {
+		const req = { body: { password: 'is here' } };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		await validator('boolean', { field: 'password' })(req, res, next);
+		expect(req.validated.password).toEqual(true);
+		expect(next.mock.calls.length).toEqual(1);
+	});
+	it('should succeed if falsey', async () => {
+		const req = { body: { password: '' } };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		await validator('boolean', { field: 'password' })(req, res, next);
+		expect(req.validated.password).toEqual(false);
+		expect(next.mock.calls.length).toEqual(1);
+	});
+	it('should fail if nonexistent', async () => {
+		const req = { body: {} };
+		const res = { status: jest.fn(), json: jest.fn() };
+		const next = jest.fn();
+		await validator('boolean', { field: 'password' })(req, res, next);
+		expect(res.json.mock.calls.length).toEqual(1);
+	});
+});

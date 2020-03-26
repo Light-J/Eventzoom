@@ -44,8 +44,6 @@ const setUserProfileById = async (id, user) => {
 		throw Error('Error while setting profile for single user');
 	}
 };
-
-
 const getAllUsers = async () => User.find({});
 export default {
 	createUser, getUserByEmail, getUserById, setUserPasswordById, setUserProfileById, getAllUsers,
