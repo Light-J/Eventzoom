@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
 	subscribedSeries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'series' }],
 	name: { type: String, required: false },
 	sso: { type: Boolean, required: false },
+	verified: { type: Boolean, required: false },
 	filterable: { ...filterableFields },
 	phoneNumber: { type: String, required: false },
 	zoom: { refreshToken: { type: String, required: false } },

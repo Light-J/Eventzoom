@@ -1,0 +1,10 @@
+doctype html
+html
+    head
+    body
+        h1 Verify Your Account
+        p Hi #{user.name}<br/><br/>Please click the link below to verify your email for your account. This link is valid for 24 hours.
+
+        a(href=clientUrl + '/#/verify-account/' + token.token) Verify your Email
+
+        p Thanks, EventZoom
