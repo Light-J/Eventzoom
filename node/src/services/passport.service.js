@@ -14,7 +14,7 @@ import googleConfig from '../../config/google';
 const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
 	if (!user) { return done(null, false); }
-	if (!user.sso && !user.verified) { return done(null, false); }
+	if (!user.verified) { return done(null, false); }
 
 	return bcrypt.compare(password, user.password).then((result) => {
 		if (result) {
