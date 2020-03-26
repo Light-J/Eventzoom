@@ -19,7 +19,7 @@ export class AddEvent extends React.Component {
 		speaker: '',
 		vagueLocation: '',
 		specificLocation: '',
-		disabilityAccess: false,
+		disabilityAccess: '',
 		capacity: 0,
 		date: new Date(),
 		requiredError: false,
@@ -32,7 +32,7 @@ export class AddEvent extends React.Component {
 		restrictToStaff: 0,
 		whitelist: '',
 		price: 0,
-		remoteEvent: false,
+		remoteEvent: '',
 	};
 
 	static propTypes = {
