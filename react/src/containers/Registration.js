@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
+import SignInGoogleButton from '../components/SignInGoogleButton';
 
 export default class Registration extends React.Component {
 	state = {
@@ -64,6 +65,7 @@ export default class Registration extends React.Component {
 
 					<h1>Register</h1>
 					<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
+					<SignInGoogleButton />
 					<label htmlFor="email" className="col-form-label"> Email</label>
 					<input id="email" className="form-control" type="email" name="email" placeholder="Email"
 						value={this.state.email} onChange={this.handleChange} required />

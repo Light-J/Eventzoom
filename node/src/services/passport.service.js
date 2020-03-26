@@ -5,9 +5,11 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import { Strategy as AnonymousStrategy } from 'passport-anonymous';
+import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import authConfig from '../../config/auth';
 import userService from './user.service';
 import userModel from '../models/user.model';
+import googleConfig from '../../config/google';
 
 const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
@@ -85,6 +87,24 @@ const initPassport = (app) => {
 			done(null, samlUser);
 		}),
 	));
+	passport.use(new GoogleStrategy({
+		clientID: googleConfig.clientId,
+		clientSecret: googleConfig.clientSecret,
+		callbackURL: googleConfig.callbackUrl,
+	},
+	(async (accessToken, refreshToken, profile, done) => {
+		try {
+			const email = profile.emails[0].value;
+			const name = profile.displayName;
+			const user = await userModel.findOneAndUpdate({ email },
+				{ email, name, filterable: { public: true } },
+				{ new: true, upsert: true });
+			done(null, user);
+		} catch (e) {
+			done(e, null);
+		}
+	})));
 };
+
 
 export default { getJwtToken, initPassport };
