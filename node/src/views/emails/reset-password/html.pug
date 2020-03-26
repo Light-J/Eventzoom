@@ -1,0 +1,10 @@
+doctype html
+html
+    head
+    body
+        h1 Reset Password
+        p Hi #{user.name}<br/><br/>Someone, hopefully you, has requested a password reset link for your EventZoom account. If this was you, please click the link below to reset your password. This link is valid for 24 hours.
+
+        a(href=clientUrl + '/#/reset-password-form/' + token.token) Reset Password
+
+        p Thanks, EventZoom
