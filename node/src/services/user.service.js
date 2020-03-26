@@ -69,6 +69,9 @@ const setUserProfileById = async (id, user) => {
 const sendResetPasswordEmail = async (email) => {
 	try {
 		const user = await User.findOne({ email });
+		if (user.sso) {
+			throw Error('Can not reset password for SSO account');
+		}
 		if (user) {
 			const token = await ((new PasswordResetToken({
 				user: user._id,
