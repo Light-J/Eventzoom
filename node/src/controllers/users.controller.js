@@ -83,6 +83,20 @@ router.post(
 	},
 );
 
+router.post('/forgotten-password',
+	validator('required', { field: 'email' }),
+	async (req, res) => {
+		await userService.sendResetPasswordEmail(req.body.email);
+		res.json({ success: true });
+	});
+
+router.post('/resend-verification',
+	validator('required', { field: 'email' }),
+	async (req, res) => {
+		await userService.resendVerificationEmail(req.body.email);
+		res.json({ success: true });
+	});
+
 router.get('/saml/login', passport.authenticate('saml', {
 	successRedirect: '/',
 	failureRedirect: '/users/saml/login',
