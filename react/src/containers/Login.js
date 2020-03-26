@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Conditional from '../components/Conditional';
@@ -65,7 +66,11 @@ export class Login extends React.Component {
 						</div>
 						<div>
 							<button className="btn btn-success" onClick={this.submitForm}>Login</button>
-						</div>
+						</div><br /><br />
+						<ul>
+							<li><Link to="/forgotten-password">I have forgotten my password</Link></li>
+							<li><Link to="/resend-verification">Resend verification email</Link></li>
+						</ul>
 					</div>
 				</form>
 			);

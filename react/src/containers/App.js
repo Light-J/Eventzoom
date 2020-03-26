@@ -13,6 +13,8 @@ import Jwt from './Jwt';
 import AddEvent from './AddEvent';
 import Conditional from '../components/Conditional';
 import Statistics from './Statistics';
+import ForgottenPasswordRequest from './ForgottenPasswordRequest';
+import ResendVerificationEmailRequest from './ResendVerificationEmailRequest';
 import Profile from './Profile';
 import EventAdmin from './EventAdmin';
 import Home from './Home';
@@ -36,6 +38,8 @@ class App extends Component {
 		<Route exact path="/register" render={(props) => <Registration {...props} />} />
 		<Route exact path="/series/:seriesId" render={(props) => <Series {...props.match.params} />} />
 		<Route exact path="/login" render={(props) => <Login {...props} />} />
+		<Route exact path="/forgotten-password" render={(props) => <ForgottenPasswordRequest {...props} />} />
+		<Route exact path="/resend-verification" render={(props) => <ResendVerificationEmailRequest {...props} />} />
 		<Conditional if={this.props.isLoggedIn}>
 			<Route exact path="/search" render={() => <Search />} />
 			<Conditional if={
