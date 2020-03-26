@@ -86,22 +86,54 @@ router.post(
 router.post('/forgotten-password',
 	validator('required', { field: 'email' }),
 	async (req, res) => {
-		await userService.sendResetPasswordEmail(req.body.email);
-		res.json({ success: true });
+		try {
+			await userService.sendResetPasswordEmail(req.body.email);
+			res.json({ success: true });
+		} catch (e) {
+			res.json({ success: false });
+		}
+	});
+
+router.post('/reset-password',
+	validator('required', { field: 'token' }),
+	validator('required', { field: 'newPasswordConfirmation' }),
+	validator('required', { field: 'newPassword' }),
+	validator('sameAs', { field: 'newPassword', otherField: 'newPasswordConfirmation' }),
+	async (req, res) => {
+		try {
+			await userService.resetPassword(req.body.token, req.body.newPassword);
+			res.json({ success: true });
+		} catch (e) {
+			res.json({ success: false });
+		}
 	});
 
 router.post('/resend-verification',
 	validator('required', { field: 'email' }),
 	async (req, res) => {
-		await userService.resendVerificationEmail(req.body.email);
-		res.json({ success: true });
+		try {
+			await userService.resendVerificationEmail(req.body.email);
+			res.json({ success: true });
+		} catch (e) {
+			res.json({ success: false });
+		}
+	});
+
+router.post('/verify',
+	validator('required', { field: 'token' }),
+	async (req, res) => {
+		try {
+			await userService.verify(req.body.token);
+			res.json({ success: true });
+		} catch (e) {
+			res.json({ success: false });
+		}
 	});
 
 router.get('/saml/login', passport.authenticate('saml', {
 	successRedirect: '/',
 	failureRedirect: '/users/saml/login',
 }));
-
 
 router.post('/saml/callback', passport.authenticate('saml', {
 	failureRedirect: '/',

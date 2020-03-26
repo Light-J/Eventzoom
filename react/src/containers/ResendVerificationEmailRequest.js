@@ -16,8 +16,12 @@ export default class ResendVerificationEmailRequest extends React.Component {
 
 	submitForm = async () => {
 		try {
-			await axios.post(`${serverConfig.url}users/resend-verification`, this.state);
-			this.setState({ success: true });
+			const result = await axios.post(`${serverConfig.url}users/resend-verification`, this.state);
+			if (result.data.success) {
+				this.setState({ success: true });
+			} else {
+				this.setState({ error: true });
+			}
 		} catch (e) {
 			this.setState({ error: true });
 		}
