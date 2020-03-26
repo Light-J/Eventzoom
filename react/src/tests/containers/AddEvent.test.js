@@ -7,7 +7,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe('<AddEvent />', () => {
 	it('should check if elements are present', () => {
-		const wrapper = shallow(<AddEvent />);
+		const wrapper = shallow(<AddEvent user={{zoom: true}}/>);
 
 		const labelTitle = wrapper.find('label[htmlFor="title"]');
 		const inputTitile = wrapper.find('input[id="title"]');
@@ -50,7 +50,7 @@ describe('<AddEvent />', () => {
 		expect(labelspecificLocation).toHaveLength(1);
 		expect(inputspecificLocation).toHaveLength(1);
 
-		expect(inputDisabilityAccess).toHaveLength(2);
+		expect(inputDisabilityAccess).toHaveLength(4);
 
 		expect(labelCapacity).toHaveLength(1);
 		expect(inputCapacity).toHaveLength(1);
