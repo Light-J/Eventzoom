@@ -30,7 +30,7 @@ EventSchema.methods.toICSFormat = function getInIcsFormat() {
 		start: [
 			date.getFullYear(),
 			date.getMonth(),
-			date.getDay(),
+			date.getDate(),
 			date.getHours(),
 			date.getMinutes(),
 			0,
