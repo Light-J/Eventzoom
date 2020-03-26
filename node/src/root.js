@@ -8,6 +8,7 @@ import statistics from './controllers/statistics.controller';
 import events from './controllers/event.controller';
 import users from './controllers/users.controller';
 import series from './controllers/series.controller';
+import zoom from './controllers/zoom.controller';
 import './helpers/connectToDatabase';
 import './helpers/winston';
 import passport from './services/passport.service';
@@ -28,6 +29,7 @@ app.use('/users', users);
 app.use('/series', series);
 app.use('/emails', email);
 app.use('/statistics', statistics);
+app.use('/zoom', zoom);
 
 
 app.get('/', (req, res) => {

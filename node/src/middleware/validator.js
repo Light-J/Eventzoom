@@ -17,6 +17,12 @@ const validators = {
 		fieldName: field,
 		fieldValue: req.body[field],
 	}),
+	// used for FormData forms
+	boolean: async ({ field }, req) => ({
+		success: req.body[field] != null,
+		fieldName: field,
+		fieldValue: !!req.body[field],
+	}),
 	optional: async ({ field }, req) => ({
 		success: true,
 		fieldName: field,
