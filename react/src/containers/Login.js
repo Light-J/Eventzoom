@@ -67,10 +67,9 @@ export class Login extends React.Component {
 						<div>
 							<button className="btn btn-success" onClick={this.submitForm}>Login</button>
 						</div><br /><br />
-						<ul>
-							<li><Link to="/forgotten-password">I have forgotten my password</Link></li>
-							<li><Link to="/resend-verification">Resend verification email</Link></li>
-						</ul>
+
+						<Link to="/forgotten-password" class="btn btn-default btn-sm">I have forgotten my password</Link><br />
+						<Link to="/resend-verification" class="btn btn-default btn-sm">Resend verification email</Link>
 					</div>
 				</form>
 			);
