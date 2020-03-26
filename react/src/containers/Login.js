@@ -50,9 +50,7 @@ export class Login extends React.Component {
 				<form className="container">
 					<div className="card border-0 shadow my-5 p-5">
 						<Conditional if={this.state.authenticationFailure}>
-							<div className="alert alert-danger">
-								The username and password are invalid. Please try again.
-							</div>
+							<div className="alert alert-danger">The username and password are invalid, or you have not verified your email. Please try again.</div>
 						</Conditional>
 						<h1>Login</h1>
 						<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
