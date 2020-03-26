@@ -206,8 +206,7 @@ router.post(
 				image: location,
 				organiser: req.user._id,
 				zoomUrl,
-			},
-			req.user);
+			});
 			return res.json({ success: true });
 		} catch (e) {
 			return res.status(400).json({ status: 400, message: e.message });

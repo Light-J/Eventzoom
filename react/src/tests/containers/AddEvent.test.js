@@ -7,7 +7,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe('<AddEvent />', () => {
 	it('should check if elements are present', () => {
-		const wrapper = shallow(<AddEvent user={{zoom: true}}/>);
+		const wrapper = shallow(<AddEvent user={{ zoom: true }}/>);
 
 		const labelTitle = wrapper.find('label[htmlFor="title"]');
 		const inputTitile = wrapper.find('input[id="title"]');
