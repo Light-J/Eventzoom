@@ -14,7 +14,6 @@ import urlService from './url.service';
 import clientConfig from '../../config/client';
 import passportService from './passport.service';
 
-
 // eslint-disable-next-line max-len
 const sortEventQuery = async (query, sort, direction) => Event.find(query).sort({ [sort]: direction }).exec();
 const getEvents = async (query, sort, direction) => {
@@ -92,7 +91,7 @@ const attendEvent = async (eventId, user, attend) => {
 			if (event.attendees.length < event.capacity) {
 				event.attendees.push({ user: user._id, reminding: false });
 				const icsString = await ics.createEvent(event.toICSFormat());
-				emailService.sendEmail(user.email, 'event-confirmation', { event }, {
+				await emailService.sendEmail(user.email, 'event-confirmation', { event }, {
 					icalEvent: {
 						method: 'publish',
 						content: icsString.value,
