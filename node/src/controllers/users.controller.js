@@ -96,6 +96,15 @@ router.post('/saml/callback', passport.authenticate('saml', {
 	res.redirect(`${clientConfig.url}#/jwt/${await passportJs.getJwtToken(req.user.id)}`);
 });
 
+router.get('/auth/google',
+	passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/callback',
+	passport.authenticate('google', { failureRedirect: '/' }),
+	async (req, res) => {
+		res.redirect(`${clientConfig.url}#/jwt/${await passportJs.getJwtToken(req.user.id)}`);
+	});
+
 router.get('/me/attending', passport.authenticate('jwt'), async (req, res) => {
 	res.send(await eventService.getUserAttendingEvents(req.user));
 });
