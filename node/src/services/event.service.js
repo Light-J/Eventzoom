@@ -14,7 +14,6 @@ import urlService from './url.service';
 import clientConfig from '../../config/client';
 import passportService from './passport.service';
 
-
 // eslint-disable-next-line max-len
 const sortEventQuery = async (query, sort, direction) => Event.find(query).sort({ [sort]: direction }).exec();
 const getEvents = async (query, sort, direction) => {

@@ -14,10 +14,12 @@ const EventSchema = new mongoose.Schema({
 	date: { type: Date },
 	series: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Series' },
 	attendees: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, reminding: { type: Boolean } }],
+	remoteEvent: { type: Boolean, required: true },
 	filterable: { ...filterableFields },
 	price: {
 		type: Number, required: true, min: [0, 'Negative prices aren\'t allowed'], default: 0,
 	},
+	zoomUrl: { type: String, required: false, default: null },
 	attachments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Attachment' }],
 });
 

@@ -14,7 +14,8 @@
 * Have a twilio instance set up (details in .env should be good enough)
 * Have a Stripe account set up (Demo details set up in config)
 * A bit.ly generic API token (one in config is fine)
-
+* Having set up a Zoom account, its Oauth keys, and whitelisted the server URL (just the normal URL, no suffix)
+* **NOTE** If using the provided zoom credentials, log in using me@hdimitrov.com and Qweasd123! . Zoom will not let me have public access.
 
 ### Sample accounts
 #### Non SSO-Account:

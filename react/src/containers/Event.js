@@ -112,7 +112,7 @@ export class Event extends Component {
 					<div className="card-body p-5">
 
 						<div className="d-flex align-items-center">
-							<img src={'https://pluspng.com/img-png/kitten-png--243.png'} alt='Sad kitten'/>
+							<img src="https://pluspng.com/img-png/kitten-png--243.png" alt='Sad kitten'/>
 							<h1>Sorry this event could not be found</h1>
 						</div>
 					</div>
@@ -139,6 +139,15 @@ export class Event extends Component {
 												? <p>Organiser:
 													<a href={`mailto:${this.state.organiser.email}`}>
 														{this.state.organiser.name || this.state.organiser.email}</a>
+												</p>
+												: <p>No organiser</p>
+										}
+
+										{
+											this.state.zoomUrl
+												? <p>Zoom:
+													<a href={this.state.zoomUrl}>
+														{this.state.zoomUrl}</a>
 												</p>
 												: <p>No organiser</p>
 										}

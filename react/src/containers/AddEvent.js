@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 import FilterableFields from '../components/FilterableFields';
@@ -8,7 +10,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import CurrencyInput from '../components/CurrencyInput';
 import './AddEvent.css';
 
-export default class AddEvent extends React.Component {
+
+export class AddEvent extends React.Component {
 	state = {
 		title: '',
 		description: '',
@@ -29,7 +32,13 @@ export default class AddEvent extends React.Component {
 		restrictToStaff: 0,
 		whitelist: '',
 		price: 0,
-	}
+		remoteEvent: false,
+	};
+
+	static propTypes = {
+		user: PropTypes.object,
+	};
+
 
 handleDate = (date) => {
 	this.setState({ date });
@@ -39,6 +48,13 @@ handleDate = (date) => {
 handleChange = (e) => {
 	this.setState({ [e.target.name]: e.target.value });
 };
+
+handleChangeRemoteEvent = (e) => {
+	if (e.target.value) {
+		this.setState({ vagueLocation: 'Remote', specificLocation: 'Zoom' });
+	}
+	this.handleChange(e);
+}
 
 uploadFile = (e) => {
 	this.setState({ file: e.target.files[0] });
@@ -112,7 +128,6 @@ render = () => (<form className="container">
 				<textarea id="title" className="form-control" name="description" placeholder="Description"
 					value={this.state.description} onChange={this.handleChange} required />
 			</div>
-
 			<label htmlFor="series" className="col-form-label">Series </label>
 			<select id="series" className="form-control" name="series"
 				onChange={this.handleChange} required value={this.state.series}>
@@ -143,17 +158,59 @@ render = () => (<form className="container">
 				/>
 			</div>
 
+			<Conditional if={this.props.user.zoom}>
+				<div className="form-group">
+				Event hosted remotely?
+					<div className="form-check">
+						<input type="radio"
+							name="remoteEvent"
+							id="remoteEventNo"
+							value=''
+							checked={!this.state.remoteEvent}
+							onChange={this.handleChangeRemoteEvent}
+							className="form-check-input"
+						/>
+						<label htmlFor="remoteEventNo" className="form-check-label">No</label>
+					</div>
+					<div className="form-check">
+						<input type="radio"
+							name="remoteEvent"
+							id="remoteEventYes"
+							value='1'
+							checked={this.state.remoteEvent}
+							onChange={this.handleChangeRemoteEvent}
+							className="form-check-input"
+						/>
+						<label htmlFor="remoteEventYes" className="form-check-label">Yes</label>
+					</div>
+				</div>
+			</Conditional>
 
 			<div className="form-group">
 				<label htmlFor="vagueLocation" className="col-form-label">Vague Location</label>
-				<input id="vagueLocation" className="form-control" type="text" name="vagueLocation" placeholder="Vague Location"
-					value={this.state.vagueLocation} onChange={this.handleChange} required />
+				<input id="vagueLocation"
+					className="form-control"
+					type="text"
+					name="vagueLocation"
+					placeholder="Vague Location"
+					value={this.state.vagueLocation}
+					disabled={this.state.remoteEvent}
+					onChange={this.handleChange} required />
 			</div>
 
 			<div className="form-group">
 				<label htmlFor="specificLocation" className="col-form-label">Specific Location</label>
-				<input id="specificLocation" className="form-control" type="text" name="specificLocation" placeholder="Specific Location"
-					value={this.state.specificLocation} onChange={this.handleChange} required />
+				<input
+					id="specificLocation"
+					className="form-control"
+					type="text"
+					name="specificLocation"
+					placeholder="Specific Location"
+					value={this.state.specificLocation}
+					disabled={this.state.remoteEvent}
+					onChange={this.handleChange}
+					required
+				/>
 			</div>
 
 			<div className="form-group">
@@ -177,7 +234,8 @@ render = () => (<form className="container">
 						className="form-check-input"
 					/>
 					<label htmlFor="disabilityAccessYes" className="form-check-label">Yes</label>
-				</div>		</div>
+				</div>
+			</div>
 			<div className="form-group">
 				<label htmlFor="capacity" className="col-form-label">Capacity</label>
 				<input id="capacity" className="form-control" type="number" name="capacity" placeholder="Capacity"
@@ -210,3 +268,7 @@ render = () => (<form className="container">
 </form>
 );
 }
+const mapStateToProps = (state) => ({
+	user: state.userReducer.user,
+});
+export default connect(mapStateToProps)(AddEvent);

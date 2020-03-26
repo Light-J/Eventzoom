@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import User from '../models/user.model';
+
 const createUser = async (user) => {
 	let userToRegister;
 	if (user.password) {

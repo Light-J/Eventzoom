@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import AddEvent from '../../containers/AddEvent';
+import { AddEvent } from '../../containers/AddEvent';
 
 Enzyme.configure({ adapter: new Adapter() });
 

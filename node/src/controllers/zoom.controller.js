@@ -2,6 +2,8 @@ import express from 'express';
 import passport from 'passport';
 import zoomService from '../services/zoom.service';
 import userService from '../services/user.service';
+import isStaff from '../middleware/isStaff';
+import clientConfig from '../../config/client';
 
 const router = express.Router();
 
@@ -10,6 +12,7 @@ const router = express.Router();
 router.get(
 	'/',
 	passport.authenticate('jwt-query'),
+	isStaff,
 	async (req, res) => {
 		res.redirect(zoomService.getZoomRedirectUrl(req.query.jwt));
 	},
@@ -18,24 +21,26 @@ router.get(
 router.get(
 	'/auth',
 	passport.authenticate('jwt-query'),
+	isStaff,
 	async (req, res) => {
 		const refreshToken = await zoomService.getRefreshTokenFromCodeAndJwt(
 			req.query.jwt,
 			req.query.code,
 		);
 		await userService.setUserProfileById(req.user._id, { zoom: { refreshToken } });
-		// this is where the sensible part of this ends
-		return res.send(await zoomService.getAccessToken(req.user));
+		res.redirect(`${clientConfig.url}#/profile`);
 	},
 );
 
 
-router.get(
-	'/test',
-	passport.authenticate('jwt-query'),
+router.delete(
+	'/',
+	passport.authenticate('jwt'),
+	isStaff,
 	async (req, res) => {
-		await zoomService.createMeeting(req.user);
-		return res.send(await zoomService.getMeetings(req.user));
+		await userService.setUserProfileById(req.user._id, { zoom: undefined });
+		res.send({ success: true });
 	},
 );
+
 export default router;
