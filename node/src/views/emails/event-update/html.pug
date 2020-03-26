@@ -7,4 +7,7 @@ body
     p Location: #{event.specificLocation}
     p Organiser: #{event.organiser.email}
     p Date: #{event.date.toLocaleString()}
-
+    if event.zoomUrl
+        p This is a remote event
+        p To access it click 
+            a(href=event.zoomUrl) #{event.zoomUrl}

@@ -15,7 +15,9 @@ import hasCorrectToken from '../middleware/hasCorrectToken';
 import isValidPayment from '../middleware/isValidPayment';
 import isEventPaid from '../middleware/isEventPaid';
 import logService from '../services/log.service';
+import hasZoomIfRemote from '../middleware/hasZoomIfRemote';
 import isValidAttendance from '../middleware/isValidAttendance';
+import zoomService from '../services/zoom.service';
 
 
 const router = express.Router();
@@ -123,6 +125,9 @@ router.get(
 	passport.authenticate(['jwt', 'anonymous'], { session: false }),
 	isAllowedToView(Event, 'id'),
 	async (req, res) => {
+		// TODO: this needs to filter out zoomUrl based on attending or not attending
+		// this is incredibly similar to a feature that Alex is currently doing
+		// and I do not want to step on his toes
 		try {
 			const event = await EventService.getEventById(req.params.id);
 			await logService.logOccurence('visit', {}, event._id);
@@ -173,24 +178,34 @@ router.post(
 	validator('fileType', { file: 'file', types: 'image/*' }),
 	validator('required', { field: 'vagueLocation' }),
 	validator('required', { field: 'specificLocation' }),
-	validator('required', { field: 'disabilityAccess' }),
 	validator('required', { field: 'series' }),
 	validator('required', { field: 'capacity' }),
 	validator('required', { field: 'date' }),
 	validator('required', { field: 'price' }),
+	validator('boolean', { field: 'disabilityAccess' }),
+	validator('boolean', { field: 'remoteEvent' }),
 	validator('optional', { field: 'restrictToSchool' }),
 	validator('optional', { field: 'restrictToStaff' }),
 	validator('optional', { field: 'noPublic' }),
 	validator('optional', { field: 'whitelist' }),
 	validator('validModel', { model: Event, excludedFields: ['image', 'organiser'] }),
+	hasZoomIfRemote,
 	async (req, res) => {
 		try {
 			const location = await fileService.uploadFile(req.validated.file);
+			const zoomUrl = req.validated.remoteEvent
+				? await zoomService.createMeeting(
+					req.user,
+					req.validated.title,
+					new Date(req.validated.date),
+				)
+				: null;
 			await EventService.addEvent({
 				...req.validated,
 				filterable: authorizationService.generateFilterableField(req.validated, req.user),
 				image: location,
 				organiser: req.user._id,
+				zoomUrl,
 			});
 			return res.json({ success: true });
 		} catch (e) {
@@ -211,6 +226,7 @@ router.put(
 	validator('required', { field: 'disabilityAccess' }),
 	validator('required', { field: 'series' }),
 	validator('required', { field: 'capacity' }),
+	validator('boolean', { field: 'remoteEvent' }),
 	validator('required', { field: 'date' }),
 	validator('in', { field: 'sendUpdateEmail', matches: [true, false] }),
 	validator('validModel', { model: Event, excludedFields: ['image', 'organiser'] }),
