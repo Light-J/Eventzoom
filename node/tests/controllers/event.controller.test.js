@@ -5,6 +5,7 @@ import fileService from '../../src/services/file.service';
 import getValidJwt from './getValidJwt';
 import cacheService from '../../src/services/cache.service';
 import authorizationService from '../../src/services/authorization.service';
+import zoomService from '../../src/services/zoom.service';
 import stripeService from '../../src/services/stripe.service';
 // this horrific line mocks the validator middleware, and makes it skip everything
 jest.mock('../../src/middleware/isAllowedToView', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
@@ -13,6 +14,7 @@ jest.mock('../../src/middleware/isStaff', () => jest.fn().mockImplementation((re
 jest.mock('../../src/middleware/isValidPayment', () => jest.fn().mockImplementation((req, res, next) => next()));
 jest.mock('../../src/middleware/isValidAttendance', () => jest.fn().mockImplementation((req, res, next) => next()));
 jest.mock('../../src/middleware/isEventPaid', () => jest.fn().mockImplementation(() => async (req, res, next) => { next(); }));
+jest.mock('../../src/middleware/hasZoomIfRemote', () => jest.fn().mockImplementation((req, res, next) => { next(); }));
 
 jest.mock('../../src/services/authorization.service');
 jest.mock('../../src/services/event.service');
@@ -134,6 +136,7 @@ describe(' testing POST events/', () => {
 	it('should call service and return success true', async () => {
 		jest.setTimeout(2000);
 		eventService.addEvent = jest.fn().mockImplementation(async () => ({ something: true }));
+		zoomService.createMeeting = jest.fn().mockImplementation(() => 'test123');
 		fileService.uploadFile = jest.fn().mockImplementation(async () => ('http://google.com'));
 		authorizationService.generateFilterableField = jest.fn().mockImplementation(() => false);
 		const date = new Date(2019, 1, 1);
@@ -147,6 +150,7 @@ describe(' testing POST events/', () => {
 			.field('vagueLocation', 'Location')
 			.field('specificLocation', 'Location')
 			.field('disabilityAccess', '1')
+			.field('remoteEvent', '1')
 			.field('organiser', 'John')
 			.field('capacity', 2)
 			.field('price', 0)
@@ -156,6 +160,7 @@ describe(' testing POST events/', () => {
 		// remove date from check to deal with timezone fuckaroo
 		eventService.addEvent.mock.calls[0][0].date = 'excluded';
 		await expect(eventService.addEvent.mock.calls[0]).toMatchSnapshot();
+		await expect(zoomService.createMeeting.mock.calls.length).toEqual(1);
 		return expect(fileService.uploadFile.mock.calls[0]).toMatchSnapshot();
 	});
 });
@@ -267,6 +272,7 @@ describe('testing PUT events/id/', () => {
 				disabilityAccess: true,
 				series: '5e595ce2d8118f0888f56150',
 				capacity: 69,
+				remoteEvent: false,
 				date: new Date().toString(),
 
 			});

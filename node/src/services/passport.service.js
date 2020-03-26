@@ -5,9 +5,11 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import { Strategy as AnonymousStrategy } from 'passport-anonymous';
+import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import authConfig from '../../config/auth';
 import userService from './user.service';
 import userModel from '../models/user.model';
+import googleConfig from '../../config/google';
 
 const passportLocalVerify = async (username, password, done) => {
 	const user = await userService.getUserByEmail(username);
@@ -33,6 +35,19 @@ const getJwtToken = async (userId, expiry = 3600) => jwt.sign({ id: userId },
 		expiresIn: expiry,
 	});
 
+const jwtRetrieve = async (jwtPayload, done) => {
+	try {
+		const user = await userService.getUserById(jwtPayload.id);
+		if (user) {
+			done(null, user);
+		} else {
+			done(null, false);
+		}
+	} catch (err) {
+		done(err);
+	}
+};
+
 const initPassport = (app) => {
 	app.use(passport.initialize());
 	app.use(passport.session());
@@ -49,18 +64,15 @@ const initPassport = (app) => {
 	passport.use(new AnonymousStrategy());
 	passport.use(
 		'jwt',
-		new JwtStrategy(JwtOptions, async (jwtPayload, done) => {
-			try {
-				const user = await userService.getUserById(jwtPayload.id);
-				if (user) {
-					done(null, user);
-				} else {
-					done(null, false);
-				}
-			} catch (err) {
-				done(err);
-			}
-		}),
+		new JwtStrategy(JwtOptions, jwtRetrieve),
+	);
+
+	// used for weird redirecty things
+	// like the zoom controller
+	const jwtQueryOptions = { ...JwtOptions, jwtFromRequest: ExtractJwt.fromUrlQueryParameter('jwt') };
+	passport.use(
+		'jwt-query',
+		new JwtStrategy(jwtQueryOptions, jwtRetrieve),
 	);
 	passport.use(new SamlStrategy(
 		{
@@ -86,6 +98,24 @@ const initPassport = (app) => {
 			done(null, samlUser);
 		}),
 	));
+	passport.use(new GoogleStrategy({
+		clientID: googleConfig.clientId,
+		clientSecret: googleConfig.clientSecret,
+		callbackURL: googleConfig.callbackUrl,
+	},
+	(async (accessToken, refreshToken, profile, done) => {
+		try {
+			const email = profile.emails[0].value;
+			const name = profile.displayName;
+			const user = await userModel.findOneAndUpdate({ email },
+				{ email, name, filterable: { public: true } },
+				{ new: true, upsert: true });
+			done(null, user);
+		} catch (e) {
+			done(e, null);
+		}
+	})));
 };
+
 
 export default { getJwtToken, initPassport };
