@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
 import { setUser } from '../store/actions/actions';
+import SignInGoogleButton from '../components/SignInGoogleButton';
 
 export class Login extends React.Component {
 	static propTypes = {
@@ -41,11 +42,7 @@ export class Login extends React.Component {
 
 	initSaml = () => {
 		window.location.href = `${serverConfig.url}users/saml/login`;
-	}
-
-	googleSignIn = () => {
-		window.location.href = `${serverConfig.url}users/auth/google`;
-	}
+	};
 
 	render() {
 		if (!this.props.user) {
@@ -59,11 +56,7 @@ export class Login extends React.Component {
 						</Conditional>
 						<h1>Login</h1>
 						<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
-						<buton className="btn btn-light" role="button" style={{ textDecoration: 'none' }} onClick={this.googleSignIn}>
-							<img width="20px" style={{ marginBottom: '3px', marginRight: '5px' }} alt="Google sign-in"
-								src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
-							Sign in with Google
-						</buton>
+						<SignInGoogleButton />
 						<div className="form-group">
 							<label htmlFor="staticUsername" className="col-form-label">Username</label>
 							<input className="form-control" type="username" name="username" placeholder="Username" value={this.state.username} onChange={this.handleChange} required/>

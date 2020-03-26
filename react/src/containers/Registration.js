@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Conditional from '../components/Conditional';
 import serverConfig from '../config/server';
+import SignInGoogleButton from '../components/SignInGoogleButton';
 
 export default class Registration extends React.Component {
 	state = {
@@ -21,10 +22,6 @@ export default class Registration extends React.Component {
 	initSaml = () => {
 		window.location.href = `${serverConfig.url}users/saml/login`;
 	};
-
-	googleSignIn = () => {
-		window.location.href = `${serverConfig.url}users/auth/google`;
-	}
 
 	// eslint-disable-next-line max-len
 	showPasswordError = () => this.state.password.length && this.state.passwordConfirmation !== this.state.password && this.state.passwordConfirmation.length
@@ -68,11 +65,7 @@ export default class Registration extends React.Component {
 
 					<h1>Register</h1>
 					<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
-					<buton className="btn btn-light" role="button" style={{ textDecoration: 'none' }} onClick={this.googleSignIn}>
-						<img width="20px" style={{ marginBottom: '3px', marginRight: '5px' }} alt="Google sign-in"
-							src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
-							Sign in with Google
-					</buton>
+					<SignInGoogleButton />
 					<label htmlFor="email" className="col-form-label"> Email</label>
 					<input id="email" className="form-control" type="email" name="email" placeholder="Email"
 						value={this.state.email} onChange={this.handleChange} required />
