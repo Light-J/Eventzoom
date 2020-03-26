@@ -16,12 +16,8 @@ export default class Verify extends React.Component {
 
 	async componentDidMount() {
 		try {
-			const result = await axios.post(`${serverConfig.url}users/verify`, { token: this.props.token });
-			if (result.data.success) {
-				this.setState({ success: true });
-			} else {
-				this.setState({ error: true });
-			}
+			await axios.post(`${serverConfig.url}users/verify`, { token: this.props.token });
+			this.setState({ success: true });
 		} catch (e) {
 			this.setState({ error: true });
 		}

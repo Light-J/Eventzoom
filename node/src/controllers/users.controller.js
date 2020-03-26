@@ -90,7 +90,7 @@ router.post('/forgotten-password',
 			await userService.sendResetPasswordEmail(req.body.email);
 			res.json({ success: true });
 		} catch (e) {
-			res.json({ success: false });
+			res.status(400).json({ success: false });
 		}
 	});
 
@@ -104,7 +104,7 @@ router.post('/reset-password',
 			await userService.resetPassword(req.body.token, req.body.newPassword);
 			res.json({ success: true });
 		} catch (e) {
-			res.json({ success: false });
+			res.status(400).json({ success: false });
 		}
 	});
 
@@ -115,7 +115,7 @@ router.post('/resend-verification',
 			await userService.resendVerificationEmail(req.body.email);
 			res.json({ success: true });
 		} catch (e) {
-			res.json({ success: false });
+			res.status(400).json({ success: false });
 		}
 	});
 
@@ -126,7 +126,7 @@ router.post('/verify',
 			await userService.verify(req.body.token);
 			res.json({ success: true });
 		} catch (e) {
-			res.json({ success: false });
+			res.status(400).json({ success: false });
 		}
 	});
 

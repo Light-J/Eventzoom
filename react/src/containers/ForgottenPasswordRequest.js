@@ -16,12 +16,8 @@ export default class ForgottenPasswordRequest extends React.Component {
 
 	submitForm = async () => {
 		try {
-			const result = await axios.post(`${serverConfig.url}users/forgotten-password`, this.state);
-			if (result.data.success) {
-				this.setState({ success: true });
-			} else {
-				this.setState({ error: true });
-			}
+			await axios.post(`${serverConfig.url}users/forgotten-password`, this.state);
+			this.setState({ success: true });
 		} catch (e) {
 			this.setState({ error: true });
 		}
