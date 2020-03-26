@@ -149,7 +149,7 @@ export class Event extends Component {
 													<a href={this.state.zoomUrl}>
 														{this.state.zoomUrl}</a>
 												</p>
-												: <p>No organiser</p>
+												: null
 										}
 										{
 											this.state.series
