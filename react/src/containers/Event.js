@@ -11,6 +11,8 @@ import disqusConfig from '../config/disqus';
 import Conditional from '../components/Conditional';
 import SearchResults from '../components/SearchResults';
 import Attachment from '../components/Attachment';
+import "./AddEvent.css"
+import ShareIcon from './shareIcon';
 
 export class Event extends Component {
 	state = {
@@ -39,6 +41,7 @@ export class Event extends Component {
 					this.setState({ userOwner: this.props.user.email === res.data.organiser.email });
 				}
 				this.setState({ isLoaded: true, ...res.data });
+				this.event = res.data;
 			}).catch(() => {
 				this.setState({ error: true });
 			});
@@ -55,6 +58,17 @@ export class Event extends Component {
 
 	componentDidMount = () => {
 		this.updateComponent();
+		this.eventUrl = this.hasWindow() && window.location.href;
+	};
+
+	makeShareText = () => {
+		const {
+			title, speaker, date, vagueLocation,
+		} = this.state;
+		this.shareText = `Hi there, don’t miss ${speaker} at ${title} on ${new Date(date)}. Here are the event details:`;
+		this.shareText += `Title : ${title}
+		Venue: ${vagueLocation}
+		Url: ${this.eventUrl}`;
 	};
 
 	componentDidUpdate = () => {
@@ -92,7 +106,12 @@ export class Event extends Component {
 		location={attachment.location}
 		_id={attachment._id} />);
 
-	render = () => <div className='container'>
+	hasWindow = () => (typeof window !== 'undefined');
+
+
+	render = () => { 
+		this.state._id && this.makeShareText();
+		return ( <div className='container'>
 		<div className="container">
 			<div className="card border-0 shadow my-5">
 				<Conditional if={this.state.error}>
@@ -106,6 +125,11 @@ export class Event extends Component {
 				</Conditional>
 				<Conditional if={this.state.isLoaded}>
 					<div className="card-body p-5">
+
+					<Conditional if={this.state.userOwner}>	
+							<Link to={{ pathname: `/events/edit/${this.props.eventId}`, state: {event: {...this.event}, editMode: true}}}  className="btn btn-primary  edit-btn">Edit</Link>	
+						</Conditional>
+
 						<h1 className="font-weight-light">{this.state.title}</h1>
 						<div className='row'>
 							<div className='col-md-7'>
@@ -143,6 +167,9 @@ export class Event extends Component {
 											onAttendChange={this.onAttendChange}/>
 									</div>
 								</div>
+								<div>
+									<ShareIcon url={this.eventUrl} title={this.shareText} />
+								</div>
 								<Conditional if={this.state.attachments.length > 0}>
 									<div className="card mb-2 mt-2">
 										<div className="card-header">Attachments for this event</div>
@@ -169,7 +196,8 @@ export class Event extends Component {
 				</Conditional>
 			</div>
 		</div>
-	</div>
+	</div>)
+	}
 }
 
 const mapStateToProps = (state) => ({

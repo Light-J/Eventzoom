@@ -221,6 +221,15 @@ const removeAttachmentFromEvent = async (eventId, attachmentId) => {
 	}
 };
 
+const updateEvent = async (_id, event) => {
+	try {
+		const result = await Event.findOneAndUpdate({_id}, event, {new : true}).exec();
+		return result;
+	} catch (e) {
+		throw Error('Error while adding event');
+	}
+}
+
 export default {
 	getEvents,
 	getEventById,
@@ -237,4 +246,5 @@ export default {
 	getEventsAttendeesById,
 	addAttachmentToEvent,
 	removeAttachmentFromEvent,
+	updateEvent
 };

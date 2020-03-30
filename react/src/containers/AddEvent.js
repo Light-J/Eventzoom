@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
 import axios from 'axios';
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
@@ -7,35 +8,40 @@ import serverConfig from '../config/server';
 import FilterableFields from '../components/FilterableFields';
 import 'react-datepicker/dist/react-datepicker.css';
 import './AddEvent.css';
-
-
 registerLocale('en-BB', enGB);
 setDefaultLocale('en-GB');
 
 export default class AddEvent extends React.Component {
-	state = {
-		title: '',
-		description: '',
-		file: '',
-		speaker: '',
-		vagueLocation: '',
-		specificLocation: '',
-		disabilityAccess: false,
-		capacity: 0,
-		date: new Date(),
-		requiredError: false,
-		imageError: false,
-		success: false,
-		availableSeries: [],
-		series: '',
-		noPublic: 0,
-		restrictToSchool: 0,
-		restrictToStaff: 0,
-	}
+	constructor(props){
+		super(props);
+		this.state = {
+			_id: "",
+			title: '',
+			description: '',
+			file: '',
+			speaker: '',
+			vagueLocation: '',
+			specificLocation: '',
+			disabilityAccess: false,
+			capacity: 0,
+			date: new Date(),
+			requiredError: false,
+			imageError: false,
+			success: false,
+			availableSeries: [],
+			series: '',
+			noPublic: 0,
+			restrictToSchool: 0,
+			restrictToStaff: 0,
+			organizer: "",
+			image: null
+		}
+}
 
 handleDate = (date) => {
 	this.setState({ date });
 }
+
 
 
 handleChange = (e) => {
@@ -43,7 +49,7 @@ handleChange = (e) => {
 };
 
 uploadFile = (e) => {
-	this.setState({ file: e.target.files[0] });
+	this.setState({ file: e.target.files[0], image:null });
 };
 
 updateParentState = (data) => {
@@ -51,6 +57,13 @@ updateParentState = (data) => {
 }
 
 componentDidMount = async () => {
+	let event = this.props && this.props.location && this.props.location.state && this.props.location.state.event;
+	let editMode = this.props && this.props.location && this.props.location.state && this.props.location.state.editMode;
+	if(editMode && event && event._id){
+		this.editMode = true;
+		this.updateStateForEdit(event);
+		this.setState({date: new Date(event.date)})
+	}
 	const res = await axios.get(`${serverConfig.url}series/mine`);
 	this.setState({ availableSeries: res.data });
 	if (res.data.length) {
@@ -58,30 +71,83 @@ componentDidMount = async () => {
 	}
 };
 
-submitForm = async (event) => {
-	event.preventDefault();
+updateStateForEdit = event => {
+	let eventToEdit = {...event};
+	eventToEdit.organizer = event.organiser._id;
+	eventToEdit.restrictToStaff = event.organiser && event.organiser.filterable && event.organiser.filterable.staff ? 1 : 0;
+	eventToEdit.restrictToSchool = event.organiser && event.organiser.filterable && event.organiser.filterable.school ? 1 : 0;
+	eventToEdit.organiser && eventToEdit.organiser.subscribedSeries && delete eventToEdit.organiser.subscribedSeries;
+	eventToEdit.organiser && eventToEdit.organiser.filterable && delete eventToEdit.organiser.filterable;
+	eventToEdit.series = event.series._id;
+	delete eventToEdit._v && delete eventToEdit.attendeesAmount && delete eventToEdit.date; 
+
+	this.setState({
+		...eventToEdit
+	})
+}
+
+submitForm = async (e) => {
+	let event = {...this.state};
+	e.preventDefault();
+	if(this.editMode){
+		if(this.state.image){
+			event.file = new File(["bingo"], "nn.jpg",{
+				fieldname: 'file',
+				originalname: 'noImag',
+				encoding: '7bit',
+				mimetype: 'image/png',
+				buffer: "",
+				size: 3292 ,
+				type : "image/jpeg"
+			});
+		}
+		else { 
+			delete event.image;
+		}
+		delete event.organiser
+		delete event._v
+		delete event.availableSeries
+	}
 	const data = new FormData();
-	Object.entries(this.state).forEach(([key, val]) => {
+	Object.entries(event).forEach(([key, val]) => {
 		data.append(key, val);
 	});
-	this.setState({ requiredError: false, imageError: false });
-	try {
-		await axios.post(`${serverConfig.url}events`, data, {
-			headers: {
-				'Content-type': 'multipart/form-data',
-			},
-		});
-		this.setState({ success: true });
-	} catch (error) {
-		if (error.response.data.error === 'required') {
-			this.setState({ requiredError: true });
-		} else {
-			this.setState({ imageError: true });
+	if(this.editMode){
+
+		try {
+			await axios.post(`${serverConfig.url}events/edit/${this.state._id}`, data, {
+				headers: {
+					'Content-type': 'multipart/form-data',
+				},
+			});
+			this.setState({ success: true });
+		} catch (error) {
+			if (error.response && error.response.data && error.response.data.error === 'required') {
+				this.setState({ requiredError: true });
+			}
+		}
+	}
+	else {
+		this.setState({ requiredError: false, imageError: false });
+		try {
+			await axios.post(`${serverConfig.url}events`, data, {
+				headers: {
+					'Content-type': 'multipart/form-data'
+				},
+			});
+			this.setState({ success: true });
+		} catch (error) {
+			if (error.response.data.error === 'required') {
+				this.setState({ requiredError: true });
+			} else {
+				this.setState({ imageError: true });
+			}
 		}
 	}
 };
 
-render = () => (<form className="container">
+render = () => { 
+	return  (<form className="container">
 	<Conditional if={this.state.availableSeries && !this.state.availableSeries.length}>
 		<h1 className="mt-3">Please add a series first.</h1>
 	</Conditional>
@@ -90,7 +156,7 @@ render = () => (<form className="container">
 		<div className="card border-0 shadow my-5 p-5">
 			<Conditional if={this.state.success}>
 				<div className="alert alert-success">
-					Event added successfully.
+					Event {this.editMode ? "edited" : "added"}  successfully.
 				</div>
 			</Conditional>
 			<Conditional if={this.state.imageError}>
@@ -103,7 +169,7 @@ render = () => (<form className="container">
 					All fields are required!
 				</div>
 			</Conditional>
-			<h1> Create an Event</h1>
+			<h1>{this.editMode ? "Edit" : "Create an"} Event</h1>
 			<div className="form-group">
 				<label htmlFor="title" className="col-form-label">Title</label>
 				<input id="title" className="form-control" type="text" name="title" placeholder="Title"
@@ -196,10 +262,10 @@ render = () => (<form className="container">
 				updateParentState={this.updateParentState}
 			/>
 			<div>
-				<button className={`btn btn-success mt-2 ${this.state.success ? 'disabled' : ''}`} onClick={this.submitForm} type="submit">Add Event</button>
+				<button className={`btn btn-success mt-2 ${this.state.success ? 'disabled' : ''}`} onClick={this.submitForm} type="submit">{this.editMode ? "Edit" : "Add"} Event</button>
 			</div>
 		</div>
 	</Conditional>
 </form>
-);
+)};
 }

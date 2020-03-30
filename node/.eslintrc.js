@@ -1,19 +1,24 @@
 module.exports = {
-    "extends": ["airbnb-base"],
-    "plugins": [
-      "prefer-import"
-    ],
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": "eslint:recommended",
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "env": {
+        "jest": true,
+        "node": true,
+        "commonjs": true,
+        "es6" : true
+    },
     "parser": "babel-eslint",
-    rules: {
-      "indent": ["error", "tab"],
-      "no-tabs": 0,
-      "linebreak-style": 0,
-      "prefer-import/prefer-import-over-require": ["error"],
-      "import/prefer-default-export": 0,
-      "linebreak-style": 0,
-      "no-underscore-dangle": 0,
-      "no-undef": 0,
-      "no-plusplus": 0,
-      "prefer-destructuring": 0,
+    "rules": {
     }
-  };
+};

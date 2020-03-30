@@ -150,6 +150,50 @@ router.post(
 	},
 );
 
+router.post(
+	'/edit/:id',
+	passport.authenticate('jwt', { session: false }),
+	isStaff,
+	upload.single('file'),
+	validator('required', { field: 'title' }),
+	validator('required', { field: 'description' }),
+	validator('required', { field: 'speaker' }),
+	validator('fileSize', { file: 'file', maxSize: 1e+7 }), 
+	validator('fileType', { file: 'file', types: 'image/*' }),
+	validator('required', { field: 'vagueLocation' }),
+	validator('required', { field: 'specificLocation' }),
+	validator('required', { field: 'disabilityAccess' }),
+	validator('required', { field: 'series' }),
+	validator('required', { field: 'capacity' }),
+	validator('required', { field: 'date' }),
+	validator('optional', { field: 'restrictToSchool' }),
+	validator('optional', { field: 'restrictToStaff' }),
+	validator('optional', { field: 'noPublic' }),
+	// validator('validModel', { model: Event }),
+	async (req, res) => {
+		try {
+			let location = null;
+			if(req.validated && !req.body.image){
+				location = await fileService.uploadFile(req.validated.file);
+			}
+			const result = await EventService.updateEvent(req.params.id,{
+				...req.validated,
+				filterable: authorizationService.generateFilterableField(req.validated, req.user),
+				image: location || req.body.image,
+				organiser: req.user._id,
+			});
+			if(result){
+				return res.json({ success: true });
+			}
+			else{
+				return res.json({succes : false})
+			}
+		} catch (e) {
+			return res.status(400).json({ status: 400, message: e.message });
+		}
+	},
+);
+
 router.get(
 	'/:id/user-attending',
 	passport.authenticate('jwt', { session: false }),

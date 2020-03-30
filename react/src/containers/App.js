@@ -44,6 +44,7 @@ class App extends Component {
 				<Route exact path="/add-series" render={(props) => <AddSeries {...props} />} />
 				<Route exact path="/add-event" render={(props) => <AddEvent {...props} />} />
 				<Route exact path="/events/admin/:eventId" component={(props) => <EventAdmin {...props.match.params} /> } />
+				<Route exact path="/events/edit/:eventId"  render={(props) => <AddEvent {...props} editMode={true} /> } />
 			</Conditional>
 			<Route exact path="/profile" render={(props) => <Profile {...props} />} />
 		</Conditional>

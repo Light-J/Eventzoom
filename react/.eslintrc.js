@@ -1,20 +1,55 @@
 module.exports = {
-    "extends": ["airbnb-base", "plugin:react/recommended"],
-    "plugins": [
-      "prefer-import"
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest": true,
+        "node": true,
+        "commonjs": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
     ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true,
+            "experimentalObjectRestSpread": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+    },
     "parser": "babel-eslint",
-    rules: {
-      "indent": ["error", "tab"],
-      "no-tabs": 0,
-      "linebreak-style": 0,
-      "prefer-import/prefer-import-over-require": ["error"],
-      "import/prefer-default-export": 0,
-      "linebreak-style": 0,
-      "no-underscore-dangle": 0,
-      "no-undef": 0,
-      "prefer-destructuring": 0,
-      "import/no-named-as-default": 0
-    }
-  };
-  
+    "settings": {
+        "react": {
+          "createClass": "createReactClass", // Regex for Component Factory to use,
+                                             // default to "createReactClass"
+          "pragma": "React",  // Pragma to use, default to "React"
+          "version": "detect", // React version. "detect" automatically picks the version you have installed.
+                               // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
+                               // default to latest and warns if missing
+                               // It will default to "detect" in the future
+          "flowVersion": "0.53" // Flow version
+        },
+        "propWrapperFunctions": [
+            // The names of any function used to wrap propTypes, e.g. `forbidExtraProps`. If this isn't set, any propTypes wrapped in a function will be skipped.
+            "forbidExtraProps",
+            {"property": "freeze", "object": "Object"},
+            {"property": "myFavoriteWrapper"}
+        ],
+        "linkComponents": [
+          // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
+          "Hyperlink",
+          {"name": "Link", "linkAttribute": "to"}
+        ]
+      }
+};

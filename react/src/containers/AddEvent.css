@@ -1,3 +1,9 @@
 .react-datepicker-wrapper {
     display: block;
 }
+
+.edit-btn{
+    position: absolute;
+    right: 13px;
+    top: 13px
+}
