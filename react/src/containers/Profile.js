@@ -254,7 +254,7 @@ export class Profile extends React.Component {
 										<br />
 										<img src={this.state.mfaInfo.qrCodeImageUrl} alt="authenticator QR code" className="m-5" />
 									</p>
-									<label className="col-form-label">Code</label>
+									<label className="col-form-label">2FA Code (no spaces)</label>
 									<input className="form-control" type="text" name="code" placeholder="Code" onChange={this.handleChange} required/>
 								</div>
 								<div className="form-group">

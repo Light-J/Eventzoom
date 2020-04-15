@@ -74,7 +74,7 @@ export class Login extends React.Component {
 						</div>
 						<Conditional if={this.state.mfaRequired}>
 							<div className="form-group">
-								<label htmlFor="InputPassword" className="col-form-label">2FA Code</label>
+								<label htmlFor="InputPassword" className="col-form-label">2FA Code (no spaces)</label>
 								<input className="form-control is-invalid" type="text" name="code" placeholder="2FA Code" value={this.state.code} onChange={this.handleChange} required/>
 							</div>
 						</Conditional>
