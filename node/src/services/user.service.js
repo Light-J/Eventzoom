@@ -1,10 +1,25 @@
 import bcrypt from 'bcryptjs';
 import * as crypto from 'crypto';
 import sub from 'date-fns/sub';
+import base32 from 'thirty-two';
 import User from '../models/user.model';
 import emailService from './email.service';
 import PasswordResetToken from '../models/passwordResetToken.model';
 import EmailVerificationToken from '../models/emailVerificationToken.model';
+
+const getRandomInt = function (min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const randomKey = function (len) {
+	const buf = [];
+	const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+	const charlen = chars.length;
+	for (let i = 0; i < len; ++i) {
+		buf.push(chars[getRandomInt(0, charlen - 1)]);
+	}
+	return buf.join('');
+};
 
 const resendVerificationEmail = async (email) => {
 	try {
@@ -114,6 +129,44 @@ const verify = async (tokenString) => {
 	}
 };
 
+const getMfaInfo = async (id) => {
+	try {
+		const user = await getUserById(id);
+		if (!user.mfaEnabled) {
+			let key = randomKey(10);
+			key = base32.encode(key);
+			await User.findByIdAndUpdate(id, { mfaSecret: key });
+			const otpUrl = `otpauth://totp/${user.email}?secret=${key}&period=${30}`;
+			const qrCodeImageUrl = `https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=${encodeURIComponent(otpUrl)}`;
+			key = key.toString();
+			return {
+				qrCodeImageUrl, key,
+			};
+		}
+		throw Error('MFA already enabled.');
+	} catch (e) {
+		throw Error('Error getting MFA info.');
+	}
+};
+
+const enableMfa = async (id) => {
+	try {
+		await User.findByIdAndUpdate(id, { mfaEnabled: true });
+		return true;
+	} catch (e) {
+		throw Error('Error enabling MFA.');
+	}
+};
+
+const disableMfa = async (id) => {
+	try {
+		await User.findByIdAndUpdate(id, { mfaEnabled: false });
+		return true;
+	} catch (e) {
+		throw Error('Error disabling MFA.');
+	}
+};
+
 const getAllUsers = async () => User.find({});
 export default {
 	createUser,
@@ -126,4 +179,7 @@ export default {
 	resendVerificationEmail,
 	resetPassword,
 	verify,
+	getMfaInfo,
+	enableMfa,
+	disableMfa,
 };

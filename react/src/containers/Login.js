@@ -18,6 +18,7 @@ export class Login extends React.Component {
 	state = {
 		username: '',
 		password: '',
+		code: '',
 		authenticationFailure: false,
 	};
 
@@ -29,8 +30,15 @@ export class Login extends React.Component {
 		event.preventDefault();
 		this.setState({ authenticationFailure: false });
 		try {
-			const result = await axios.post(`${serverConfig.url}users/login`, this.state);
+			let route = 'login';
+			if (this.state.mfaRequired) {
+				route = 'login-mfa';
+			}
+			const result = await axios.post(`${serverConfig.url}users/${route}`, this.state);
 			if (result.data.success) {
+				if (result.data.mfaRequired) {
+					this.setState({ mfaRequired: true });
+				}
 				this.props.setUser(result.data.user);
 				localStorage.setItem('JWT', result.data.token);
 			} else {
@@ -64,6 +72,12 @@ export class Login extends React.Component {
 							<label htmlFor="InputPassword" className="col-form-label">Password</label>
 							<input className="form-control" type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
 						</div>
+						<Conditional if={this.state.mfaRequired}>
+							<div className="form-group">
+								<label htmlFor="InputPassword" className="col-form-label">2FA Code</label>
+								<input className="form-control is-invalid" type="text" name="code" placeholder="2FA Code" value={this.state.code} onChange={this.handleChange} required/>
+							</div>
+						</Conditional>
 						<div>
 							<button className="btn btn-success" onClick={this.submitForm}>Login</button>
 						</div><br /><br />
