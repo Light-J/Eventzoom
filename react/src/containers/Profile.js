@@ -247,6 +247,8 @@ export class Profile extends React.Component {
 									<p>
 										To enable two factor authentication, scan the QR code with the app
 										and then enter the code provided by your app in the field below.
+										If you do not already use a two factor authentication app, we suggest
+										Google Authenticator or Authy.
 										<br />
 										Key for manual entry: <strong>{this.state.mfaInfo.key}</strong>
 										<br />
