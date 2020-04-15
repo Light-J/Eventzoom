@@ -25,6 +25,7 @@ export class Profile extends React.Component {
 		passwordChanged: false,
 		passwordChangeFailure: false,
 		events: [],
+		mfaInfo: {},
 		date: new Date(),
 		phoneNumber: null,
 	};
@@ -36,10 +37,23 @@ export class Profile extends React.Component {
 			.then((res) => {
 				this.setState({ events: res.data });
 			});
+		this.getMfaInfo();
 	};
 
 	handleChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
+	};
+
+	getMfaInfo = () => {
+		axios.get(`${serverConfig.url}users/me/mfa-info`)
+			.then((res) => {
+				if (res.data.mfaInfo) {
+					this.setState({ mfaInfo: res.data.mfaInfo });
+				}
+				if (res.data.mfaEnabled) {
+					this.setState({ mfaEnabled: true });
+				}
+			});
 	};
 
 	submitProfileForm = async (event) => {
@@ -75,6 +89,37 @@ export class Profile extends React.Component {
 		}
 	};
 
+	submitEnableMfaForm = async (event) => {
+		event.preventDefault();
+		try {
+			const result = await axios.put(`${serverConfig.url}users/me/enable-mfa`, this.state);
+			if (result.data.success) {
+				this.setState({ mfaEnabled: true });
+				this.setState({ mfaEnableFailure: false });
+			} else {
+				this.setState({ mfaEnableFailure: true });
+			}
+		} catch (e) {
+			this.setState({ mfaEnableFailure: true });
+		}
+	};
+
+	submitDisableMfaForm = async (event) => {
+		event.preventDefault();
+		try {
+			const result = await axios.put(`${serverConfig.url}users/me/disable-mfa`, this.state);
+			if (result.data.success) {
+				this.setState({ mfaEnabled: false });
+				this.setState({ mfaDisableFailure: false });
+				this.getMfaInfo();
+			} else {
+				this.setState({ mfaDisableFailure: true });
+			}
+		} catch (e) {
+			this.setState({ mfaDisableFailure: true });
+		}
+	};
+
 	deletePhoneNumber = (event) => {
 		event.preventDefault();
 		axios.delete(`${serverConfig.url}users/me/phone-number`).then((result) => {
@@ -95,7 +140,6 @@ export class Profile extends React.Component {
 	pastEvents = () => this.state.events.filter((e) => new Date(e.date) < this.state.date);
 
 	futureEvents = () => this.state.events.filter((e) => new Date(e.date) >= this.state.date);
-
 
 	render() {
 		return (
@@ -168,6 +212,63 @@ export class Profile extends React.Component {
 								<button className="btn btn-success" onClick={this.submitChangePasswordForm}>Update Password</button>
 							</div>
 						</form>
+						<hr />
+						<h1>Two Factor Authentication</h1>
+						<form>
+							<Conditional if={this.state.mfaEnabled}>
+								<div className="alert alert-success">
+									Two factor authentication is enabled.
+								</div>
+								<Conditional if={this.state.mfaDisableFailure}>
+									<div className="alert alert-danger">
+										Error disabling two factor authentication.
+										Please check your password and try again.
+									</div>
+								</Conditional>
+								<div className="form-group">
+									<p>
+										To disable, re-enter your password.
+									</p>
+									<label className="col-form-label">Password</label>
+									<input className="form-control" type="password" name="disableMfaPassword" placeholder="Password" onChange={this.handleChange} required/>
+								</div>
+								<div>
+									<button className="btn btn-danger" onClick={this.submitDisableMfaForm}>Disable Two Factor Authentication</button>
+								</div>
+							</Conditional>
+							<Conditional if={this.state.mfaEnableFailure}>
+								<div className="alert alert-danger">
+									Error enabling two factor authentication.
+									Please check the code and your password and try again.
+								</div>
+							</Conditional>
+							<Conditional if={!this.state.mfaEnabled}>
+								<div className="form-group">
+									<p>
+										To enable two factor authentication, scan the QR code with the app
+										and then enter the code provided by your app in the field below.
+										If you do not already use a two factor authentication app, we suggest
+										Google Authenticator or Authy.
+										<br />
+										Key for manual entry: <strong>{this.state.mfaInfo.key}</strong>
+										<br />
+										<img src={this.state.mfaInfo.qrCodeImageUrl} alt="authenticator QR code" className="m-5" />
+									</p>
+									<label className="col-form-label">2FA Code (no spaces)</label>
+									<input className="form-control" type="text" name="code" placeholder="Code" onChange={this.handleChange} required/>
+								</div>
+								<div className="form-group">
+									<p>
+										To enable, re-enter your password.
+									</p>
+									<label className="col-form-label">Password</label>
+									<input className="form-control" type="password" name="enableMfaPassword" placeholder="Password" onChange={this.handleChange} required/>
+								</div>
+								<div>
+									<button className="btn btn-success" onClick={this.submitEnableMfaForm}>Enable Two Factor Authentication</button>
+								</div>
+							</Conditional>
+						</form>
 					</div>
 				</Conditional>
 				<Conditional if={this.props.user.sso && this.props.user.filterable.staff}>
@@ -177,7 +278,7 @@ export class Profile extends React.Component {
 						By integrating with Zoom, you will be able to organise remote events.
 							<Conditional if={!this.props.user.zoom}>
 								<div className="mt-2">
-									<a href={`${serverConfig.url}zoom?jwt=${localStorage.getItem('JWT')}`}className="btn btn-success">Integrate</a>
+									<a href={`${serverConfig.url}zoom?jwt=${localStorage.getItem('JWT')}`} className="btn btn-success">Integrate</a>
 								</div>
 							</Conditional>
 							<Conditional if={this.props.user.zoom}>

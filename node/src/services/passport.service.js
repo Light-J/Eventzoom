@@ -4,8 +4,10 @@ import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Strategy as SamlStrategy } from 'passport-saml';
+import { Strategy as TotpStrategy } from 'passport-totp';
 import { Strategy as AnonymousStrategy } from 'passport-anonymous';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
+import base32 from 'thirty-two';
 import authConfig from '../../config/auth';
 import userService from './user.service';
 import userModel from '../models/user.model';
@@ -66,6 +68,14 @@ const initPassport = (app) => {
 		'jwt',
 		new JwtStrategy(JwtOptions, jwtRetrieve),
 	);
+
+	passport.use(new TotpStrategy(((user, done) => {
+		const key = user.mfaSecret;
+		if (!key) {
+			return done(new Error('No key'));
+		}
+		return done(null, base32.decode(key), 30); // 30 is the valid period
+	})));
 
 	// used for weird redirecty things
 	// like the zoom controller
