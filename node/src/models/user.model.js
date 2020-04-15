@@ -11,6 +11,8 @@ const UserSchema = new mongoose.Schema({
 	name: { type: String, required: false },
 	sso: { type: Boolean, required: false },
 	verified: { type: Boolean, required: false },
+	mfaSecret: { type: String, required: false },
+	mfaEnabled: { type: Boolean, required: false },
 	filterable: { ...filterableFields },
 	phoneNumber: { type: String, required: false },
 	zoom: { refreshToken: { type: String, required: false } },

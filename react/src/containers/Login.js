@@ -18,7 +18,9 @@ export class Login extends React.Component {
 	state = {
 		username: '',
 		password: '',
+		code: '',
 		authenticationFailure: false,
+		authenticationFailureMfa: false,
 	};
 
 	handleChange = (e) => {
@@ -28,15 +30,29 @@ export class Login extends React.Component {
 	submitForm = async (event) => {
 		event.preventDefault();
 		this.setState({ authenticationFailure: false });
+		this.setState({ authenticationFailureMfa: false });
 		try {
-			const result = await axios.post(`${serverConfig.url}users/login`, this.state);
+			let route = 'login';
+			if (this.state.mfaRequired) {
+				route = 'login-mfa';
+			}
+			const result = await axios.post(`${serverConfig.url}users/${route}`, this.state);
 			if (result.data.success) {
+				if (result.data.mfaRequired) {
+					this.setState({ mfaRequired: true });
+				}
 				this.props.setUser(result.data.user);
 				localStorage.setItem('JWT', result.data.token);
 			} else {
+				if (this.state.mfaRequired) {
+					this.setState({ authenticationFailureMfa: true });
+				}
 				this.setState({ authenticationFailure: true });
 			}
 		} catch (e) {
+			if (this.state.mfaRequired) {
+				this.setState({ authenticationFailureMfa: true });
+			}
 			this.setState({ authenticationFailure: true });
 		}
 	};
@@ -50,8 +66,12 @@ export class Login extends React.Component {
 			return (
 				<form className="container">
 					<div className="card border-0 shadow my-5 p-5">
-						<Conditional if={this.state.authenticationFailure}>
+						<Conditional if={this.state.authenticationFailure
+						&& !this.state.authenticationFailureMfa}>
 							<div className="alert alert-danger">The username and password are invalid, or you have not verified your email. Please try again.</div>
+						</Conditional>
+						<Conditional if={this.state.authenticationFailureMfa}>
+							<div className="alert alert-danger">The two factor authentication code was not right. Please try again.</div>
 						</Conditional>
 						<h1>Login</h1>
 						<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
@@ -64,6 +84,12 @@ export class Login extends React.Component {
 							<label htmlFor="InputPassword" className="col-form-label">Password</label>
 							<input className="form-control" type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
 						</div>
+						<Conditional if={this.state.mfaRequired}>
+							<div className="form-group">
+								<label htmlFor="InputPassword" className="col-form-label">2FA Code (no spaces)</label>
+								<input className="form-control is-invalid" type="text" name="code" placeholder="2FA Code" value={this.state.code} onChange={this.handleChange} required/>
+							</div>
+						</Conditional>
 						<div>
 							<button className="btn btn-success" onClick={this.submitForm}>Login</button>
 						</div><br /><br />
