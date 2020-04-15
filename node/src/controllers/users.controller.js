@@ -75,12 +75,28 @@ router.post(
 	'/login',
 	passport.authenticate('local'),
 	async (req, res) => {
-		res.json({
+		if (req.user.mfaEnabled) {
+			return res.json({
+				success: true,
+				mfaRequired: true,
+			});
+		}
+		return res.json({
 			success: true,
 			token: await passportJs.getJwtToken(req.user.id),
 			user: req.user,
 		});
 	},
+);
+
+router.post(
+	'/login-mfa',
+	passport.authenticate('local'), passport.authenticate('totp'),
+	async (req, res) => res.json({
+		success: true,
+		token: await passportJs.getJwtToken(req.user.id),
+		user: req.user,
+	}),
 );
 
 router.post('/forgotten-password',
@@ -153,6 +169,32 @@ router.get('/auth/google/callback',
 
 router.get('/me/attending', passport.authenticate('jwt'), async (req, res) => {
 	res.send(await eventService.getUserAttendingEvents(req.user));
+});
+
+router.get('/me/mfa-info', passport.authenticate('jwt'), async (req, res) => {
+	if (!req.user.mfaEnabled) {
+		const mfaInfo = await userService.getMfaInfo(req.user.id);
+		return res.json({ success: true, mfaInfo });
+	}
+	return res.json({ success: true, mfaEnabled: true });
+});
+
+router.put('/me/enable-mfa', passport.authenticate('jwt'), validator('required', { field: 'enableMfaPassword' }), validator('correctPassword', { field: 'enableMfaPassword' }), passport.authenticate('totp'), async (req, res) => {
+	try {
+		await userService.enableMfa(req.user.id);
+	} catch (e) {
+		return res.json({ success: false });
+	}
+	return res.json({ success: true });
+});
+
+router.put('/me/disable-mfa', passport.authenticate('jwt'), validator('required', { field: 'disableMfaPassword' }), validator('correctPassword', { field: 'disableMfaPassword' }), async (req, res) => {
+	try {
+		await userService.disableMfa(req.user.id);
+	} catch (e) {
+		return res.json({ success: false });
+	}
+	return res.json({ success: true });
 });
 
 export default router;
