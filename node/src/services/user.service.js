@@ -7,20 +7,6 @@ import emailService from './email.service';
 import PasswordResetToken from '../models/passwordResetToken.model';
 import EmailVerificationToken from '../models/emailVerificationToken.model';
 
-const getRandomInt = function (min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-const randomKey = function (len) {
-	const buf = [];
-	const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-	const charlen = chars.length;
-	for (let i = 0; i < len; ++i) {
-		buf.push(chars[getRandomInt(0, charlen - 1)]);
-	}
-	return buf.join('');
-};
-
 const resendVerificationEmail = async (email) => {
 	try {
 		const user = await User.findOne({ email });
@@ -133,7 +119,7 @@ const getMfaInfo = async (id) => {
 	try {
 		const user = await getUserById(id);
 		if (!user.mfaEnabled) {
-			let key = randomKey(10);
+			let key = crypto.randomBytes(10);
 			key = base32.encode(key);
 			await User.findByIdAndUpdate(id, { mfaSecret: key });
 			const otpUrl = `otpauth://totp/${user.email}?secret=${key}&period=${30}`;
