@@ -8,6 +8,7 @@
 * have the instance's connect string
 * ensure you are not using a `+srv` protocol to connect to that instance
 * have an s3 bucket with access keys, and a cloudfront URL pointing to that S3 bucket (for now, the details set up in .env should be good enough)
+* enable HTTPS for PWA functionality
 * Have a REDIS server set up (for now, the details provided in .env should be good enough)
 * Have a SAML provider configured that provides a name, email and role attribute (for noe, the defaults should be good enough)
 * A disqus instance (for now, a default is provided)
