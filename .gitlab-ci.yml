@@ -44,7 +44,7 @@ react-deploy:
    - aws s3 sync ./ s3://eventzoom/
    - aws s3 cp \
      --metadata-directive REPLACE \
-     --cache-control no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0 \
+     --cache-control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0' \
      s3://eventzoom/service-worker.js \
      s3://eventzoom/service-worker.js
 
