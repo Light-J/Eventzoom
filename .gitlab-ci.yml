@@ -34,7 +34,7 @@ react-test:
 
 react-deploy:
   only:
-    - develop
+    - feature/44-pwa
   stage: deploy_staging
   script:
    - cd react/
@@ -42,6 +42,7 @@ react-deploy:
    - CI="" npm run build
    - cd build/
    - aws s3 sync ./ s3://eventzoom/
+   - s3cmd modify --add-header="Cache-Control:no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" s3://eventzoom/service-worker.js
 
 
 
@@ -49,7 +50,7 @@ node-deploy:
   tags:
     - north
   only:
-    - develop
+    - feature/44-pwa
   stage: deploy_staging
   script:
     - cd node
