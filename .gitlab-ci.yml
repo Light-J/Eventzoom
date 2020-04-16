@@ -34,7 +34,7 @@ react-test:
 
 react-deploy:
   only:
-    - feature/44-pwa
+    - develop
   stage: deploy_staging
   script:
    - cd react/
@@ -50,7 +50,7 @@ node-deploy:
   tags:
     - north
   only:
-    - feature/44-pwa
+    - develop
   stage: deploy_staging
   script:
     - cd node
