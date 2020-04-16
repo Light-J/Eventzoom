@@ -42,7 +42,11 @@ react-deploy:
    - CI="" npm run build
    - cd build/
    - aws s3 sync ./ s3://eventzoom/
-   - s3cmd modify --add-header="Cache-Control:no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" s3://eventzoom/service-worker.js
+   - aws s3 cp \
+     --metadata-directive REPLACE \
+     --cache-control no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0 \
+     s3://eventzoom/service-worker.js \
+     s3://eventzoom/service-worker.js
 
 
 
