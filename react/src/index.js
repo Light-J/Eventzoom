@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import $ from 'jquery';
+import Popper from 'popper.js';
 import { Provider } from 'react-redux';
 import { HashRouter as Router } from 'react-router-dom';
 import App from './containers/App';
 import configureStore from './store/store';
 import loadUser from './utils/loadUser';
-import $ from 'jquery';
-import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './registerServiceWorker';
 import './scss/main.scss';
