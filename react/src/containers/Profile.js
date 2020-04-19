@@ -163,20 +163,23 @@ export class Profile extends React.Component {
 								</div>
 							</Conditional>
 							<div className="form-group">
-								<label className="col-form-label">Email</label>
-								<input className="form-control" type="email" name="email" placeholder="Email" defaultValue={this.props.user.email} onChange={this.handleChange} required/>
+								<label className="col-form-label" htmlFor="emailInput">Email</label>
+								<input className="form-control" type="email" name="email" id="emailInput" placeholder="Email" defaultValue={this.props.user.email} onChange={this.handleChange} required/>
 							</div>
 							<div className="form-group">
-								<label className="col-form-label">Name</label>
-								<input className="form-control" type="text" name="name" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
+								<label className="col-form-label" htmlFor="nameInput">Name</label>
+								<input className="form-control" type="text" name="name" id="nameInput" placeholder="Name" defaultValue={this.props.user.name} onChange={this.handleChange} required/>
 							</div>
-							<div className="input-group mb-3">
-								<div className="input-group-prepend">
-									<span className="input-group-text">In UK international format</span>
-								</div>
-								<input type="text" className="form-control" placeholder="Phone number" name="phoneNumber" defaultValue={this.props.user.phoneNumber} value={this.state.phoneNumber} onChange={this.handleChange} />
-								<div className="input-group-append">
-									<button className="btn btn-outline-secondary" type="button" onClick={this.deletePhoneNumber}>Remove</button>
+							<div className="form-group">
+								<label className="col-form-label" htmlFor="phoneNumberInput">Phone Number</label>
+								<div className="input-group mb-3">
+									<div className="input-group-prepend">
+										<span className="input-group-text">In UK international format</span>
+									</div>
+									<input type="text" className="form-control" placeholder="Phone number" name="phoneNumber" id="phoneNumberInput" defaultValue={this.props.user.phoneNumber} value={this.state.phoneNumber} onChange={this.handleChange} />
+									<div className="input-group-append">
+										<button className="btn btn-outline-secondary" type="button" onClick={this.deletePhoneNumber}>Remove</button>
+									</div>
 								</div>
 							</div>
 							<div>
@@ -197,16 +200,16 @@ export class Profile extends React.Component {
 								</div>
 							</Conditional>
 							<div className="form-group">
-								<label htmlFor="InputPassword" className="col-form-label">Current Password</label>
-								<input className="form-control" type="password" name="currentPassword" placeholder="Current Password" onChange={this.handleChange} required/>
+								<label htmlFor="currentPasswordInput" className="col-form-label">Current Password</label>
+								<input className="form-control" type="password" name="currentPassword" id="currentPasswordInput" placeholder="Current Password" onChange={this.handleChange} required/>
 							</div>
 							<div className="form-group">
-								<label htmlFor="InputPassword" className="col-form-label">New Password</label>
-								<input className="form-control" type="password" name="newPassword" placeholder="New Password" onChange={this.handleChange} required/>
+								<label htmlFor="newPasswordInput" className="col-form-label">New Password</label>
+								<input className="form-control" type="password" name="newPassword" id="newPasswordInput" placeholder="New Password" onChange={this.handleChange} required/>
 							</div>
 							<div className="form-group">
-								<label htmlFor="InputPassword" className="col-form-label">Repeat New Password</label>
-								<input className="form-control" type="password" name="newPasswordConfirmation" placeholder="Password" onChange={this.handleChange} required/>
+								<label htmlFor="newPasswordConfirmationInput" className="col-form-label">Repeat New Password</label>
+								<input className="form-control" type="password" name="newPasswordConfirmation" id="newPasswordConfirmationInput" placeholder="Password" onChange={this.handleChange} required/>
 							</div>
 							<div>
 								<button className="btn btn-success" onClick={this.submitChangePasswordForm}>Update Password</button>
@@ -229,8 +232,8 @@ export class Profile extends React.Component {
 									<p>
 										To disable, re-enter your password.
 									</p>
-									<label className="col-form-label">Password</label>
-									<input className="form-control" type="password" name="disableMfaPassword" placeholder="Password" onChange={this.handleChange} required/>
+									<label className="col-form-label" htmlFor="disableMfaPasswordInput">Password</label>
+									<input className="form-control" type="password" name="disableMfaPassword" id="disableMfaPasswordInput" placeholder="Password" onChange={this.handleChange} required/>
 								</div>
 								<div>
 									<button className="btn btn-danger" onClick={this.submitDisableMfaForm}>Disable Two Factor Authentication</button>
@@ -254,15 +257,15 @@ export class Profile extends React.Component {
 										<br />
 										<img src={this.state.mfaInfo.qrCodeImageUrl} alt="authenticator QR code" className="m-5" />
 									</p>
-									<label className="col-form-label">2FA Code (no spaces)</label>
-									<input className="form-control" type="text" name="code" placeholder="Code" onChange={this.handleChange} required/>
+									<label className="col-form-label" htmlFor="codeInput">2FA Code (no spaces)</label>
+									<input className="form-control" type="text" name="code" id="codeInput" placeholder="Code" onChange={this.handleChange} required/>
 								</div>
 								<div className="form-group">
 									<p>
 										To enable, re-enter your password.
 									</p>
-									<label className="col-form-label">Password</label>
-									<input className="form-control" type="password" name="enableMfaPassword" placeholder="Password" onChange={this.handleChange} required/>
+									<label className="col-form-label" htmlFor="enableMfaPasswordInput">Password</label>
+									<input className="form-control" type="password" name="enableMfaPassword" id="enableMfaPasswordInput" placeholder="Password" onChange={this.handleChange} required/>
 								</div>
 								<div>
 									<button className="btn btn-success" onClick={this.submitEnableMfaForm}>Enable Two Factor Authentication</button>
