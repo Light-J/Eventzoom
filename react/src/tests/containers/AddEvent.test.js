@@ -15,7 +15,7 @@ describe('<AddEvent />', () => {
 		const labelDescription = wrapper.find('label[htmlFor="description"]');
 		const inputDescription = wrapper.find('textarea[id="description"]');
 
-		const labelImage = wrapper.find('label[htmlFor="image"]');
+		const labelImage = wrapper.find('label[htmlFor="imageUpload"]');
 		const inputImage = wrapper.find('input[id="imageUpload"]');
 
 		const labelSpeaker = wrapper.find('label[htmlFor="speaker"]');
