@@ -12,6 +12,7 @@
     "bootstrap": "^4.4.1",
     "date-fns": "^2.10.0",
     "disqus-react": "^1.0.7",
+    "jquery": "^3.4.1",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "pure-react-carousel": "^1.25.2",
