@@ -13,7 +13,7 @@ describe('<AddEvent />', () => {
 		const inputTitile = wrapper.find('input[id="title"]');
 
 		const labelDescription = wrapper.find('label[htmlFor="description"]');
-		const inputDescription = wrapper.find('textarea[id="title"]');
+		const inputDescription = wrapper.find('textarea[id="description"]');
 
 		const labelImage = wrapper.find('label[htmlFor="image"]');
 		const inputImage = wrapper.find('input[id="imageUpload"]');
