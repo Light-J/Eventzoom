@@ -15,7 +15,7 @@ class SearchBar extends Component {
 			<span className="input-group-prepend">
 				<button onClick={this.props.toggle} className="btn btn-info" type="button"><FontAwesomeIcon icon={faFilter}/> Advanced Search</button>
 			</span>
-			<input type="text" className="form-control" onChange={(event) => this.props.updateQuery(event)} />
+			<input placeholder="Search" type="text" className="form-control" onChange={(event) => this.props.updateQuery(event)} />
 			<span className="input-group-append">
 				<button className="btn btn-success" type="button" onClick={this.props.search}>Go!</button>
 			</span>
