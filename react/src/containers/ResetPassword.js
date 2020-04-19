@@ -50,12 +50,12 @@ export default class ResetPassword extends React.Component {
 
 					<h1>Set your new password</h1>
 					<div className="form-group">
-						<label htmlFor="InputPassword" className="col-form-label">New Password</label>
-						<input className="form-control" type="password" name="newPassword" placeholder="New Password" onChange={this.handleChange} required/>
+						<label htmlFor="passwordInput" className="col-form-label">New Password</label>
+						<input id="passwordInput" className="form-control" type="password" name="newPassword" placeholder="New Password" onChange={this.handleChange} required/>
 					</div>
 					<div className="form-group">
-						<label htmlFor="InputPassword" className="col-form-label">Repeat New Password</label>
-						<input className="form-control" type="password" name="newPasswordConfirmation" placeholder="Password" onChange={this.handleChange} required/>
+						<label htmlFor="passwordInput2" className="col-form-label">Repeat New Password</label>
+						<input id="passwordInput2" className="form-control" type="password" name="newPasswordConfirmation" placeholder="Password" onChange={this.handleChange} required/>
 					</div>
 					<div>
 						<button className="btn btn-success" onClick={this.submitForm}>Update Password</button>
