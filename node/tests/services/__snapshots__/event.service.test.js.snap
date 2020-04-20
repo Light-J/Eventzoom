@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getting recommendations matches snapshots 1`] = `
+Array [
+  Array [
+    Object {
+      "_id": "123",
+    },
+    Object {
+      "_id": "123",
+    },
+  ],
+  Array [
+    Object {
+      "_id": "123",
+    },
+  ],
+  [Function],
+  [Function],
+]
+`;
+
+exports[`getting recommendations matches snapshots 2`] = `
+Array [
+  Object {
+    "_id": "potato",
+  },
+]
+`;
+
+exports[`getting user events matches snapshots 1`] = `
+Array [
+  Object {
+    "attendees.user": "123",
+  },
+]
+`;
+
+exports[`getting user events matches snapshots 2`] = `
+Array [
+  "event1",
+  "event2",
+]
+`;

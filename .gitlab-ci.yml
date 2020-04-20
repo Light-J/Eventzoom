@@ -1,0 +1,64 @@
+image: buhala/eventzoom-aws:latest
+services:
+  - mongo
+
+
+cache:
+  paths:
+  - node/node_modules/
+  - react/node_modules/
+
+stages:
+  - test
+  - deploy_staging
+
+node-test:
+  variables:
+    MONGO_URL: 'mongodb://mongo/eventzoom'
+  stage: test
+  script:
+   - cd node/
+   - npm i
+   - npm run seed
+   - npm run test -- --runInBand
+   - npm run lint
+
+react-test:
+  stage: test
+  script:
+   - cd react/
+   - npm i
+   - npm test
+   - npm run lint
+
+
+react-deploy:
+  only:
+    - develop
+  stage: deploy_staging
+  script:
+   - cd react/
+   - npm i
+   - CI="" npm run build
+   - cd build/
+   - aws s3 sync ./ s3://eventzoom/ --delete --cache-control max-age=31536000,public
+   - aws s3 cp s3://eventzoom/service-worker.js s3://eventzoom/service-worker.js --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type application/javascript --acl public-read
+   - aws s3 cp s3://eventzoom/index.html s3://eventzoom/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --acl public-read
+
+
+node-deploy:
+  tags:
+    - north
+  only:
+    - develop
+  stage: deploy_staging
+  script:
+    - cd node
+    - npm i
+    - mv .env .env.dev
+    - mv .env.serverless .env
+    - npx db-migrate db:drop test
+    - npm run seed
+    - mv .env .env.serverless
+    - mv .env.dev .env
+    - npm run update-lambda

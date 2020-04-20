@@ -1,0 +1,14 @@
+doctype html
+body
+    h1 Event confirmation for #{event.title}
+    p Your booking is confirmed for this event
+
+    h3 Event details
+    p Location: #{event.specificLocation}
+    p Organiser: #{event.organiser.email}
+    p Date: #{event.date.toLocaleString()}
+    if event.zoomUrl
+        p This is a remote event
+        p To access it click 
+            a(href=event.zoomUrl) #{event.zoomUrl}
+

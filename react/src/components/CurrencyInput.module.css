@@ -1,0 +1,7 @@
+.fakeFocus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #7e94de;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(45, 75, 176, 0.25);
+}
