@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import $ from 'jquery';
-import Popper from 'popper.js';
 import { Provider } from 'react-redux';
 import { HashRouter as Router } from 'react-router-dom';
 import App from './containers/App';
