@@ -116,6 +116,8 @@ export class Event extends Component {
 		location={attachment.location}
 		_id={attachment._id} />);
 
+	hasWindow = () => (typeof window !== 'undefined');
+
 	render = () => <div className='container'>
 		<div className="container">
 			<div className="card border-0 shadow my-5">
