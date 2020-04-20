@@ -59,6 +59,17 @@ export class Event extends Component {
 
 	componentDidMount = () => {
 		this.updateComponent();
+		this.eventUrl = this.hasWindow() && window.location.href;
+	};
+
+	makeShareText = () => {
+		const {
+			title, speaker, date, vagueLocation,
+		} = this.state;
+		this.shareText = `Hi there, don’t miss ${speaker} at ${title} on ${new Date(date)}. Here are the event details:`;
+		this.shareText += `Title : ${title}
+		Venue: ${vagueLocation}
+		Url: ${this.eventUrl}`;
 	};
 
 	componentDidUpdate = () => {
