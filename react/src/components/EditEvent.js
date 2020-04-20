@@ -109,7 +109,7 @@ render = () => (<form>
 
 				<div className="form-group">
 					<label htmlFor="description" className="col-form-label">Description</label>
-					<textarea id="title" className="form-control" name="description" placeholder="Description"
+					<textarea id="description" className="form-control" name="description" placeholder="Description"
 						value={this.state.description} onChange={this.handleChange} required />
 				</div>
 
@@ -170,8 +170,9 @@ render = () => (<form>
 				</div>
 
 				<div>
-					<label htmlFor="Calendar" className="col-form-label">Select Date and Time</label><br/>
+					<label htmlFor="calendarInput" className="col-form-label">Select Date and Time</label><br/>
 					<DatePicker
+						id="calendarInput"
 						className="form-control"
 						selected={this.state.date}
 						onChange={this.handleDate}
