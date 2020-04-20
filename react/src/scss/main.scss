@@ -1,0 +1,19 @@
+@import 'variables';
+@import '~bootstrap/scss/bootstrap';
+@import 'bootswatch';
+
+body {
+  background-color: #e2e2e2;
+}
+
+.navbar li {
+  font-size: 1.3em;
+}
+
+.alert {
+  font-size: 1.1em;
+}
+
+li.list-group-item {
+  font-size: 1.15em;
+}

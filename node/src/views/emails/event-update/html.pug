@@ -1,0 +1,13 @@
+doctype html
+body
+    h1 Event update for #{event.title}
+    p This event has had changes. Your invitation is updated accordingly.
+
+    h3 Event details
+    p Location: #{event.specificLocation}
+    p Organiser: #{event.organiser.email}
+    p Date: #{event.date.toLocaleString()}
+    if event.zoomUrl
+        p This is a remote event
+        p To access it click 
+            a(href=event.zoomUrl) #{event.zoomUrl}
