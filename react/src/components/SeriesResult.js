@@ -20,13 +20,13 @@ class SeriesResult extends Component {
 
 	render = () => <div className="col">
 		<Link className="text-decoration-none text-reset" to={`/series/${this.props.id}`} >
-			<div className="card" style={{ height: `${this.props.height}px` }}>
-				<img className={`card-img-top ${classes.restrictImageMobile}`} src={this.props.image} alt="Card cap" />
+			<section className="card" style={{ height: `${this.props.height}px` }}>
+				<img className={`card-img-top ${classes.restrictImageMobile}`} src={this.props.image} alt={this.props.title} />
 				<div className="card-body" style={{ height: `${this.props.height}px` }}>
 					<h5 className="card-title">{this.props.title}</h5>
 					<p className="card-text">{this.props.description}</p>
 				</div>
-			</div>
+			</section>
 		</Link>
 	</div>
 }

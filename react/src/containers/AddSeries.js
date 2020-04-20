@@ -87,8 +87,8 @@ export default class AddSeries extends React.Component {
 					<label htmlFor="description" className="col-form-label">Description </label>
 					<textarea id="description" className="form-control" name="description" placeholder="Description"
 						onChange={this.handleChange} required value={this.state.description} />
-					<label htmlFor="image" className="col-form-label">Image</label>
-					<input type="file" onChange={this.uploadFile} accept="image/*"/>
+					<label htmlFor="imageInput" className="col-form-label">Image</label>
+					<input id="imageInput" type="file" onChange={this.uploadFile} accept="image/*"/>
 					<FilterableFields
 						noPublic={this.state.noPublic}
 						restrictToSchool={this.state.restrictToSchool}

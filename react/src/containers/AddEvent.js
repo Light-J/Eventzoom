@@ -125,7 +125,7 @@ render = () => (<form className="container">
 
 			<div className="form-group">
 				<label htmlFor="description" className="col-form-label">Description</label>
-				<textarea id="title" className="form-control" name="description" placeholder="Description"
+				<textarea id="description" className="form-control" name="description" placeholder="Description"
 					value={this.state.description} onChange={this.handleChange} required />
 			</div>
 			<label htmlFor="series" className="col-form-label">Series </label>
@@ -140,7 +140,8 @@ render = () => (<form className="container">
 			</select>
 
 			<div className="form-group">
-				<label htmlFor="image" className="col-form-label">Upload Image</label>
+				<br />
+				<label htmlFor="imageUpload" className="col-form-label">Image</label><br />
 				<input id="imageUpload" type="file" onChange={this.uploadFile} accept="image/*"/>
 			</div>
 
@@ -151,9 +152,10 @@ render = () => (<form className="container">
 			</div>
 
 			<div className="form-group">
-				<label className="col-form-label">Ticket cost: (leave at £0.00 for free tickets)</label>
+				<label className="col-form-label" htmlFor="priceInput">Ticket cost: (leave at £0.00 for free tickets)</label>
 				<CurrencyInput className="form-control"
 					amount={this.state.price}
+					id="priceInput"
 					setAmount={(value) => this.setState({ price: value })}
 				/>
 			</div>
@@ -243,8 +245,9 @@ render = () => (<form className="container">
 			</div>
 
 			<div>
-				<label htmlFor="Calendar" className="col-form-label">Select Date and Time</label><br/>
+				<label htmlFor="calendarInput" className="col-form-label">Select Date and Time</label><br/>
 				<DatePicker
+					id="calendarInput"
 					className="form-control"
 					selected={this.state.date}
 					onChange={this.handleDate}

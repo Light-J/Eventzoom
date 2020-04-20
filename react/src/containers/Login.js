@@ -77,17 +77,17 @@ export class Login extends React.Component {
 						<button type="button" className="btn btn-info mb-2" onClick={this.initSaml}>Authenticate with University Credentials</button>
 						<SignInGoogleButton />
 						<div className="form-group">
-							<label htmlFor="staticUsername" className="col-form-label">Username</label>
-							<input className="form-control" type="username" name="username" placeholder="Username" value={this.state.username} onChange={this.handleChange} required/>
+							<label htmlFor="usernameInput" className="col-form-label">Username</label>
+							<input id="usernameInput" className="form-control" type="username" name="username" placeholder="Username" value={this.state.username} onChange={this.handleChange} required/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="InputPassword" className="col-form-label">Password</label>
-							<input className="form-control" type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
+							<label htmlFor="passwordInput" className="col-form-label">Password</label>
+							<input id="passwordInput" className="form-control" type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} required/>
 						</div>
 						<Conditional if={this.state.mfaRequired}>
 							<div className="form-group">
-								<label htmlFor="InputPassword" className="col-form-label">2FA Code (no spaces)</label>
-								<input className="form-control is-invalid" type="text" name="code" placeholder="2FA Code" value={this.state.code} onChange={this.handleChange} required/>
+								<label htmlFor="mfaInput" className="col-form-label">2FA Code (no spaces)</label>
+								<input id="mfaInput" className="form-control is-invalid" type="text" name="code" placeholder="2FA Code" value={this.state.code} onChange={this.handleChange} required/>
 							</div>
 						</Conditional>
 						<div>

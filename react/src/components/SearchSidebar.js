@@ -21,9 +21,9 @@ class SearchSidebar extends Component {
 			<button className="btn btn-success btn-block mb-2" onClick={this.props.toggle}>
 				Back to basic search
 			</button>
-			Talk title:
+			<label htmlFor="title">Talk title</label>
 			<input type="text" className="form-control" placeholder="My new horse" id="title" onChange={(event) => this.props.updateInput(event)} />
-			Speaker:
+			<label htmlFor="speaker">Speaker</label>
 			<input type="text" className="form-control" placeholder="Horsey McHorseman" id="speaker" onChange={(event) => this.props.updateInput(event)} />
 			Date range:<br/>
 			<DateRange
