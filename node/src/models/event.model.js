@@ -14,7 +14,6 @@ const pointSchema = new mongoose.Schema({
 	}
   });
 
-
   const locationSchema = new mongoose.Schema({
 	name: String,
 	address: String,

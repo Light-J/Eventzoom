@@ -77,12 +77,18 @@ submitForm = async (event) => {
 	const data = new FormData();
 	Object.entries(this.state).forEach(([key, val]) => {
 		if(key === "specificLocation"){
+<<<<<<< HEAD
 			if(val.name){
 				data.append(key, JSON.stringify(val))
 			}
 			else this.setState({ requiredError: true });
 		}
 		else data.append(key, val);
+=======
+			data.append(key, JSON.stringify(val))
+		}
+		data.append(key, val);
+>>>>>>> cf90ec90a1bac41eccb579b69f5af40406770c6a
 	});
 	this.setState({ requiredError: false, imageError: false });
 	try {
@@ -207,6 +213,20 @@ render = () => (<form className="container">
 
 			<div className="form-group">
 				<label htmlFor="specificLocation" className="col-form-label">Specific Location</label>
+<<<<<<< HEAD
+=======
+				{/* <input
+					id="specificLocation"
+					className="form-control"
+					type="text"
+					name="specificLocation"
+					placeholder="Specific Location"
+					value={this.state.specificLocation}
+					disabled={this.state.remoteEvent}
+					onChange={this.handleChange}
+					required
+				/> */}
+>>>>>>> cf90ec90a1bac41eccb579b69f5af40406770c6a
 				<LocationSearchInput handleChange={this.handleChange}/>
 			</div>
 
