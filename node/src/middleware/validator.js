@@ -55,6 +55,9 @@ const validators = {
 	}),
 	validModel: async ({ model, excludedFields = [] }, req) => {
 		// eslint-disable-next-line new-cap
+		if(req.validated.specificLocation && req.validated.specificLocation!=="[object Object]"){
+			req.validated.specificLocation = JSON.parse(req.validated.specificLocation)
+		}
 		const instance = new model({ ...req.validated });
 		let valid = true;
 		try {

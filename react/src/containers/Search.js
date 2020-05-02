@@ -12,6 +12,8 @@ import SeriesCarousel from '../components/SeriesCarousel';
 
 export class Search extends Component {
 	state = {
+		showRadiusHeading: false,
+		location: {name: "", maxDistance: ""},
 		isLoadingEvents: true,
 		isLoadingSeries: true,
 		showSidebar: false,
@@ -88,10 +90,26 @@ export class Search extends Component {
 	};
 
 	updateAdvancedSearchInput = (event) => {
-		const { advancedSearchQuery } = this.state;
-		advancedSearchQuery[event.target.id] = event.target.value;
-		this.setState({ advancedSearchQuery });
+		let { advancedSearchQuery } = this.state;
+		if (event.target.id === "specificLocation" || event.target.id === "radius"){
+			advancedSearchQuery = {
+				...this.state.advancedSearchQuery,
+				...event.target.value
+			}
+			this.setState({ advancedSearchQuery });
+		}
+		else {
+			advancedSearchQuery[event.target.id] = event.target.value;
+			this.setState({ advancedSearchQuery });
+		}
 	};
+
+	resetLocationFilter = () => {
+		let { advancedSearchQuery } = this.state;
+		if (advancedSearchQuery.location) delete advancedSearchQuery.location;
+		if (advancedSearchQuery.maxDistance) delete advancedSearchQuery.maxDistance;
+		this.setState({ advancedSearchQuery });
+	}
 
 	updateAdvancedSearchDates = (ranges) => {
 		const advancedSearchQuery = { ...this.state.advancedSearchQuery, ...ranges.selection };
@@ -111,6 +129,24 @@ export class Search extends Component {
 					eventSearchResults: res.data,
 					isLoadingEvents: false,
 					searchMethod: this.updateAdvancedResults,
+				}, ()=>{
+					if(this.state.advancedSearchQuery.location){
+						this.setState({
+							showRadiusHeading:true,
+							location: {
+								name: this.state.advancedSearchQuery.location.name,
+								maxDistance: this.state.advancedSearchQuery.maxDistance
+							}
+						})
+					}else {
+						this.setState({
+							showRadiusHeading: false,
+							location: {
+								name: "",
+								maxDistance: ""
+							}
+						})
+					}
 				});
 			});
 	};
@@ -140,6 +176,7 @@ export class Search extends Component {
 						updateDates={this.updateAdvancedSearchDates}
 						startDate={this.state.advancedSearchQuery.startDate}
 						endDate={this.state.advancedSearchQuery.endDate}
+						resetLocationFilter={this.resetLocationFilter}
 						search={this.updateAdvancedResults} />
 				</div>
 			</Conditional>
@@ -157,6 +194,8 @@ export class Search extends Component {
 					direction={this.state.direction}
 				/>
 				<SearchResults
+					showRadiusHeading={this.state.showRadiusHeading}
+					location={this.state.location}
 					results={this.state.eventSearchResults}
 					isLoading={this.state.isLoadingEvents}/>
 			</div>

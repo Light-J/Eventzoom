@@ -1,3 +1,76 @@
 .react-datepicker-wrapper {
     display: block;
 }
+
+.places-autocomplete {
+    position: relative;
+}
+
+.cross-btn {
+    font-size: 20px;
+    position: absolute;
+    right: 14px;
+    top: 0px;
+    cursor: pointer;
+    color: #b5a8a8;
+    font-weight: 500;
+}
+
+.suggestion-drpdwn {
+    width: 100%;
+    height: 50px;
+}
+
+.autocomplete-dropdown-container {
+    border: 1px solid #e2d9d9;
+    -webkit-box-shadow: 0px 10px 18px -9px rgba(179, 179, 179, 1);
+    -moz-box-shadow: 0px 10px 18px -9px rgba(179, 179, 179, 1);
+    box-shadow: 0px 10px 18px -9px rgba(179, 179, 179, 1);
+}
+
+.location-marker {
+    border: none;
+    font-size: 15px;
+    color: #b5a8a8;
+}
+
+.specific-location-container {
+    display: flex;
+}
+
+.location-label {
+    font-weight: 800;
+}
+
+.specific-location {
+    margin-left: 10px;
+    color: #8b8c8e;
+    font-weight: 800;
+    display: block;
+}
+
+.specific-location-address {
+    margin: 0px 0 10px 10px;
+    color: #8b8c8e;
+    font-weight: 800;
+    display: block;
+}
+
+.radius-select {
+    margin-top: 10px;
+}
+
+.radius-heading {
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 0 20px 0;
+    color: #616365;
+}
+.radius-heading > span {
+    font-style: italic;
+    color: #3155b0;
+    letter-spacing: 0.5px;
+    padding: 0 2px;
+    font-weight: 700;
+}

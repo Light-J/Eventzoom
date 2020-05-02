@@ -9,8 +9,7 @@ import FilterableFields from '../components/FilterableFields';
 import 'react-datepicker/dist/react-datepicker.css';
 import CurrencyInput from '../components/CurrencyInput';
 import './AddEvent.css';
-
-
+import LocationSearchInput from "./LocationSearchInput";
 export class AddEvent extends React.Component {
 	state = {
 		title: '',
@@ -18,7 +17,8 @@ export class AddEvent extends React.Component {
 		file: '',
 		speaker: '',
 		vagueLocation: '',
-		specificLocation: '',
+		specificLocation: {
+		},
 		disabilityAccess: '',
 		capacity: 0,
 		date: new Date(),
@@ -76,7 +76,13 @@ submitForm = async (event) => {
 	event.preventDefault();
 	const data = new FormData();
 	Object.entries(this.state).forEach(([key, val]) => {
-		data.append(key, val);
+		if(key === "specificLocation"){
+			if(val.name){
+				data.append(key, JSON.stringify(val))
+			}
+			else this.setState({ requiredError: true });
+		}
+		else data.append(key, val);
 	});
 	this.setState({ requiredError: false, imageError: false });
 	try {
@@ -195,22 +201,13 @@ render = () => (<form className="container">
 					placeholder="Vague Location"
 					value={this.state.vagueLocation}
 					disabled={this.state.remoteEvent}
-					onChange={this.handleChange} required />
+					onChange={this.handleChange} required 
+					/>
 			</div>
 
 			<div className="form-group">
 				<label htmlFor="specificLocation" className="col-form-label">Specific Location</label>
-				<input
-					id="specificLocation"
-					className="form-control"
-					type="text"
-					name="specificLocation"
-					placeholder="Specific Location"
-					value={this.state.specificLocation}
-					disabled={this.state.remoteEvent}
-					onChange={this.handleChange}
-					required
-				/>
+				<LocationSearchInput handleChange={this.handleChange}/>
 			</div>
 
 			<div className="form-group">

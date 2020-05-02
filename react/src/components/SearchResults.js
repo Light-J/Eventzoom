@@ -16,6 +16,10 @@ class SearchResults extends Component {
 				<h1>Events are loading</h1>
 			</div>
 		</Conditional>
+		{(()=>{ if(this.props.showRadiusHeading && this.props.results.length && this.props.location && this.props.location.name){
+			return (<div className="radius-heading">
+			Showing events happening within <span>{this.props.location.maxDistance} km</span> of <span>{this.props.location.name}</span>.
+			</div>)}})()}
 		<div className="row">
 			{this.props.results.map((result) => {
 				const {

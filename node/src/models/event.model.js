@@ -1,13 +1,38 @@
 import mongoose from 'mongoose';
 import filterableFields from '../mixins/filterable';
 
+
+const pointSchema = new mongoose.Schema({
+	type: { 									//must be "Point"
+	  type: String,
+	  enum: ['Point'],
+	  required: true
+	},
+	coordinates: {
+	  type: [Number],
+	  required: true
+	}
+  });
+
+
+  const locationSchema = new mongoose.Schema({
+	name: String,
+	address: String,
+	location: {
+		type: pointSchema
+	  }
+  });
+
+  locationSchema.index({ location: "2dsphere" });
+
+
 const EventSchema = new mongoose.Schema({
 	title: { type: String, required: true },
 	description: { type: String, required: true },
 	image: { type: String, required: true },
 	speaker: { type: String, required: true },
 	vagueLocation: { type: String, required: true },
-	specificLocation: { type: String, required: true },
+	specificLocation:{ type: locationSchema, required: true },
 	disabilityAccess: { type: Boolean, required: true },
 	organiser: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
 	capacity: { type: Number, required: true, min: [1, 'You need at least 1 person'] },
@@ -38,7 +63,7 @@ EventSchema.methods.toICSFormat = function getInIcsFormat() {
 		duration: { hours: 1 }, // We dont collect duration so default to 1 so event shows in calendar
 		title: event.title,
 		description: event.description,
-		location: event.specificLocation,
+		// location: event.specificLocation,
 		status: 'CONFIRMED',
 		busyStatus: 'BUSY',
 		organizer: {

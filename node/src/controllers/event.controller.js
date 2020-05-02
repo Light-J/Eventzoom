@@ -100,6 +100,8 @@ router.get(
 	validator('optional', { field: 'speaker' }),
 	validator('optional', { field: 'startDate' }),
 	validator('optional', { field: 'endDate' }),
+	validator('optional', { field: 'location' }),
+	validator('optional', { field: 'maxDistance' }),
 	validator('in', { field: 'sort', matches: ['date', 'attendees'] }),
 	validator('in', { field: 'direction', matches: ['asc', 'desc'] }),
 	async (req, res) => {

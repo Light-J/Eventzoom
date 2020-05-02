@@ -44,7 +44,7 @@ const getEventsAdvanced = async (fields, sort, direction) => {
 		const searchQuery = {};
 		Object.keys(fields).forEach((key) => {
 			const escapedString = fields[key];
-			if (key !== 'startDate' && key !== 'endDate' && key !== 'sort' && key !== 'direction') {
+			if (key !== 'startDate' && key !== 'endDate' && key !== 'sort' && key !== 'direction' && key !== 'location' && key !== 'maxDistance') {
 				searchQuery[key] = new RegExp(escapedString, 'i');
 			} else if (key === 'startDate' || key === 'endDate') {
 				// minimum and maximum JS dates
@@ -53,6 +53,18 @@ const getEventsAdvanced = async (fields, sort, direction) => {
 				const startDate = fields.startDate || new Date(-8640000000000000);
 				const endDate = new Date(fields.endDate) || new Date(8640000000000000);
 				searchQuery.date = { $gte: startDate, $lt: endDate.setDate(endDate.getDate() + 1) };
+			}
+			else if (key === "location" && fields.maxDistance){
+				let location = JSON.parse(fields.location);
+				searchQuery["specificLocation.location"] = {
+					$near: {
+				       $geometry: {
+						   type: 'Point', 
+						   coordinates: location.coordinates
+					   },
+				       $maxDistance: fields.maxDistance * 1000
+				     }
+				}
 			}
 		});
 		// so events from the past aren't shown unless explicitly searched for
